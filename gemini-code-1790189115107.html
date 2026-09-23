@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vitrine Afiliados | Ofertas Exclusivas</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        apple: {
+                            bg: '#0b0b0c',
+                            card: '#161618',
+                            border: '#2c2c2e',
+                            blue: '#0071e3',
+                            green: '#34c759'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Scroll Snap para feed vertical estilo TikTok/Reels */
+        .feed-container {
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            height: 100vh;
+            height: 100dvh;
+            scrollbar-width: none; /* Firefox */
+        }
+        .feed-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        .feed-item {
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            height: 100vh;
+            height: 100dvh;
+        }
+        /* Efeito Glassmorphism Apple */
+        .apple-glass {
+            background: rgba(22, 22, 24, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-apple-bg text-slate-100 font-sans antialiased overflow-hidden selection:bg-apple-blue selection:text-white">
+
+    <!-- Header Flutuante / Navegação -->
+    <header class="fixed top-0 left-0 w-full z-50 px-4 py-3 pointer-events-none">
+        <div class="max-w-md mx-auto flex items-center justify-between pointer-events-auto apple-glass rounded-full px-4 py-2 shadow-2xl">
+            <!-- Logo / Título -->
+            <a href="#" onclick="resetFilter()" class="flex items-center space-x-2 font-semibold text-sm tracking-tight">
+                <span class="w-2.5 h-2.5 rounded-full bg-apple-green animate-pulse"></span>
+                <span>OfertasDiárias</span>
+            </a>
+
+            <!-- Ações do Header -->
+            <div class="flex items-center space-x-2">
+                <button onclick="toggleSearchModal()" class="p-2 rounded-full hover:bg-white/10 transition text-slate-300 hover:text-white" title="Buscar produtos">
+                    <i data-lucide="search" class="w-4 h-4"></i>
+                </button>
+                <button onclick="toggleAdminModal()" class="p-2 rounded-full hover:bg-white/10 transition text-slate-300 hover:text-white" title="Painel Admin">
+                    <i data-lucide="settings" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Modal de Busca e Categorias -->
+    <div id="searchModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-start justify-center pt-20 px-4">
+        <div class="apple-glass w-full max-w-md rounded-2xl p-5 shadow-2xl border border-white/10">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-semibold text-lg text-white">Buscar e Filtrar</h3>
+                <button onclick="toggleSearchModal()" class="p-1.5 rounded-full hover:bg-white/10 text-slate-400 hover:text-white">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <!-- Campo de Busca -->
+            <div class="relative mb-4">
+                <i data-lucide="search" class="absolute left-3.5 top-3 w-4 h-4 text-slate-400"></i>
+                <input type="text" id="searchInput" oninput="handleSearch(this.value)" placeholder="Digite o que procura..." class="w-full bg-black/40 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-apple-blue">
+            </div>
+            <!-- Filtros de Categoria -->
+            <p class="text-xs font-medium text-slate-400 mb-2 uppercase tracking-wider">Categorias</p>
+            <div id="categoryFilters" class="flex flex-wrap gap-2">
+                <!-- Preenchido via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Feed Vertical Principal (Estilo TikTok / Reels) -->
+    <main id="feedContainer" class="feed-container">
+        <!-- Os itens serão injetados dinamicamente aqui via JavaScript -->
+    </main>
+
+    <!-- Painel Administrativo Modal -->
+    <div id="adminModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="apple-glass w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl p-6 shadow-2xl border border-white/10">
+            <div class="flex items-center justify-between mb-6 border-b border-white/10 pb-4">
+                <div>
+                    <h2 class="text-xl font-bold text-white tracking-tight">Painel Administrativo</h2>
+                    <p class="text-xs text-slate-400">Gerencie seus links de afiliados e produtos</p>
+                </div>
+                <button onclick="toggleAdminModal()" class="p-2 rounded-full hover:bg-white/10 text-slate-400 hover:text-white">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Formulário Adicionar/Editar Produto -->
+            <form id="productForm" onsubmit="saveProduct(event)" class="space-y-4 mb-8 bg-white/5 p-4 rounded-2xl border border-white/5">
+                <input type="hidden" id="editIndex" value="-1">
+                <h3 id="formTitle" class="text-sm font-semibold text-apple-blue uppercase tracking-wider">Adicionar Novo Produto</h3>
+                
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Título do Produto</label>
+                    <input type="text" id="prodTitle" required placeholder="Ex: Fone Bluetooth Pro Max" class="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-apple-blue">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Preço Atual (R$)</label>
+                        <input type="text" id="prodPrice" required placeholder="89.90" class="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-apple-blue">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Preço Original (Opcional)</label>
+                        <input type="text" id="prodOriginalPrice" placeholder="149.90" class="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-apple-blue">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Badge / Desconto</label>
+                        <input type="text" id="prodBadge" placeholder="Ex: 40% OFF" class="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-apple-blue">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Categoria</label>
+                        <input type="text" id="prodCategory" required placeholder="Ex: Tecnologia" class="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-apple-blue">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">URL da Imagem (Proporção 1:1 recomendada)</label>
+                    <input type="url" id="prodImage" required placeholder="https://exemplo.com/imagem.jpg" class="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-apple-blue">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Link de Afiliado (URL de Compra)</label>
+                    <input type="url" id="prodLink" required placeholder="https://s.shopee.com.br/exemplo" class="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-apple-blue">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">URL do Vídeo Demonstrativo (MP4 em Loop)</label>
+                    <input type="url" id="prodVideo" required placeholder="https://assets.mixkit.co/videos/preview/..." class="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-apple-blue">
+                </div>
+
+                <div class="flex space-x-2 pt-2">
+                    <button type="submit" class="flex-1 bg-apple-blue hover:bg-blue-600 text-white font-medium py-2.5 rounded-xl text-sm transition shadow-lg shadow-blue-500/20">Salvar Produto</button>
+                    <button type="button" onclick="resetForm()" class="bg-white/10 hover:bg-white/20 text-slate-300 font-medium px-4 py-2.5 rounded-xl text-sm transition">Cancelar</button>
+                </div>
+            </form>
+
+            <!-- Lista de Produtos Cadastrados -->
+            <h3 class="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-3">Produtos Ativos no Feed</h3>
+            <div id="adminProductList" class="space-y-3">
+                <!-- Preenchido via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Script de Gerenciamento e Lógica -->
+    <script>
+        // Banco de Dados Inicial de Exemplo (Produtos de Afiliados)
+        let products = JSON.parse(localStorage.getItem('aff_products')) || [
+            {
+                id: 1,
+                title: "Mini Liquidificador Portátil USB",
+                price: "R$ 69,90",
+                originalPrice: "R$ 119,90",
+                badge: "41% OFF",
+                category: "Casa & Cozinha",
+                image: "https://images.unsplash.com/photo-1570222094114-d074f3d1e7e5?auto=format&fit=contain&w=600&q=80",
+                link: "https://shopee.com.br",
+                video: "https://assets.mixkit.co/videos/preview/mixkit-woman-making-a-smoothie-in-a-kitchen-42998-large.mp4",
+                clicks: 142
+            },
+            {
+                id: 2,
+                title: "Fone de Ouvido Bluetooth Sem Fio TWS",
+                price: "R$ 89,90",
+                originalPrice: "R$ 199,90",
+                badge: "55% OFF",
+                category: "Tecnologia",
+                image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=contain&w=600&q=80",
+                link: "https://mercadolivre.com.br",
+                video: "https://assets.mixkit.co/videos/preview/mixkit-hands-holding-a-smartphone-with-a-green-screen-41589-large.mp4",
+                clicks: 310
+            },
+            {
+                id: 3,
+                title: "Garrafa Térmica Inteligente com Display LED",
+                price: "R$ 49,90",
+                originalPrice: "R$ 99,90",
+                badge: "50% OFF",
+                category: "Utilidades",
+                image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=contain&w=600&q=80",
+                link: "https://shopee.com.br",
+                video: "https://assets.mixkit.co/videos/preview/mixkit-pouring-water-into-a-glass-from-a-bottle-41603-large.mp4",
+                clicks: 98
+            }
+        ];
+
+        let currentFilter = 'all';
+        let searchQuery = '';
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            renderFeed();
+            renderCategories();
+            renderAdminList();
+            lucide.createIcons();
+        });
+
+        // Renderizar o Feed Vertical Estilo TikTok
+        function renderFeed() {
+            const container = document.getElementById('feedContainer');
+            container.innerHTML = '';
+
+            let filtered = products.filter(p => {
+                const matchesCat = currentFilter === 'all' || p.category.toLowerCase() === currentFilter.toLowerCase();
+                const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) || p.category.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesCat && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="feed-item flex flex-col items-center justify-center p-6 text-center">
+                        <i data-lucide="package-open" class="w-16 h-16 text-slate-600 mb-4"></i>
+                        <h3 class="text-lg font-semibold text-white mb-1">Nenhum produto encontrado</h3>
+                        <p class="text-sm text-slate-400 mb-4">Tente buscar por outro termo ou limpar os filtros.</p>
+                        <button onclick="resetFilter()" class="bg-apple-blue text-white px-5 py-2.5 rounded-xl text-sm font-medium">Ver Todos</button>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            filtered.forEach((product, index) => {
+                const item = document.createElement('div');
+                item.className = 'feed-item relative w-full flex flex-col justify-end bg-black overflow-hidden';
+                item.innerHTML = `
+                    <!-- Vídeo de Fundo em Loop -->
+                    <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover opacity-60">
+                        <source src="${product.video}" type="video/mp4">
+                        Seu navegador não suporta vídeos.
+                    </video>
+
+                    <!-- Gradiente de Sobreposição para Leitura -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none"></div>
+
+                    <!-- Conteúdo Flutuante do Produto -->
+                    <div class="relative z-10 p-5 max-w-md mx-auto w-full pb-10">
+                        <!-- Card do Produto (Miniatura 1:1 + Informações) -->
+                        <div class="apple-glass rounded-2xl p-3.5 mb-3 shadow-xl flex items-center space-x-3.5 border border-white/10">
+                            <!-- Foto 1:1 Sem Cortes -->
+                            <div class="w-16 h-16 bg-neutral-900 rounded-xl overflow-hidden flex-shrink-0 flex items-center justify-center border border-white/10">
+                                <img src="${product.image}" alt="${product.title}" class="w-full h-full object-contain p-1">
+                            </div>
+                            <!-- Informações -->
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center space-x-2 mb-1">
+                                    <span class="bg-apple-green/20 text-apple-green text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">${product.badge || product.category}</span>
+                                </div>
+                                <h4 class="text-sm font-semibold text-white truncate leading-snug">${product.title}</h4>
+                                <div class="flex items-baseline space-x-2 mt-0.5">
+                                    <span class="text-base font-bold text-white">${product.price}</span>
+                                    ${product.originalPrice ? `<span class="text-xs text-slate-400 line-through">${product.originalPrice}</span>` : ''}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botão CTA Fixo de Alta Conversão -->
+                        <a href="${product.link}" target="_blank" onclick="trackClick(${product.id})" class="w-full bg-apple-blue hover:bg-blue-600 text-white font-semibold py-3.5 px-6 rounded-2xl shadow-xl shadow-blue-500/30 flex items-center justify-center space-x-2 transition transform active:scale-95 text-sm uppercase tracking-wide">
+                            <span>Comprar com Desconto</span>
+                            <i data-lucide="external-link" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+            lucide.createIcons();
+        }
+
+        // Renderizar Filtros de Categorias
+        function renderCategories() {
+            const container = document.getElementById('categoryFilters');
+            const categories = ['all', ...new Set(products.map(p => p.category))];
+
+            container.innerHTML = categories.map(cat => `
+                <button onclick="setCategory('${cat}')" class="px-3 py-1.5 rounded-xl text-xs font-medium transition ${currentFilter === cat ? 'bg-apple-blue text-white shadow-md' : 'bg-white/5 text-slate-300 hover:bg-white/10 border border-white/5'}">
+                    ${cat === 'all' ? '✨ Todos' : cat}
+                </button>
+            `).join('');
+        }
+
+        function setCategory(cat) {
+            currentFilter = cat;
+            toggleSearchModal();
+            renderFeed();
+            renderCategories();
+        }
+
+        function resetFilter() {
+            currentFilter = 'all';
+            searchQuery = '';
+            document.getElementById('searchInput').value = '';
+            renderFeed();
+            renderCategories();
+        }
+
+        function handleSearch(val) {
+            searchQuery = val;
+            renderFeed();
+        }
+
+        // Sistema de Cliques (Métricas)
+        function trackClick(id) {
+            const p = products.find(item => item.id === id);
+            if (p) {
+                p.clicks = (p.clicks || 0) + 1;
+                localStorage.setItem('aff_products', JSON.stringify(products));
+            }
+        }
+
+        // Modais
+        function toggleSearchModal() {
+            const modal = document.getElementById('searchModal');
+            modal.classList.toggle('hidden');
+        }
+
+        function toggleAdminModal() {
+            const modal = document.getElementById('adminModal');
+            modal.classList.toggle('hidden');
+            renderAdminList();
+        }
+
+        // CRUD do Admin
+        function renderAdminList() {
+            const list = document.getElementById('adminProductList');
+            if (products.length === 0) {
+                list.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">Nenhum produto cadastrado.</p>`;
+                return;
+            }
+
+            list.innerHTML = products.map((p, idx) => `
+                <div class="flex items-center justify-between bg-black/40 border border-white/10 p-3 rounded-2xl">
+                    <div class="flex items-center space-x-3 min-w-0">
+                        <img src="${p.image}" class="w-10 h-10 object-contain bg-neutral-900 rounded-lg flex-shrink-0">
+                        <div class="min-w-0">
+                            <h4 class="text-xs font-semibold text-white truncate">${p.title}</h4>
+                            <p class="text-[11px] text-slate-400">${p.price} • <span class="text-apple-blue font-medium">${p.clicks || 0} cliques</span></p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-1 flex-shrink-0">
+                        <button onclick="editProduct(${idx})" class="p-2 text-slate-400 hover:text-white hover:bg-white/10 rounded-lg transition" title="Editar">
+                            <i data-lucide="edit-3" class="w-4 h-4"></i>
+                        </button>
+                        <button onclick="deleteProduct(${idx})" class="p-2 text-red-400 hover:text-red-300 hover:bg-white/10 rounded-lg transition" title="Excluir">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function saveProduct(e) {
+            e.preventDefault();
+            const index = parseInt(document.getElementById('editIndex').value);
+            
+            const newProd = {
+                id: index >= 0 ? products[index].id : Date.now(),
+                title: document.getElementById('prodTitle').value,
+                price: document.getElementById('prodPrice').value.includes('R$') ? document.getElementById('prodPrice').value : `R$ ${document.getElementById('prodPrice').value}`,
+                originalPrice: document.getElementById('prodOriginalPrice').value ? (document.getElementById('prodOriginalPrice').value.includes('R$') ? document.getElementById('prodOriginalPrice').value : `R$ ${document.getElementById('prodOriginalPrice').value}`) : '',
+                badge: document.getElementById('prodBadge').value,
+                category: document.getElementById('prodCategory').value,
+                image: document.getElementById('prodImage').value,
+                link: document.getElementById('prodLink').value,
+                video: document.getElementById('prodVideo').value,
+                clicks: index >= 0 ? (products[index].clicks || 0) : 0
+            };
+
+            if (index >= 0) {
+                products[index] = newProd;
+            } else {
+                products.unshift(newProd);
+            }
+
+            localStorage.setItem('aff_products', JSON.stringify(products));
+            resetForm();
+            renderFeed();
+            renderCategories();
+            renderAdminList();
+        }
+
+        function editProduct(idx) {
+            const p = products[idx];
+            document.getElementById('editIndex').value = idx;
+            document.getElementById('formTitle').innerText = 'Editar Produto';
+            document.getElementById('prodTitle').value = p.title;
+            document.getElementById('prodPrice').value = p.price.replace('R$ ', '');
+            document.getElementById('prodOriginalPrice').value = p.originalPrice ? p.originalPrice.replace('R$ ', '') : '';
+            document.getElementById('prodBadge').value = p.badge || '';
+            document.getElementById('prodCategory').value = p.category;
+            document.getElementById('prodImage').value = p.image;
+            document.getElementById('prodLink').value = p.link;
+            document.getElementById('prodVideo').value = p.video;
+        }
+
+        function deleteProduct(idx) {
+            if (confirm('Tem certeza que deseja excluir este produto?')) {
+                products.splice(idx, 1);
+                localStorage.setItem('aff_products', JSON.stringify(products));
+                renderFeed();
+                renderCategories();
+                renderAdminList();
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('productForm').reset();
+            document.getElementById('editIndex').value = '-1';
+            document.getElementById('formTitle').innerText = 'Adicionar Novo Produto';
+        }
+    </script>
+</body>
+</html>
