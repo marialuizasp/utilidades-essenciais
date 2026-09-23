@@ -1,1 +1,20 @@
-
+[
+  {
+    "id": "prod_001",
+    "title": "Organizador de Pia Minimalista Smart Clean",
+    "category": "Casa e Cozinha",
+    "price": "R$ 49,90",
+    "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-hands-holding-a-smartphone-with-a-green-screen-41589-large.mp4",
+    "affiliateLink": "https://s.shopee.com.br/seu-link-aqui",
+    "tags": ["casa", "cozinha", "utilidades"]
+  },
+  {
+    "id": "prod_002",
+    "title": "Mini Liquidificador Portátil USB",
+    "category": "Eletroportáteis",
+    "price": "R$ 79,90",
+    "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-woman-using-her-mobile-phone-in-the-kitchen-41586-large.mp4",
+    "affiliateLink": "https://amzn.to/seu-link-aqui",
+    "tags": ["cozinha", "praticidade", "tech"]
+  }
+]
