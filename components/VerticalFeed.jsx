@@ -1,45 +1,40 @@
 'use client';
+
 import { useState } from 'react';
 
-// Dados embutidos para garantir que o feed carregue instantaneamente
-const defaultProducts = [
-  {
-    id: 1,
-    title: 'Nome do seu Produto Incrível',
-    category: 'Sua Categoria (ex: Casa & Cozinha)',
-    price: 'R$ 89,90',
-    videoUrl: 'Lhttps://www.youtube.com/shorts/FOgRVGBDq1o?feature=share',
-    affiliateLink: 'SEU_LINK_DE_AFILIADA_AQUI'
-  },
-  {
-    id: 2,
-    title: 'Segundo Achadinho',
-    category: 'Moda & Acessórios',
-    price: 'R$ 45,00',
-    videoUrl: 'https://www.youtube.com/shorts/4Nw7JNRZYbM?feature=share',
-    affiliateLink: 'SEU_OUTRO_LINK_DE_AFILIADA'
-  }
-  // Para adicionar mais produtos, basta copiar o bloco acima, colar embaixo e alterar os dados!
-];
 export default function VerticalFeed({ products }) {
-  // Usa os produtos passados ou o array padrão se estiver vazio
-  const list = (products && products.length > 0) ? products : defaultProducts;
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const currentProduct = list[currentIndex];
+  // Verifica se existem produtos para exibir
+  if (!products || products.length === 0) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center p-6">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-2">
+            Nenhum produto disponível
+          </h1>
+          <p className="text-neutral-400">
+            Adicione produtos ao arquivo data/products.json.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  const currentProduct = products[currentIndex];
 
   const handleNext = () => {
-    if (currentIndex < list.length - 1) {
+    if (currentIndex < products.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      setCurrentIndex(0); // Loop para o primeiro
+      setCurrentIndex(0);
     }
   };
 
   return (
     <div className="relative w-full h-screen bg-black flex flex-col items-center justify-center overflow-hidden font-sans">
       <div className="relative w-full max-w-md h-full md:h-[85vh] md:rounded-3xl bg-neutral-900 overflow-hidden shadow-2xl flex flex-col justify-end border border-white/10">
-        
+
         {/* Vídeo / Fundo */}
         <div className="absolute inset-0 w-full h-full bg-neutral-950 flex items-center justify-center">
           <video
@@ -50,15 +45,18 @@ export default function VerticalFeed({ products }) {
             playsInline
             className="w-full h-full object-cover opacity-90"
           />
+
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/80 pointer-events-none" />
         </div>
 
-        {/* Informações do Produto & Botão de Afiliada */}
+        {/* Informações do Produto */}
         <div className="relative z-10 p-6 flex flex-col gap-4 text-white">
+
           <div className="flex items-center justify-between">
             <span className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-medium uppercase tracking-wider">
               {currentProduct.category}
             </span>
+
             <span className="text-xl font-bold text-emerald-400">
               {currentProduct.price}
             </span>
@@ -68,6 +66,7 @@ export default function VerticalFeed({ products }) {
             <h1 className="text-2xl font-bold leading-tight mb-2">
               {currentProduct.title}
             </h1>
+
             <p className="text-sm text-neutral-300">
               Toque no botão abaixo para garantir o seu no link oficial!
             </p>
@@ -90,6 +89,7 @@ export default function VerticalFeed({ products }) {
           >
             Próximo Achadinho 👇
           </button>
+
         </div>
       </div>
     </div>
