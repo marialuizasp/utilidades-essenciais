@@ -1,6 +1,5 @@
-import './globals.css';
-import VerticalFeed from '../components/VerticalFeed';
-import productsData from '../data/products.json';
+import VerticalFeed from '@/components/VerticalFeed';
+import productsData from '@/data/products.json';
 
 export default function Page() {
   return (
