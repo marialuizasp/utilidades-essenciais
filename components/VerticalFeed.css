@@ -1,0 +1,400 @@
+* {
+  box-sizing: border-box;
+}
+
+.feed-page {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: #111111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.feed-card {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  height: min(850px, calc(100vh - 48px));
+  height: min(850px, calc(100dvh - 48px));
+  min-height: 600px;
+  overflow: hidden;
+  border-radius: 28px;
+  background: #181818;
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+/* =========================
+   VÍDEO
+========================= */
+
+.video-container {
+  position: absolute;
+  inset: 0;
+  background: #080808;
+  overflow: hidden;
+}
+
+.product-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Escurece o vídeo para o texto ficar legível */
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.25) 0%,
+      rgba(0, 0, 0, 0.05) 35%,
+      rgba(0, 0, 0, 0.25) 55%,
+      rgba(0, 0, 0, 0.92) 100%
+    );
+}
+
+/* =========================
+   MARCA
+========================= */
+
+.brand {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 5;
+
+  display: flex;
+  flex-direction: column;
+
+  color: white;
+  font-size: 10px;
+  letter-spacing: 2px;
+  line-height: 1.4;
+
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.brand strong {
+  font-size: 14px;
+  letter-spacing: 2.5px;
+}
+
+/* =========================
+   CONTADOR
+========================= */
+
+.product-counter {
+  position: absolute;
+  top: 25px;
+  right: 24px;
+  z-index: 5;
+
+  padding: 7px 11px;
+
+  border-radius: 999px;
+
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  color: white;
+  font-size: 12px;
+
+  backdrop-filter: blur(10px);
+}
+
+/* =========================
+   CONTEÚDO
+========================= */
+
+.product-content {
+  position: absolute;
+  z-index: 4;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  padding: 28px;
+  padding-top: 80px;
+
+  color: white;
+}
+
+/* Categoria + preço */
+
+.top-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  margin-bottom: 14px;
+}
+
+.category {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 7px 12px;
+
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  color: rgba(255, 255, 255, 0.95);
+
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+
+  backdrop-filter: blur(12px);
+}
+
+.price {
+  color: #a7f3d0;
+
+  font-size: 21px;
+  font-weight: 800;
+
+  white-space: nowrap;
+
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Título */
+
+.product-content h1 {
+  margin: 0 0 10px;
+
+  max-width: 390px;
+
+  color: white;
+
+  font-size: clamp(25px, 6vw, 34px);
+  line-height: 1.08;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+}
+
+/* Descrição */
+
+.description {
+  margin: 0 0 20px;
+
+  max-width: 380px;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+/* =========================
+   BOTÃO OFERTA
+========================= */
+
+.offer-button {
+  width: 100%;
+  min-height: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  border-radius: 16px;
+
+  background: white;
+  color: #111111;
+
+  font-size: 16px;
+  font-weight: 800;
+
+  text-decoration: none;
+
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.25);
+
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
+}
+
+.offer-button:hover {
+  background: #f1f1f1;
+  transform: translateY(-2px);
+}
+
+.offer-button:active {
+  transform: scale(0.98);
+}
+
+/* =========================
+   BOTÃO PRÓXIMO
+========================= */
+
+.next-button {
+  width: 100%;
+  min-height: 48px;
+
+  margin-top: 10px;
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 15px;
+
+  background: rgba(20, 20, 20, 0.65);
+  color: white;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  backdrop-filter: blur(12px);
+
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.next-button:hover {
+  background: rgba(50, 50, 50, 0.8);
+}
+
+.next-button:active {
+  transform: scale(0.98);
+}
+
+.next-button span {
+  margin-left: 7px;
+}
+
+/* =========================
+   SEM PRODUTOS
+========================= */
+
+.empty-page {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: #111;
+  color: white;
+
+  text-align: center;
+
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.empty-page h1 {
+  margin-bottom: 8px;
+  font-size: 24px;
+}
+
+.empty-page p {
+  margin: 0;
+  color: #999;
+}
+
+/* =========================
+   CELULAR
+========================= */
+
+@media (max-width: 600px) {
+
+  .feed-page {
+    padding: 0;
+    align-items: stretch;
+  }
+
+  .feed-card {
+    width: 100%;
+    max-width: none;
+
+    height: 100vh;
+    height: 100dvh;
+
+    min-height: 0;
+
+    border-radius: 0;
+
+    box-shadow: none;
+  }
+
+  .brand {
+    top: 20px;
+    left: 20px;
+  }
+
+  .product-counter {
+    top: 20px;
+    right: 20px;
+  }
+
+  .product-content {
+    padding: 22px;
+    padding-top: 100px;
+    padding-bottom: max(22px, env(safe-area-inset-bottom));
+  }
+
+  .product-content h1 {
+    font-size: clamp(25px, 8vw, 32px);
+  }
+
+  .price {
+    font-size: 20px;
+  }
+
+  .description {
+    font-size: 13px;
+  }
+
+  .offer-button {
+    min-height: 54px;
+  }
+
+  .next-button {
+    min-height: 46px;
+  }
+}
+
+/* =========================
+   CELULAR PEQUENO
+========================= */
+
+@media (max-width: 380px) {
+
+  .product-content {
+    padding: 18px;
+    padding-top: 90px;
+  }
+
+  .product-content h1 {
+    font-size: 24px;
+  }
+
+  .description {
+    margin-bottom: 14px;
+  }
+
+  .offer-button {
+    min-height: 50px;
+  }
+}
