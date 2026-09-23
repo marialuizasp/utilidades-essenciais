@@ -1,67 +1,84 @@
 'use client';
-import React from 'react';
+import { useState } from 'react';
 
 export default function VerticalFeed({ products }) {
-  const handleAffiliateClick = (product) => {
-    // Disparo do Google Analytics 4 (se instalado)
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'click_affiliate', {
-        item_id: product.id,
-        item_name: product.title,
-        category: product.category,
-        value: product.price
-      });
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  if (!products || products.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-black text-white">
+        <p>Nenhum produto cadastrado no momento.</p>
+      </div>
+    );
+  }
+
+  const currentProduct = products[currentIndex];
+
+  const handleNext = () => {
+    if (currentIndex < products.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    } else {
+      setCurrentIndex(0); // Volta pro primeiro (loop)
     }
   };
 
   return (
-    <main className="h-screen w-screen overflow-y-scroll snap-y snap-mandatory scrollbar-none bg-black">
-      {products.map((product) => (
-        <section 
-          key={product.id} 
-          className="h-screen w-full snap-start relative flex items-center justify-center"
-        >
-          {/* Player de Vídeo em Tela Cheia */}
+    <div className="relative w-full h-screen bg-black flex flex-col items-center justify-center overflow-hidden font-sans">
+      {/* Container do Card Estilo TikTok / Apple */}
+      <div className="relative w-full max-w-md h-full md:h-[85vh] md:rounded-3xl bg-neutral-900 overflow-hidden shadow-2xl flex flex-col justify-end">
+        
+        {/* Vídeo / Fundo */}
+        <div className="absolute inset-0 w-full h-full bg-neutral-950 flex items-center justify-center">
           <video
-            src={product.videoUrl}
+            src={currentProduct.videoUrl}
             autoPlay
             loop
             muted
             playsInline
-            className="absolute inset-0 h-full w-full object-cover"
+            className="w-full h-full object-cover opacity-90"
           />
-          
-          {/* Gradiente Sutil para Legibilidade */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/80 pointer-events-none" />
+        </div>
 
-          {/* Card Flutuante de Conversão (Apple Glassmorphism) */}
-          <div className="absolute bottom-8 left-4 right-4 z-20 flex flex-col justify-end p-4 rounded-2xl bg-black/40 backdrop-blur-xl border border-white/10 shadow-2xl max-w-md mx-auto">
-            <div className="flex items-center justify-between mb-3">
-              <div>
-                <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-white/10 text-white/90">
-                  {product.category}
-                </span>
-                <h2 className="text-white text-base font-semibold mt-2 line-clamp-1">{product.title}</h2>
-                <p className="text-emerald-400 font-bold text-lg mt-0.5">{product.price}</p>
-              </div>
-            </div>
-
-            {/* Botão CTA de 1 Toque */}
-            <a
-              href={product.affiliateLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => handleAffiliateClick(product)}
-              className="w-full py-3.5 px-6 rounded-xl bg-emerald-500 hover:bg-emerald-400 active:scale-95 transition-all duration-200 text-black font-bold text-center flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20"
-            >
-              <span>Garantir com Desconto</span>
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </a>
+        {/* Informações do Produto & Botão de Afiliada */}
+        <div className="relative z-10 p-6 flex flex-col gap-4 text-white">
+          <div className="flex items-center justify-between">
+            <span className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-medium uppercase tracking-wider">
+              {currentProduct.category || 'Achadinho'}
+            </span>
+            <span className="text-xl font-bold text-emerald-400">
+              {currentProduct.price}
+            </span>
           </div>
-        </section>
-      ))}
-    </main>
+
+          <div>
+            <h1 className="text-2xl font-bold leading-tight mb-2">
+              {currentProduct.title}
+            </h1>
+            <p className="text-sm text-neutral-300 line-clamp-2">
+              Toque no botão abaixo para garantir o seu com desconto no link oficial!
+            </p>
+          </div>
+
+          {/* Botão de Ação (Afiliado) */}
+          <a
+            href={currentProduct.affiliateLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full py-4 bg-white text-black font-semibold rounded-2xl text-center shadow-lg hover:bg-neutral-200 transition-all active:scale-95 flex items-center justify-center gap-2"
+          >
+            <span>✨ Garantir Oferta</span>
+          </a>
+
+          {/* Botão para Próximo Produto */}
+          <button
+            onClick={handleNext}
+            className="w-full py-3 bg-neutral-800/80 backdrop-blur-md text-white font-medium rounded-2xl text-center border border-white/10 hover:bg-neutral-700 transition-all"
+          >
+            Próximo Achadinho 👇
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
