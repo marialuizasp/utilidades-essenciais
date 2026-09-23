@@ -1,10 +1,9 @@
-import VerticalFeed from '@/components/VerticalFeed';
-import productsData from '@/data/products.json';
+import VerticalFeed from '../components/VerticalFeed';
 
 export default function Page() {
   return (
-    <main className="w-full h-screen bg-black overflow-hidden">
-      <VerticalFeed products={productsData} />
+    <main className="w-full h-screen bg-black overflow-hidden m-0 p-0">
+      <VerticalFeed />
     </main>
   );
 }
