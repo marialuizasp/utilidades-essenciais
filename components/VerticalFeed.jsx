@@ -5,22 +5,22 @@ import { useState } from 'react';
 const defaultProducts = [
   {
     id: 1,
-    title: 'Organizador Multifuncional Minimalista',
-    category: 'Casa & Decoração',
-    price: 'R$ 79,90',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-hands-holding-a-smartphone-with-a-green-screen-41580-large.mp4',
-    affiliateLink: 'https://shopee.com.br'
+    title: 'Nome do seu Produto Incrível',
+    category: 'Sua Categoria (ex: Casa & Cozinha)',
+    price: 'R$ 89,90',
+    videoUrl: 'Lhttps://www.youtube.com/shorts/FOgRVGBDq1o?feature=share',
+    affiliateLink: 'SEU_LINK_DE_AFILIADA_AQUI'
   },
   {
     id: 2,
-    title: 'Mini Lanterna LED de Alta Potência',
-    category: 'Utilidades',
-    price: 'R$ 49,90',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-woman-using-a-mobile-phone-in-the-street-41581-large.mp4',
-    affiliateLink: 'https://shopee.com.br'
+    title: 'Segundo Achadinho',
+    category: 'Moda & Acessórios',
+    price: 'R$ 45,00',
+    videoUrl: 'https://www.youtube.com/shorts/4Nw7JNRZYbM?feature=share',
+    affiliateLink: 'SEU_OUTRO_LINK_DE_AFILIADA'
   }
+  // Para adicionar mais produtos, basta copiar o bloco acima, colar embaixo e alterar os dados!
 ];
-
 export default function VerticalFeed({ products }) {
   // Usa os produtos passados ou o array padrão se estiver vazio
   const list = (products && products.length > 0) ? products : defaultProducts;
