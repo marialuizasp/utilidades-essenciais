@@ -1,97 +1,103 @@
 'use client';
 
 import { useState } from 'react';
+import './VerticalFeed.css';
 
 export default function VerticalFeed({ products }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Verifica se existem produtos para exibir
   if (!products || products.length === 0) {
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center p-6">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-2">
-            Nenhum produto disponível
-          </h1>
-          <p className="text-neutral-400">
-            Adicione produtos ao arquivo data/products.json.
-          </p>
+      <main className="empty-page">
+        <div>
+          <h1>Nenhum produto disponível</h1>
+          <p>Adicione produtos ao arquivo data/products.json.</p>
         </div>
-      </div>
+      </main>
     );
   }
 
   const currentProduct = products[currentIndex];
 
-  const handleNext = () => {
-    if (currentIndex < products.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    } else {
-      setCurrentIndex(0);
-    }
-  };
+  function handleNext() {
+    setCurrentIndex((prev) =>
+      prev === products.length - 1 ? 0 : prev + 1
+    );
+  }
 
   return (
-    <div className="relative w-full h-screen bg-black flex flex-col items-center justify-center overflow-hidden font-sans">
-      <div className="relative w-full max-w-md h-full md:h-[85vh] md:rounded-3xl bg-neutral-900 overflow-hidden shadow-2xl flex flex-col justify-end border border-white/10">
+    <main className="feed-page">
 
-        {/* Vídeo / Fundo */}
-        <div className="absolute inset-0 w-full h-full bg-neutral-950 flex items-center justify-center">
+      <div className="feed-card">
+
+        {/* Vídeo */}
+        <div className="video-container">
           <video
+            key={currentProduct.videoUrl}
             src={currentProduct.videoUrl}
             autoPlay
             loop
             muted
             playsInline
-            className="w-full h-full object-cover opacity-90"
+            className="product-video"
           />
 
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/80 pointer-events-none" />
+          <div className="video-overlay" />
         </div>
 
-        {/* Informações do Produto */}
-        <div className="relative z-10 p-6 flex flex-col gap-4 text-white">
+        {/* Marca */}
+        <div className="brand">
+          <span>UTILIDADES</span>
+          <strong>ESSENCIAIS</strong>
+        </div>
 
-          <div className="flex items-center justify-between">
-            <span className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-medium uppercase tracking-wider">
+        {/* Indicador de produto */}
+        <div className="product-counter">
+          {currentIndex + 1} / {products.length}
+        </div>
+
+        {/* Conteúdo */}
+        <section className="product-content">
+
+          <div className="top-info">
+            <span className="category">
               {currentProduct.category}
             </span>
 
-            <span className="text-xl font-bold text-emerald-400">
+            <span className="price">
               {currentProduct.price}
             </span>
           </div>
 
-          <div>
-            <h1 className="text-2xl font-bold leading-tight mb-2">
-              {currentProduct.title}
-            </h1>
+          <h1>{currentProduct.title}</h1>
 
-            <p className="text-sm text-neutral-300">
-              Toque no botão abaixo para garantir o seu no link oficial!
-            </p>
-          </div>
+          <p className="description">
+            Encontrei esse achadinho e achei que valia a pena compartilhar.
+          </p>
 
-          {/* Botão de Afiliado */}
           <a
             href={currentProduct.affiliateLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full py-4 bg-white text-black font-semibold rounded-2xl text-center shadow-lg hover:bg-neutral-200 transition-all active:scale-95 flex items-center justify-center gap-2"
+            className="offer-button"
           >
-            <span>✨ Garantir Oferta</span>
+            <span>🛍️</span>
+            Ver oferta
           </a>
 
-          {/* Botão Próximo */}
           <button
+            type="button"
             onClick={handleNext}
-            className="w-full py-3 bg-neutral-800/80 backdrop-blur-md text-white font-medium rounded-2xl text-center border border-white/10 hover:bg-neutral-700 transition-all cursor-pointer"
+            className="next-button"
           >
-            Próximo Achadinho 👇
+            Próximo achadinho
+            <span>↓</span>
           </button>
 
-        </div>
+        </section>
+
       </div>
-    </div>
+
+    </main>
   );
 }
