@@ -1,3 +1,4 @@
+import '@/app/globals.css';
 import VerticalFeed from '@/components/VerticalFeed';
 import productsData from '@/data/products.json';
 
