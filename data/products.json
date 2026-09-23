@@ -9,12 +9,18 @@
     "tags": ["casa", "cozinha", "utilidades"]
   },
   {
-    "id": "prod_002",
-    "title": "Mini Liquidificador Portátil USB",
-    "category": "Eletroportáteis",
-    "price": "R$ 79,90",
-    "videoUrl": "https://rr5---sn-u1gpv5-54.googlevideo.com/videoplayback?expire=1790215271&ei=BzC0atj-C8u74dUPseHGqA4&ip=50.114.84.113&id=o-AJ3Zs03Cd_OF6Ks3RLNg0J6MU_9saHxbzXTHaaaMZu9j&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=515&bui=AWzQHwqQGjCVrHT5ietS8qgaLkmfPL0_kqZFk4HeaaLAs1FbHu2rhDH9ZHocG9lFHNjEXb04m4SIsISd&spc=I-rgIZfPHIAweagQU9I3HIlB4qL_GEJcYf9ycoWq5ijUGRQHxGRMIb2ftTRM5SwWoEk&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&gir=yes&clen=1558294&ratebypass=yes&dur=20.672&lmt=1786999076008197&fexp=51565116,52178456&c=ANDROID&txp=4400234&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&sig=AE0s2JYwRQIgI2n5EPwRpsFX8h9K9_5v3-uQGGruTCLaCfHCJAhThJ4CIQDEDerr30cBvMO0CNF44uagXeQByzsbzAEMrsSk7r_-_Q%3D%3D&rm=sn-pmcg-4vgl7e,sn-bg0esd76&rrc=79,104&req_id=ee8f7ed78994a3ee&rms=nxu,aub&redirect_counter=2&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1790193672,&mh=N1&mip=177.93.89.12&mm=30&mn=sn-u1gpv5-54&ms=nxu&mt=1790192564&mv=u&mvi=5&pl=24&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRQIgb-6geSRDhgfCEB0RoWJ03YuGCBMBPyRjvJPL1P3YL6UCIQCDZS-IHsJThntsDsvaZn56LqV3L6JFjiK19Tiw-s4VgQ%3D%3D",
-    "affiliateLink": "https://shopee.com.br/Bolsa-Feminina-M%C3%A9dia-Shopbag-Bordada-Dubai-i.431103460.14149861928?extraParams=%7B%22display_model_id%22%3A115334901676%2C%22model_selection_logic%22%3A3%7D",
-    "tags": ["cozinha", "praticidade", "tech"]
+    "id": "prod_001",
+    "title": "Lavadora de Alta Pressão Bivolt Portátil Profissional Sem Fio Recarregável Original",
+    "category": "Casa e Cozinha",
+    "price": "R$ 94,05",
+    "videoUrl": "/videos/lavadora-alta-pressao.mp4",
+    "affiliateLink": "https://s.shopee.com.br/W6plju24t",
+    "tags": [
+      "lavadora de alta pressão",
+      "lavadora portátil",
+      "sem fio",
+      "recarregável",
+      "limpeza"
+    ]
   }
 ]
