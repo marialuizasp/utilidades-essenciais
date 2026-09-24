@@ -746,3 +746,62 @@ body {
   font-size: 11px;
   font-weight: 800;
 }
+
+/* Áudio fora da ilha: botão independente sob a marca VITRA. */
+.feed-island { max-width: min(255px, calc(100% - 115px)); }
+.standalone-sound-button {
+  position: absolute;
+  z-index: 8;
+  top: 72px;
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255,255,255,.35);
+  background: rgba(25,29,45,.48);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
+@media (max-width: 600px) {
+  .feed-island { max-width: calc(100% - 115px); }
+  .standalone-sound-button { top: 65px; right: 12px; }
+}
+
+/* Tutorial de primeira visita da sessão: só no celular. */
+.swipe-tutorial { display: none; }
+@media (max-width: 600px) {
+  .swipe-tutorial {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 22px;
+    background: rgba(9,14,31,.72);
+    backdrop-filter: blur(13px);
+    -webkit-backdrop-filter: blur(13px);
+  }
+  .swipe-tutorial-card {
+    width: 100%;
+    max-width: 345px;
+    padding: 25px 22px 22px;
+    border: 1px solid rgba(255,255,255,.27);
+    border-radius: 25px;
+    background: rgba(31,43,77,.88);
+    color: #fff;
+    text-align: center;
+    box-shadow: 0 20px 65px rgba(0,0,0,.32);
+  }
+  .swipe-tutorial-eyebrow { color: #D5F971; font-size: 10px; font-weight: 800; letter-spacing: .12em; }
+  .swipe-tutorial-card h2 { margin: 10px 0 6px; font-family: Sora, sans-serif; font-size: 21px; line-height: 1.2; }
+  .swipe-tutorial-card p { margin: 9px 0; color: rgba(255,255,255,.91); font-size: 13px; line-height: 1.5; }
+  .swipe-tutorial-card strong { color: #D5F971; }
+  .swipe-tutorial-animation { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 130px; margin: 6px auto; }
+  .tutorial-finger { display: block; font-size: 44px; animation: tutorial-swipe 2.5s ease-in-out infinite; filter: drop-shadow(0 4px 8px rgba(0,0,0,.3)); }
+  .tutorial-arrow { position: absolute; font-size: 26px; font-weight: 800; color: #D5F971; }
+  .tutorial-arrow-up { top: 0; }
+  .tutorial-arrow-down { bottom: 0; }
+  @keyframes tutorial-swipe { 0%, 12% { transform: translateY(25px); } 38%, 48% { transform: translateY(-25px); } 75%, 85% { transform: translateY(25px); } 100% { transform: translateY(25px); } }
+  .tutorial-start-button { width: 100%; min-height: 48px; margin-top: 13px; border: 0; border-radius: 13px; background: #D5F971; color: #182451; font: 800 14px Inter, sans-serif; cursor: pointer; }
+}
+@media (prefers-reduced-motion: reduce) { .tutorial-finger { animation: none; } }
