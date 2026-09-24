@@ -22,34 +22,6 @@ function discountFor(product) {
   return Math.round((original - current) / original * 100);
 }
 
-// Distribuição estável dos percentuais ilustrativos por ID do produto.
-// 30%: 60%; 30%: 80%; 20%: 70%; 15%: 90%; 5%: 50%.
-function comparisonPercent(id) {
-  const key = String(id || '');
-  let hash = 0;
-  for (let i = 0; i < key.length; i++) {
-    hash = (Math.imul(31, hash) + key.charCodeAt(i)) | 0;
-  }
-  const bucket = (hash >>> 0) % 100;
-  if (bucket < 30) return 60;
-  if (bucket < 60) return 80;
-  if (bucket < 80) return 70;
-  if (bucket < 95) return 90;
-  return 50;
-}
-
-function comparisonFor(product) {
-  const current = priceInCents(product.price);
-  if (!current) return null;
-  const percent = comparisonPercent(product.id || product.title);
-  const reference = Math.round(current / (1 - percent / 100));
-  return {
-    percent,
-    reference: (reference / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-  };
-}
-
-
 // Frases variadas por produto, sem promessas de desconto ou escassez não verificadas.
 const achadinhoPhrases = [
   'Um achadinho para facilitar sua rotina! Confira os detalhes e o preço na loja.',
@@ -121,7 +93,6 @@ export default function VerticalFeed({ products = [] }) {
   const currentIndex = history[position];
   const currentProduct = products[currentIndex];
   const discount = discountFor(currentProduct);
-  const comparison = discount === null ? comparisonFor(currentProduct) : null;
 
   function handlePrevious() {
     if (position > 0) {
@@ -222,20 +193,11 @@ export default function VerticalFeed({ products = [] }) {
 
             <div className="price-group" aria-label="Informações de preço">
               {discount !== null && (
-                <span className="discount-badge">{discount}% OFF</span>
-              )}
-              {comparison && (
-                <span className="comparison-badge">{comparison.percent}% de diferença</span>
+                <span className="discount-badge">{discount}% de desconto</span>
               )}
               <span className="price">{currentProduct.price}</span>
               {discount !== null && (
                 <span className="original-price">{currentProduct.originalPrice}</span>
-              )}
-              {comparison && (
-                <>
-                  <span className="original-price">{comparison.reference}</span>
-                  <small className="reference-note">Valor de referência calculado.</small>
-                </>
               )}
             </div>
           </div>
