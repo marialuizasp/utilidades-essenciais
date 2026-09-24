@@ -664,3 +664,10 @@ body {
   -webkit-backdrop-filter: none;
 }
 .offer-button-label { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+
+/* Posicionamento: selo de desconto imediatamente acima do preço atual verde. */
+.price-group { display: flex; flex-direction: column; align-items: flex-end; }
+.price-group .discount-badge { order: 0; align-self: flex-end; }
+.price-group .price { order: 1; }
+.price-group .original-price { order: 2; }
+.price-group .price-disclaimer { order: 3; }
