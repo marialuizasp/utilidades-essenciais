@@ -97,6 +97,20 @@ export default function VerticalFeed({ products = [] }) {
   const [history, setHistory] = useState([0]);
   const [position, setPosition] = useState(0);
   const [soundOn, setSoundOn] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(false);
+
+  useEffect(() => {
+    try {
+      if (!window.sessionStorage.getItem('vitra-swipe-tutorial-seen')) setShowTutorial(true);
+    } catch {
+      setShowTutorial(true);
+    }
+  }, []);
+
+  function closeTutorial() {
+    setShowTutorial(false);
+    try { window.sessionStorage.setItem('vitra-swipe-tutorial-seen', '1'); } catch {}
+  }
   const categoryRef = useRef(null);
   const swipeStart = useRef(null);
   const [categoryFontSize, setCategoryFontSize] = useState(11);
@@ -175,6 +189,7 @@ export default function VerticalFeed({ products = [] }) {
   }
 
   function handleTouchStart(event) {
+    if (showTutorial) return;
     if (event.target.closest('a, button')) { swipeStart.current = null; return; }
     const touch = event.touches[0];
     swipeStart.current = { x: touch.clientX, y: touch.clientY };
@@ -212,7 +227,7 @@ export default function VerticalFeed({ products = [] }) {
           <div className="video-overlay" />
         </div>
 
-        {/* Ilha flutuante: identidade da vitrine e controle de áudio no mesmo lugar. */}
+        {/* Identidade da vitrine. O áudio fica em um controle separado. */}
         <header className="feed-island" aria-label="Vitrine e áudio">
           <div className="island-brand">
             <span className="island-avatar">
@@ -222,17 +237,6 @@ export default function VerticalFeed({ products = [] }) {
               <span className="island-brand-name">Utilidades Essenciais</span>
             </span>
           </div>
-          <span className="island-divider" aria-hidden="true" />
-          <button
-            type="button"
-            className="video-sound-button"
-            onClick={() => setSoundOn((current) => !current)}
-            aria-label={soundOn ? "Desativar som do vídeo" : "Ativar som do vídeo"}
-            aria-pressed={soundOn}
-            title={soundOn ? "Desativar som" : "Ativar som"}
-          >
-            <span aria-hidden="true">{soundOn ? "🔊" : "🔇"}</span>
-          </button>
         </header>
 
         {/* Assinatura discreta da plataforma, separada da marca da loja. */}
@@ -244,6 +248,34 @@ export default function VerticalFeed({ products = [] }) {
           </svg>
           <span>vitra<span className="vitra-signature-dot">.</span></span>
         </div>
+
+        <button
+          type="button"
+          className="video-sound-button standalone-sound-button"
+          onClick={() => setSoundOn((current) => !current)}
+          aria-label={soundOn ? "Desativar som do vídeo" : "Ativar som do vídeo"}
+          aria-pressed={soundOn}
+          title={soundOn ? "Desativar som" : "Ativar som"}
+        >
+          <span aria-hidden="true">{soundOn ? "🔊" : "🔇"}</span>
+        </button>
+
+        {showTutorial && (
+          <div className="swipe-tutorial" role="dialog" aria-modal="true" aria-labelledby="swipe-tutorial-title">
+            <div className="swipe-tutorial-card">
+              <span className="swipe-tutorial-eyebrow">BEM-VINDO À VITRINE</span>
+              <h2 id="swipe-tutorial-title">Descubra seus próximos achadinhos</h2>
+              <div className="swipe-tutorial-animation" aria-hidden="true">
+                <span className="tutorial-arrow tutorial-arrow-up">↑</span>
+                <span className="tutorial-finger">☝️</span>
+                <span className="tutorial-arrow tutorial-arrow-down">↓</span>
+              </div>
+              <p><strong>Deslize para cima</strong> para ver outro vídeo e <strong>para baixo</strong> para voltar.</p>
+              <p>Gostou de um produto? Toque em <strong>🛍️ Ver produto</strong> para conferir na loja.</p>
+              <button type="button" className="tutorial-start-button" onClick={closeTutorial}>Entendi, começar</button>
+            </div>
+          </div>
+        )}
 
         {/* Informações e botões */}
         <section className="product-content">
