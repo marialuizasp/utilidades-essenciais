@@ -98,6 +98,7 @@ export default function VerticalFeed({ products = [] }) {
   const [position, setPosition] = useState(0);
   const [soundOn, setSoundOn] = useState(false);
   const categoryRef = useRef(null);
+  const swipeStart = useRef(null);
   const [categoryFontSize, setCategoryFontSize] = useState(11);
 
   // Reduz apenas categorias que ultrapassam a largura disponível.
@@ -173,9 +174,27 @@ export default function VerticalFeed({ products = [] }) {
     setPosition((prev) => prev + 1);
   }
 
+  function handleTouchStart(event) {
+    if (event.target.closest('a, button')) { swipeStart.current = null; return; }
+    const touch = event.touches[0];
+    swipeStart.current = { x: touch.clientX, y: touch.clientY };
+  }
+
+  function handleTouchEnd(event) {
+    const start = swipeStart.current;
+    swipeStart.current = null;
+    if (!start || !event.changedTouches.length) return;
+    const touch = event.changedTouches[0];
+    const dx = touch.clientX - start.x;
+    const dy = touch.clientY - start.y;
+    if (Math.abs(dy) < 65 || Math.abs(dy) < Math.abs(dx) * 1.3) return;
+    if (dy < 0) handleNext();
+    else handlePrevious();
+  }
+
   return (
     <main className="feed-page">
-      <article className="feed-card">
+      <article className="feed-card" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
 
         {/* Vídeo */}
         <div className="video-container">
@@ -243,7 +262,7 @@ export default function VerticalFeed({ products = [] }) {
               {discount !== null && (
                 <span className="original-price">{currentProduct.originalPrice}</span>
               )}
-              <small className="price-disclaimer">Preço sujeito a alterações pelo vendedor.</small>
+              <small className="price-disclaimer"><span className="disclaimer-desktop">Preço sujeito a alterações pelo vendedor.</span><span className="disclaimer-mobile">Preço pode mudar na loja.</span></small>
             </div>
           </div>
 
@@ -254,6 +273,10 @@ export default function VerticalFeed({ products = [] }) {
           <p className="description">
             {phraseForProduct(currentProduct)}
           </p>
+
+          {products.length > 1 && (
+            <span className="swipe-hint" aria-label="Deslize para cima para ver outro vídeo ou para baixo para voltar">↑ Deslize para descobrir outro</span>
+          )}
 
           <a
             href={currentProduct.affiliateLink}
