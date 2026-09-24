@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './VerticalFeed.css';
 
 // Converte preços brasileiros para centavos, sem arredondamentos de ponto flutuante.
@@ -97,6 +97,27 @@ export default function VerticalFeed({ products = [] }) {
   const [history, setHistory] = useState([0]);
   const [position, setPosition] = useState(0);
   const [soundOn, setSoundOn] = useState(false);
+  const categoryRef = useRef(null);
+  const [categoryFontSize, setCategoryFontSize] = useState(11);
+
+  // Reduz apenas categorias que ultrapassam a largura disponível.
+  useEffect(() => {
+    const element = categoryRef.current;
+    if (!element) return;
+    function fitCategory() {
+      element.style.fontSize = '11px';
+      let size = 11;
+      while (element.scrollWidth > element.clientWidth + 1 && size > 7) {
+        size -= 0.5;
+        element.style.fontSize = size + 'px';
+      }
+      setCategoryFontSize(size);
+    }
+    fitCategory();
+    const observer = new ResizeObserver(fitCategory);
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [products[history[position]]?.category]);
 
   // Produtos que ainda não apareceram neste ciclo.
   const [remaining, setRemaining] = useState(() =>
@@ -208,7 +229,7 @@ export default function VerticalFeed({ products = [] }) {
         {/* Informações e botões */}
         <section className="product-content">
           <div className="top-info">
-            <span className="category">
+            <span ref={categoryRef} className="category" style={{ fontSize: `${categoryFontSize}px` }}>
               {currentProduct.category}
             </span>
 
