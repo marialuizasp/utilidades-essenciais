@@ -105,3 +105,8 @@
 .card:nth-child(3) .cardIcon { background: #243CE6; color: #FFFFFF; }
 .cardLink, .storeLink, .backLink { color: #243CE6; }
 .card:hover { border-color: #D5F971; }
+
+/* Formulários habilitados quando o Supabase estiver configurado. */
+.field input:not(:disabled){background:#fff;color:#182451;cursor:text;}
+.primaryButton:not(:disabled){background:#243CE6;color:#fff;cursor:pointer;}
+.primaryButton:not(:disabled):hover{background:#182451;}
