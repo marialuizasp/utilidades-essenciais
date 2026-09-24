@@ -8,7 +8,7 @@ export default function CadastroPage() {
     <main className={styles.formMain}>
       <Link className={styles.backLink} href="/painel">← Voltar ao painel</Link>
       <section className={styles.formCard} aria-labelledby="signup-title">
-        <div className={styles.eyebrow}>COMESSE SUA VITRINE</div>
+        <div className={styles.eyebrow}>COMECE SUA VITRINE</div>
         <h1 id="signup-title" className={styles.formTitle}>Crie sua conta VITRA</h1>
         <p className={styles.formDescription}>
           Prévia do cadastro. Nesta etapa nenhum dado é enviado ou armazenado.
