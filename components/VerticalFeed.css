@@ -190,6 +190,23 @@ body {
   white-space: nowrap;
 }
 
+.comparison-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  max-width: 230px;
+  font-size: 11px;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: right;
+}
+
+.comparison-info small {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.68);
+}
+
 .price {
   color: #a7f3d0;
   font-size: 21px;
