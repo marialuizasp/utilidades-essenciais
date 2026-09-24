@@ -22,6 +22,33 @@ function discountFor(product) {
   return Math.round((original - current) / original * 100);
 }
 
+// Distribuição estável dos percentuais ilustrativos por ID do produto.
+// 30%: 60%; 30%: 80%; 20%: 70%; 15%: 90%; 5%: 50%.
+function comparisonPercent(id) {
+  const key = String(id || '');
+  let hash = 0;
+  for (let i = 0; i < key.length; i++) {
+    hash = (Math.imul(31, hash) + key.charCodeAt(i)) | 0;
+  }
+  const bucket = (hash >>> 0) % 100;
+  if (bucket < 30) return 60;
+  if (bucket < 60) return 80;
+  if (bucket < 80) return 70;
+  if (bucket < 95) return 90;
+  return 50;
+}
+
+function comparisonFor(product) {
+  const current = priceInCents(product.price);
+  if (!current) return null;
+  const percent = comparisonPercent(product.id || product.title);
+  const reference = Math.round(current / (1 - percent / 100));
+  return {
+    percent,
+    reference: (reference / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+  };
+}
+
 // Embaralha os índices usando Fisher-Yates.
 function shuffle(items) {
   const result = [...items];
@@ -55,6 +82,7 @@ export default function VerticalFeed({ products = [] }) {
   const currentIndex = history[position];
   const currentProduct = products[currentIndex];
   const discount = discountFor(currentProduct);
+  const comparison = discount === null ? comparisonFor(currentProduct) : null;
 
   function handlePrevious() {
     if (position > 0) {
@@ -143,6 +171,13 @@ export default function VerticalFeed({ products = [] }) {
                 </div>
               )}
               <span className="price">{currentProduct.price}</span>
+              {comparison && (
+                <div className="comparison-info">
+                  <span>Referência ilustrativa: {comparison.reference}</span>
+                  <span>{comparison.percent}% de diferença matemática</span>
+                  <small>Não é preço anterior nem desconto da loja.</small>
+                </div>
+              )}
             </div>
           </div>
 
