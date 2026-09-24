@@ -22,34 +22,6 @@ function discountFor(product) {
   return Math.round((original - current) / original * 100);
 }
 
-// Distribuição estável dos percentuais ilustrativos por ID do produto.
-// 30%: 60%; 30%: 80%; 20%: 70%; 15%: 90%; 5%: 50%.
-function comparisonPercent(id) {
-  const key = String(id || '');
-  let hash = 0;
-  for (let i = 0; i < key.length; i++) {
-    hash = (Math.imul(31, hash) + key.charCodeAt(i)) | 0;
-  }
-  const bucket = (hash >>> 0) % 100;
-  if (bucket < 30) return 60;
-  if (bucket < 60) return 80;
-  if (bucket < 80) return 70;
-  if (bucket < 95) return 90;
-  return 50;
-}
-
-function comparisonFor(product) {
-  const current = priceInCents(product.price);
-  if (!current) return null;
-  const percent = comparisonPercent(product.id || product.title);
-  const reference = Math.round(current / (1 - percent / 100));
-  return {
-    percent,
-    reference: (reference / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-  };
-}
-
-
 // Frases variadas por produto, sem promessas de desconto ou escassez não verificadas.
 const achadinhoPhrases = [
   'Um achadinho para facilitar sua rotina! Confira os detalhes e o preço na loja.',
@@ -121,7 +93,6 @@ export default function VerticalFeed({ products = [] }) {
   const currentIndex = history[position];
   const currentProduct = products[currentIndex];
   const discount = discountFor(currentProduct);
-  const comparison = discount === null ? comparisonFor(currentProduct) : null;
 
   function handlePrevious() {
     if (position > 0) {
@@ -178,6 +149,19 @@ export default function VerticalFeed({ products = [] }) {
           />
 
           <div className="video-overlay" />
+        </div>
+
+        {/* Ilha flutuante: identidade da vitrine e controle de áudio no mesmo lugar. */}
+        <header className="feed-island" aria-label="Vitrine e áudio">
+          <div className="island-brand">
+            <span className="island-avatar">
+              <img src="/logo.png.png" alt="" className="island-logo" />
+            </span>
+            <span className="island-brand-text">
+              <span className="island-brand-name">Utilidades Essenciais</span>
+            </span>
+          </div>
+          <span className="island-divider" aria-hidden="true" />
           <button
             type="button"
             className="video-sound-button"
@@ -188,22 +172,17 @@ export default function VerticalFeed({ products = [] }) {
           >
             <span aria-hidden="true">{soundOn ? "🔊" : "🔇"}</span>
           </button>
-        </div>
-
-        {/* Logo e nome da empresa */}
-        <header className="brand">
-          <div className="brand-avatar">
-            <img
-              src="/logo.png.png"
-              alt="Logo Utilidades Essenciais"
-              className="brand-logo"
-            />
-          </div>
-
-          <span className="brand-name">
-            Utilidades Essenciais
-          </span>
         </header>
+
+        {/* Assinatura discreta da plataforma, separada da marca da loja. */}
+        <div className="vitra-signature" aria-label="Tecnologia VITRA">
+          <svg className="vitra-mark" viewBox="0 0 64 64" aria-hidden="true">
+            <path d="M9 12 Q9 3 20 9 L55 29 Q63 34 55 40 L20 59 Q9 65 9 52 Z" fill="#D5F971" />
+            <path d="M20 19 Q20 13 27 17 L48 29 Q55 33 48 38 L27 49 Q20 53 20 46 Z" fill="#FF8676" />
+            <path d="M28 25 Q28 22 32 24 L43 30 Q48 33 43 36 L32 42 Q28 44 28 40 Z" fill="#243CE6" />
+          </svg>
+          <span>vitra<span className="vitra-signature-dot">.</span></span>
+        </div>
 
         {/* Informações e botões */}
         <section className="product-content">
@@ -214,20 +193,11 @@ export default function VerticalFeed({ products = [] }) {
 
             <div className="price-group" aria-label="Informações de preço">
               {discount !== null && (
-                <span className="discount-badge">{discount}% OFF</span>
-              )}
-              {comparison && (
-                <span className="comparison-badge">{comparison.percent}% de diferença</span>
+                <span className="discount-badge">{discount}% de desconto</span>
               )}
               <span className="price">{currentProduct.price}</span>
               {discount !== null && (
                 <span className="original-price">{currentProduct.originalPrice}</span>
-              )}
-              {comparison && (
-                <>
-                  <span className="original-price">{comparison.reference}</span>
-                  <small className="reference-note">Valor de referência calculado.</small>
-                </>
               )}
             </div>
           </div>
