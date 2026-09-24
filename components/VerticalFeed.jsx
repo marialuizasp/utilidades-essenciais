@@ -125,13 +125,11 @@ export default function VerticalFeed({ products = [] }) {
 
   function handlePrevious() {
     if (position > 0) {
-      setSoundOn(false);
       setPosition(position - 1);
     }
   }
 
   function handleNext() {
-    setSoundOn(false);
     // Se o visitante voltou, avançamos pelo histórico.
     if (position < history.length - 1) {
       setPosition(position + 1);
