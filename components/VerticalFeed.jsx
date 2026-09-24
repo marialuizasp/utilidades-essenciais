@@ -22,6 +22,27 @@ function discountFor(product) {
   return Math.round((original - current) / original * 100);
 }
 
+// Selos alternados por produto para itens sem desconto comprovado.
+const offerBadges = [
+  'Achadinho especial',
+  'Vale a pena conhecer',
+  'Confira essa novidade',
+  'Descubra esse achado',
+  'Veja os detalhes',
+  'Escolha da vitrine',
+  'Conheça o produto',
+  'Um achado para você'
+];
+
+function badgeForProduct(product) {
+  const key = String(product.id || product.title || '');
+  let hash = 0;
+  for (let i = 0; i < key.length; i++) {
+    hash = (Math.imul(31, hash) + key.charCodeAt(i)) | 0;
+  }
+  return offerBadges[(hash >>> 0) % offerBadges.length];
+}
+
 // Frases variadas por produto, sem promessas de desconto ou escassez não verificadas.
 const achadinhoPhrases = [
   'Um achadinho para facilitar sua rotina! Confira os detalhes e o preço na loja.',
@@ -192,8 +213,10 @@ export default function VerticalFeed({ products = [] }) {
             </span>
 
             <div className={`price-group${discount !== null ? " has-discount" : ""}`} aria-label="Informações de preço">
-              {discount !== null && (
+              {discount !== null ? (
                 <span className="discount-badge">{discount}% de desconto</span>
+              ) : (
+                <span className="discount-badge offer-badge">{badgeForProduct(currentProduct)}</span>
               )}
               <span className="price">{currentProduct.price}</span>
               {discount !== null && (
