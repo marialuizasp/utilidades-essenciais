@@ -160,8 +160,11 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  justify-content: center;
   gap: 5px;
   min-width: 0;
+  flex: 0 0 auto;
+  text-align: right;
 }
 
 .discount-line {
@@ -212,14 +215,17 @@ body {
   text-align: right;
 }
 
-.comparison-info small {
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.68);
+.reference-note {
+  display: block;
+  font-size: 9px;
+  line-height: 1.25;
+  color: rgba(255, 255, 255, 0.78);
+  white-space: nowrap;
 }
 
 .price {
   color: #a7f3d0;
-  font-size: 21px;
+  font-size: 22px;
   font-weight: 800;
   white-space: nowrap;
 }
@@ -371,7 +377,15 @@ body {
   }
 
   .price {
-    font-size: 19px;
+    font-size: 20px;
+  }
+
+  .price-group {
+    gap: 4px;
+  }
+
+  .reference-note {
+    font-size: 9px;
   }
 }
 

@@ -165,20 +165,20 @@ export default function VerticalFeed({ products = [] }) {
 
             <div className="price-group" aria-label="Informações de preço">
               {discount !== null && (
-                <div className="discount-line">
-                  <span className="original-price">{currentProduct.originalPrice}</span>
-                  <span className="discount-badge">-{discount}% OFF</span>
-                </div>
+                <span className="discount-badge">{discount}% OFF</span>
+              )}
+              {comparison && (
+                <span className="comparison-badge">{comparison.percent}% de diferença</span>
               )}
               <span className="price">{currentProduct.price}</span>
+              {discount !== null && (
+                <span className="original-price">{currentProduct.originalPrice}</span>
+              )}
               {comparison && (
-                <div className="comparison-info">
-                  <div className="discount-line">
-                    <span className="original-price">{comparison.reference}</span>
-                    <span className="comparison-badge">{comparison.percent}% de diferença</span>
-                  </div>
-                  <small>Valor de referência calculado.</small>
-                </div>
+                <>
+                  <span className="original-price">{comparison.reference}</span>
+                  <small className="reference-note">Valor de referência calculado.</small>
+                </>
               )}
             </div>
           </div>
