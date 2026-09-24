@@ -266,7 +266,7 @@ export default function VerticalFeed({ products = [] }) {
           )}
 
           <footer className="vyra-credit" aria-label="Créditos da plataforma">
-            Desenvolvido com <span className="vyra-wordmark">vyra.</span>
+            Desenvolvido com <span className="vyra-wordmark">AYVIO</span>
           </footer>
         </section>
 
