@@ -188,7 +188,6 @@ export default function VerticalFeed({ products = [] }) {
             </span>
             <span className="island-brand-text">
               <span className="island-brand-name">Utilidades Essenciais</span>
-              <span className="island-brand-caption"><span className="island-live-dot" /> Vitrine em vídeo</span>
             </span>
           </div>
           <span className="island-divider" aria-hidden="true" />
