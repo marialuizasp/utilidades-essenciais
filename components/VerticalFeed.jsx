@@ -97,7 +97,22 @@ export default function VerticalFeed({ products = [] }) {
   const [history, setHistory] = useState([0]);
   const [position, setPosition] = useState(0);
   const [soundOn, setSoundOn] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(false);
+
+  useEffect(() => {
+    try {
+      if (!window.sessionStorage.getItem('vitra-swipe-tutorial-seen')) setShowTutorial(true);
+    } catch {
+      setShowTutorial(true);
+    }
+  }, []);
+
+  function closeTutorial() {
+    setShowTutorial(false);
+    try { window.sessionStorage.setItem('vitra-swipe-tutorial-seen', '1'); } catch {}
+  }
   const categoryRef = useRef(null);
+  const swipeStart = useRef(null);
   const [categoryFontSize, setCategoryFontSize] = useState(11);
 
   // Reduz apenas categorias que ultrapassam a largura disponível.
@@ -173,9 +188,28 @@ export default function VerticalFeed({ products = [] }) {
     setPosition((prev) => prev + 1);
   }
 
+  function handleTouchStart(event) {
+    if (showTutorial) return;
+    if (event.target.closest('a, button')) { swipeStart.current = null; return; }
+    const touch = event.touches[0];
+    swipeStart.current = { x: touch.clientX, y: touch.clientY };
+  }
+
+  function handleTouchEnd(event) {
+    const start = swipeStart.current;
+    swipeStart.current = null;
+    if (!start || !event.changedTouches.length) return;
+    const touch = event.changedTouches[0];
+    const dx = touch.clientX - start.x;
+    const dy = touch.clientY - start.y;
+    if (Math.abs(dy) < 65 || Math.abs(dy) < Math.abs(dx) * 1.3) return;
+    if (dy < 0) handleNext();
+    else handlePrevious();
+  }
+
   return (
     <main className="feed-page">
-      <article className="feed-card">
+      <article className="feed-card" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
 
         {/* Vídeo */}
         <div className="video-container">
@@ -193,7 +227,7 @@ export default function VerticalFeed({ products = [] }) {
           <div className="video-overlay" />
         </div>
 
-        {/* Ilha flutuante: identidade da vitrine e controle de áudio no mesmo lugar. */}
+        {/* Identidade da vitrine. O áudio fica em um controle separado. */}
         <header className="feed-island" aria-label="Vitrine e áudio">
           <div className="island-brand">
             <span className="island-avatar">
@@ -203,17 +237,6 @@ export default function VerticalFeed({ products = [] }) {
               <span className="island-brand-name">Utilidades Essenciais</span>
             </span>
           </div>
-          <span className="island-divider" aria-hidden="true" />
-          <button
-            type="button"
-            className="video-sound-button"
-            onClick={() => setSoundOn((current) => !current)}
-            aria-label={soundOn ? "Desativar som do vídeo" : "Ativar som do vídeo"}
-            aria-pressed={soundOn}
-            title={soundOn ? "Desativar som" : "Ativar som"}
-          >
-            <span aria-hidden="true">{soundOn ? "🔊" : "🔇"}</span>
-          </button>
         </header>
 
         {/* Assinatura discreta da plataforma, separada da marca da loja. */}
@@ -225,6 +248,34 @@ export default function VerticalFeed({ products = [] }) {
           </svg>
           <span>vitra<span className="vitra-signature-dot">.</span></span>
         </div>
+
+        <button
+          type="button"
+          className="video-sound-button standalone-sound-button"
+          onClick={() => setSoundOn((current) => !current)}
+          aria-label={soundOn ? "Desativar som do vídeo" : "Ativar som do vídeo"}
+          aria-pressed={soundOn}
+          title={soundOn ? "Desativar som" : "Ativar som"}
+        >
+          <span aria-hidden="true">{soundOn ? "🔊" : "🔇"}</span>
+        </button>
+
+        {showTutorial && (
+          <div className="swipe-tutorial" role="dialog" aria-modal="true" aria-labelledby="swipe-tutorial-title">
+            <div className="swipe-tutorial-card">
+              <span className="swipe-tutorial-eyebrow">BEM-VINDO À VITRINE</span>
+              <h2 id="swipe-tutorial-title">Descubra seus próximos achadinhos</h2>
+              <div className="swipe-tutorial-animation" aria-hidden="true">
+                <span className="tutorial-arrow tutorial-arrow-up">↑</span>
+                <span className="tutorial-finger">☝️</span>
+                <span className="tutorial-arrow tutorial-arrow-down">↓</span>
+              </div>
+              <p><strong>Deslize para cima</strong> para ver outro vídeo e <strong>para baixo</strong> para voltar.</p>
+              <p>Gostou de um produto? Toque em <strong>🛍️ Ver produto</strong> para conferir na loja.</p>
+              <button type="button" className="tutorial-start-button" onClick={closeTutorial}>Entendi, começar</button>
+            </div>
+          </div>
+        )}
 
         {/* Informações e botões */}
         <section className="product-content">
@@ -243,7 +294,7 @@ export default function VerticalFeed({ products = [] }) {
               {discount !== null && (
                 <span className="original-price">{currentProduct.originalPrice}</span>
               )}
-              <small className="price-disclaimer">Preço sujeito a alterações pelo vendedor.</small>
+              <small className="price-disclaimer"><span className="disclaimer-desktop">Preço sujeito a alterações pelo vendedor.</span><span className="disclaimer-mobile">Preço pode mudar na loja.</span></small>
             </div>
           </div>
 
@@ -254,6 +305,10 @@ export default function VerticalFeed({ products = [] }) {
           <p className="description">
             {phraseForProduct(currentProduct)}
           </p>
+
+          {products.length > 1 && (
+            <span className="swipe-hint" aria-label="Deslize para cima para ver outro vídeo ou para baixo para voltar">↑ Deslize para descobrir outro</span>
+          )}
 
           <a
             href={currentProduct.affiliateLink}
