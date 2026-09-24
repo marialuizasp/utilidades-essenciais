@@ -479,11 +479,11 @@ body {
   transform: none;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   width: max-content;
-  max-width: calc(100% - 155px);
-  min-height: 46px;
-  padding: 5px 6px 5px 7px;
+  max-width: min(244px, calc(100% - 128px));
+  min-height: 50px;
+  padding: 4px 6px 4px 5px;
   border: 1px solid rgba(255,255,255,.32);
   border-radius: 999px;
   background: rgba(35,38,48,.28);
@@ -492,10 +492,10 @@ body {
   backdrop-filter: blur(28px) saturate(180%);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
 }
-.island-brand { display: flex; align-items: center; min-width: 0; gap: 7px; }
+.island-brand { display: flex; align-items: center; min-width: 0; gap: 8px; }
 .island-avatar {
-  width: 32px;
-  height: 32px;
+  width: 42px;
+  height: 42px;
   flex-shrink: 0;
   display: grid;
   place-items: center;
@@ -510,19 +510,19 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 800;
   text-shadow: 0 1px 4px rgba(0,0,0,.55);
 }
 .island-brand-caption { display: flex; align-items: center; gap: 5px; color: rgba(255,255,255,.85); font-size: 9px; white-space: nowrap; text-shadow: 0 1px 3px rgba(0,0,0,.5); }
 .island-live-dot { width: 5px; height: 5px; flex-shrink: 0; border-radius: 50%; background: #D5F971; }
-.island-divider { width: 1px; height: 24px; flex-shrink: 0; background: rgba(255,255,255,.38); }
+.island-divider { width: 1px; height: 25px; flex-shrink: 0; background: rgba(255,255,255,.38); }
 .feed-island .video-sound-button {
   position: static;
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   flex-shrink: 0;
   border: 1px solid rgba(255,255,255,.24);
   border-radius: 50%;
@@ -563,14 +563,13 @@ body {
 .vitra-mark { width: 24px; height: 24px; flex-shrink: 0; }
 .vitra-signature-dot { color: #D5F971; }
 @media (max-width: 600px) {
-  .feed-island { top: max(12px, env(safe-area-inset-top)); left: 12px; max-width: calc(100% - 125px); }
+  .feed-island { top: max(12px, env(safe-area-inset-top)); left: 12px; max-width: min(228px, calc(100% - 124px)); }
   .vitra-signature { top: max(12px, env(safe-area-inset-top)); right: 12px; }
 }
 @media (max-width: 370px) {
   .feed-island { gap: 5px; padding-left: 5px; max-width: calc(100% - 110px); }
-  .island-avatar { width: 28px; height: 28px; }
-  .island-brand-name { font-size: 10px; }
-  .island-brand-caption { font-size: 8px; }
+  .island-avatar { width: 36px; height: 36px; }
+  .island-brand-name { font-size: 12px; }
   .feed-island .video-sound-button { width: 30px; height: 30px; font-size: 15px; }
   .vitra-signature { padding: 5px 7px 5px 4px; font-size: 11px; }
   .vitra-mark { width: 20px; height: 20px; }
