@@ -4,6 +4,51 @@
 import { useState } from 'react';
 import './VerticalFeed.css';
 
+// Converte preços brasileiros para centavos, sem arredondamentos de ponto flutuante.
+function priceInCents(value) {
+  const raw = String(value || '').replace(/[^\d,.]/g, '').trim();
+  if (!raw) return null;
+  const normalized = raw.includes(',') ? raw.replace(/\./g, '').replace(',', '.') : raw;
+  if (!/^\d+(?:\.\d{1,2})?$/.test(normalized)) return null;
+  const [whole, fraction = ''] = normalized.split('.');
+  const cents = Number(whole) * 100 + Number(fraction.padEnd(2, '0'));
+  return Number.isSafeInteger(cents) && cents > 0 ? cents : null;
+}
+
+function discountFor(product) {
+  const original = priceInCents(product.originalPrice);
+  const current = priceInCents(product.price);
+  if (!original || !current || original <= current) return null;
+  return Math.round((original - current) / original * 100);
+}
+
+// Distribuição estável dos percentuais ilustrativos por ID do produto.
+// 30%: 60%; 30%: 80%; 20%: 70%; 15%: 90%; 5%: 50%.
+function comparisonPercent(id) {
+  const key = String(id || '');
+  let hash = 0;
+  for (let i = 0; i < key.length; i++) {
+    hash = (Math.imul(31, hash) + key.charCodeAt(i)) | 0;
+  }
+  const bucket = (hash >>> 0) % 100;
+  if (bucket < 30) return 60;
+  if (bucket < 60) return 80;
+  if (bucket < 80) return 70;
+  if (bucket < 95) return 90;
+  return 50;
+}
+
+function comparisonFor(product) {
+  const current = priceInCents(product.price);
+  if (!current) return null;
+  const percent = comparisonPercent(product.id || product.title);
+  const reference = Math.round(current / (1 - percent / 100));
+  return {
+    percent,
+    reference: (reference / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+  };
+}
+
 // Embaralha os índices usando Fisher-Yates.
 function shuffle(items) {
   const result = [...items];
@@ -36,6 +81,8 @@ export default function VerticalFeed({ products = [] }) {
 
   const currentIndex = history[position];
   const currentProduct = products[currentIndex];
+  const discount = discountFor(currentProduct);
+  const comparison = discount === null ? comparisonFor(currentProduct) : null;
 
   function handlePrevious() {
     if (position > 0) {
@@ -116,9 +163,22 @@ export default function VerticalFeed({ products = [] }) {
               {currentProduct.category}
             </span>
 
-            <span className="price">
-              {currentProduct.price}
-            </span>
+            <div className="price-group" aria-label="Informações de preço">
+              {discount !== null && (
+                <div className="discount-line">
+                  <span className="original-price">{currentProduct.originalPrice}</span>
+                  <span className="discount-badge">-{discount}% OFF</span>
+                </div>
+              )}
+              <span className="price">{currentProduct.price}</span>
+              {comparison && (
+                <div className="comparison-info">
+                  <span>Referência ilustrativa: {comparison.reference}</span>
+                  <span>{comparison.percent}% de diferença matemática</span>
+                  <small>Não é preço anterior nem desconto da loja.</small>
+                </div>
+              )}
+            </div>
           </div>
 
           <h1 className="product-title">
