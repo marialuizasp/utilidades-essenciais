@@ -1,19 +1,11 @@
+
 [
-  {
-    "id": "prod_001",
-    "title": "Organizador de Pia Minimalista Smart Clean",
-    "category": "Casa e Cozinha",
-    "price": "R$ 49,90",
-    "videoUrl": "https://drive.google.com/file/d/1VzEmSAwpGPiVxYrZKiy3YuELZpcWnqlL/view?usp=sharing",
-    "affiliateLink": "https://shopee.com.br/TOMI-MITO-Bolsa-Casual-Espa%C3%A7osa-com-Estampa-Geom%C3%A9trica-Acompanha-Pequeno-Estojo-para-Faculdade-e-Uso-Di%C3%A1rio-TM9235-i.1468415010.58266104588",
-    "tags": ["casa", "cozinha", "utilidades"]
-  },
   {
     "id": "prod_001",
     "title": "Lavadora de Alta Pressão Bivolt Portátil Profissional Sem Fio Recarregável Original",
     "category": "Casa e Cozinha",
     "price": "R$ 94,05",
-    "videoUrl": "/videos/lavadora-alta-pressao.mp4"
+    "videoUrl": "/videos/lavadora-alta-pressao.mp4",
     "affiliateLink": "https://s.shopee.com.br/W6plju24t",
     "tags": [
       "lavadora de alta pressão",
