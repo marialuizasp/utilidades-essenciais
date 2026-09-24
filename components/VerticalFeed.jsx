@@ -222,6 +222,7 @@ export default function VerticalFeed({ products = [] }) {
               {discount !== null && (
                 <span className="original-price">{currentProduct.originalPrice}</span>
               )}
+              <small className="price-disclaimer">Preço sujeito a alterações pelo vendedor.</small>
             </div>
           </div>
 
