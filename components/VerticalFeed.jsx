@@ -4,8 +4,27 @@
 import { useState } from 'react';
 import './VerticalFeed.css';
 
+// Embaralha os índices usando Fisher-Yates.
+function shuffle(items) {
+  const result = [...items];
+
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+
+  return result;
+}
+
 export default function VerticalFeed({ products = [] }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  // Histórico dos vídeos, na ordem em que foram visitados.
+  const [history, setHistory] = useState([0]);
+  const [position, setPosition] = useState(0);
+
+  // Produtos que ainda não apareceram neste ciclo.
+  const [remaining, setRemaining] = useState(() =>
+    shuffle(products.map((_, index) => index).slice(1))
+  );
 
   if (products.length === 0) {
     return (
@@ -15,10 +34,44 @@ export default function VerticalFeed({ products = [] }) {
     );
   }
 
-  const currentProduct = products[currentIndex % products.length];
+  const currentIndex = history[position];
+  const currentProduct = products[currentIndex];
+
+  function handlePrevious() {
+    if (position > 0) {
+      setPosition(position - 1);
+    }
+  }
 
   function handleNext() {
-    setCurrentIndex((prev) => (prev + 1) % products.length);
+    // Se o visitante voltou, avançamos pelo histórico.
+    if (position < history.length - 1) {
+      setPosition(position + 1);
+      return;
+    }
+
+    // Se só existe um produto, não há outro vídeo.
+    if (products.length < 2) {
+      return;
+    }
+
+    let available = remaining;
+
+    // Todos foram vistos: inicia outro ciclo aleatório.
+    // Evita repetir imediatamente o vídeo atual.
+    if (available.length === 0) {
+      available = shuffle(
+        products
+          .map((_, index) => index)
+          .filter((index) => index !== currentIndex)
+      );
+    }
+
+    const nextIndex = available[0];
+
+    setRemaining(available.slice(1));
+    setHistory((prev) => [...prev, nextIndex]);
+    setPosition((prev) => prev + 1);
   }
 
   return (
@@ -37,6 +90,7 @@ export default function VerticalFeed({ products = [] }) {
             playsInline
             preload="metadata"
           />
+
           <div className="video-overlay" />
         </div>
 
@@ -44,8 +98,8 @@ export default function VerticalFeed({ products = [] }) {
         <header className="brand">
           <div className="brand-avatar">
             <img
-              src="/logo.png.png"
-              alt="Utilidades Essenciais"
+              src="/logo.png"
+              alt="Logo Utilidades Essenciais"
               className="brand-logo"
             />
           </div>
@@ -55,7 +109,7 @@ export default function VerticalFeed({ products = [] }) {
           </span>
         </header>
 
-        {/* Informações do produto */}
+        {/* Informações e botões */}
         <section className="product-content">
           <div className="top-info">
             <span className="category">
@@ -72,7 +126,8 @@ export default function VerticalFeed({ products = [] }) {
           </h1>
 
           <p className="description">
-            Confira esse achadinho e aproveite a oferta!
+            Um achadinho para facilitar sua rotina!
+            Confira os detalhes e o preço na loja.
           </p>
 
           <a
@@ -81,17 +136,34 @@ export default function VerticalFeed({ products = [] }) {
             rel="noopener noreferrer sponsored"
             className="offer-button"
           >
-            🛍️ Ver oferta
+            <span>🛍️ Conferir preço e aproveitar a oferta</span>
+            <span aria-hidden="true">↗</span>
           </a>
 
           {products.length > 1 && (
-            <button
-              type="button"
-              className="next-button"
-              onClick={handleNext}
+            <nav
+              className="feed-navigation"
+              aria-label="Navegação entre produtos"
             >
-              Próximo achadinho ↓
-            </button>
+              <button
+                type="button"
+                className="previous-button"
+                onClick={handlePrevious}
+                disabled={position === 0}
+              >
+                <span aria-hidden="true">←</span>
+                Anterior
+              </button>
+
+              <button
+                type="button"
+                className="next-button"
+                onClick={handleNext}
+              >
+                Descobrir outro
+                <span aria-hidden="true">→</span>
+              </button>
+            </nav>
           )}
         </section>
 
