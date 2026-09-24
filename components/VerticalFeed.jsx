@@ -44,7 +44,7 @@ export default function VerticalFeed({ products = [] }) {
         <header className="brand">
           <div className="brand-avatar">
             <img
-              src="/logo.png"
+              src="/logo.png.png"
               alt="Utilidades Essenciais"
               className="brand-logo"
             />
