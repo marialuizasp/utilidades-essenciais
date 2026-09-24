@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -17,20 +18,17 @@ export default function VerticalFeed({ products }) {
     );
   }
 
-  const currentProduct = products[currentIndex];
+  const currentProduct = products[currentIndex % products.length];
 
   function handleNext() {
-    setCurrentIndex((prev) =>
-      prev === products.length - 1 ? 0 : prev + 1
-    );
+    setCurrentIndex((prev) => (prev + 1) % products.length);
   }
 
   return (
     <main className="feed-page">
-
       <div className="feed-card">
 
-        {/* Vídeo */}
+        {/* Vídeo do produto */}
         <div className="video-container">
           <video
             key={currentProduct.videoUrl}
@@ -39,26 +37,26 @@ export default function VerticalFeed({ products }) {
             loop
             muted
             playsInline
+            preload="metadata"
             className="product-video"
           />
-
           <div className="video-overlay" />
         </div>
 
-        {/* Marca */}
-        <div className="brand">
-          <span>UTILIDADES</span>
-          <strong>ESSENCIAIS</strong>
-        </div>
+        {/* Logo e nome da marca */}
+        <header className="brand">
+          <img
+            src="/logo.png"
+            alt="Logo Utilidades Essenciais"
+            className="brand-logo"
+          />
+          <span className="brand-name">
+            Utilidades Essenciais
+          </span>
+        </header>
 
-        {/* Indicador de produto */}
-        <div className="product-counter">
-          {currentIndex + 1} / {products.length}
-        </div>
-
-        {/* Conteúdo */}
+        {/* Informações do produto */}
         <section className="product-content">
-
           <div className="top-info">
             <span className="category">
               {currentProduct.category}
@@ -72,32 +70,30 @@ export default function VerticalFeed({ products }) {
           <h1>{currentProduct.title}</h1>
 
           <p className="description">
-            Encontrei esse achadinho e achei que valia a pena compartilhar.
+            Confira esse achadinho e aproveite a oferta!
           </p>
 
           <a
             href={currentProduct.affiliateLink}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener noreferrer sponsored"
             className="offer-button"
           >
-            <span>🛍️</span>
-            Ver oferta
+            🛍️ Ver oferta
           </a>
 
-          <button
-            type="button"
-            onClick={handleNext}
-            className="next-button"
-          >
-            Próximo achadinho
-            <span>↓</span>
-          </button>
-
+          {products.length > 1 && (
+            <button
+              type="button"
+              onClick={handleNext}
+              className="next-button"
+            >
+              Próximo achadinho ↓
+            </button>
+          )}
         </section>
 
       </div>
-
     </main>
   );
 }
