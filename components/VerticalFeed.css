@@ -671,3 +671,25 @@ body {
 .price-group .price { order: 1; }
 .price-group .original-price { order: 2; }
 .price-group .price-disclaimer { order: 3; }
+
+/* Categoria sempre em uma linha: o JS reduz a fonte apenas quando necessário. */
+.top-info .category {
+  min-width: 0;
+  max-width: 46%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+  flex-shrink: 1;
+}
+
+/* Selo compacto vinho com texto coral, como a referência enviada. */
+.price-group .discount-badge {
+  background: #542c38;
+  color: #FF8676;
+  border: 1px solid rgba(255,134,118,.14);
+  border-radius: 999px;
+  padding: 4px 9px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0;
+}
