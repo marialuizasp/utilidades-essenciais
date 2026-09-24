@@ -240,7 +240,7 @@ export default function VerticalFeed({ products = [] }) {
             rel="noopener noreferrer sponsored"
             className="offer-button"
           >
-            <span>🛍️ Conferir preço e aproveitar a oferta</span>
+            <span className="offer-button-label"><span aria-hidden="true">🛍️</span> Ver produto</span>
             <span aria-hidden="true">↗</span>
           </a>
 
