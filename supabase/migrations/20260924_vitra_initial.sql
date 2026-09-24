@@ -1,0 +1,18 @@
+create extension if not exists pgcrypto;
+create table public.workspaces (id uuid primary key default gen_random_uuid(),owner_id uuid not null references auth.users(id) on delete cascade,name text not null,slug text not null unique,plan text not null default 'free' check(plan in ('free','start','pro','business')),created_at timestamptz not null default now());
+create table public.products (id uuid primary key default gen_random_uuid(),workspace_id uuid not null references public.workspaces(id) on delete cascade,title text not null,category text not null default '',video_url text not null,affiliate_link text not null,current_price numeric(12,2),original_price numeric(12,2),active boolean not null default false,created_at timestamptz not null default now());
+create index products_workspace_idx on public.products(workspace_id);
+alter table public.workspaces enable row level security;
+alter table public.products enable row level security;
+create policy owner_read_workspace on public.workspaces for select to authenticated using(owner_id=(select auth.uid()));
+create policy owner_create_workspace on public.workspaces for insert to authenticated with check(owner_id=(select auth.uid()) and plan='free');
+create policy owner_edit_workspace on public.workspaces for update to authenticated using(owner_id=(select auth.uid())) with check(owner_id=(select auth.uid()));
+create policy owner_delete_workspace on public.workspaces for delete to authenticated using(owner_id=(select auth.uid()));
+create policy owner_read_products on public.products for select to authenticated using(exists(select 1 from public.workspaces w where w.id=workspace_id and w.owner_id=(select auth.uid())));
+create policy owner_create_products on public.products for insert to authenticated with check(exists(select 1 from public.workspaces w where w.id=workspace_id and w.owner_id=(select auth.uid())));
+create policy owner_edit_products on public.products for update to authenticated using(exists(select 1 from public.workspaces w where w.id=workspace_id and w.owner_id=(select auth.uid()))) with check(exists(select 1 from public.workspaces w where w.id=workspace_id and w.owner_id=(select auth.uid())));
+create policy owner_delete_products on public.products for delete to authenticated using(exists(select 1 from public.workspaces w where w.id=workspace_id and w.owner_id=(select auth.uid())));
+create function public.prevent_plan_change() returns trigger language plpgsql set search_path='' as $$begin if new.plan is distinct from old.plan and auth.role()<>'service_role' then raise exception 'Plano alterado somente pelo sistema'; end if;return new;end$$;
+create trigger prevent_plan_change before update on public.workspaces for each row execute function public.prevent_plan_change();
+create function public.limit_products() returns trigger language plpgsql set search_path='' as $$declare n integer;max_n integer;begin select case plan when 'free' then 5 when 'start' then 30 when 'pro' then 100 when 'business' then 300 end into max_n from public.workspaces where id=new.workspace_id;select count(*) into n from public.products where workspace_id=new.workspace_id;if max_n is null or n>=max_n then raise exception 'Limite do plano atingido';end if;return new;end$$;
+create trigger limit_products before insert on public.products for each row execute function public.limit_products();
