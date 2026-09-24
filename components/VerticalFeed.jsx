@@ -4,6 +4,24 @@
 import { useState } from 'react';
 import './VerticalFeed.css';
 
+// Converte preços brasileiros para centavos, sem arredondamentos de ponto flutuante.
+function priceInCents(value) {
+  const raw = String(value || '').replace(/[^\d,.]/g, '').trim();
+  if (!raw) return null;
+  const normalized = raw.includes(',') ? raw.replace(/\./g, '').replace(',', '.') : raw;
+  if (!/^\d+(?:\.\d{1,2})?$/.test(normalized)) return null;
+  const [whole, fraction = ''] = normalized.split('.');
+  const cents = Number(whole) * 100 + Number(fraction.padEnd(2, '0'));
+  return Number.isSafeInteger(cents) && cents > 0 ? cents : null;
+}
+
+function discountFor(product) {
+  const original = priceInCents(product.originalPrice);
+  const current = priceInCents(product.price);
+  if (!original || !current || original <= current) return null;
+  return Math.round((original - current) / original * 100);
+}
+
 // Embaralha os índices usando Fisher-Yates.
 function shuffle(items) {
   const result = [...items];
@@ -36,6 +54,7 @@ export default function VerticalFeed({ products = [] }) {
 
   const currentIndex = history[position];
   const currentProduct = products[currentIndex];
+  const discount = discountFor(currentProduct);
 
   function handlePrevious() {
     if (position > 0) {
@@ -116,9 +135,15 @@ export default function VerticalFeed({ products = [] }) {
               {currentProduct.category}
             </span>
 
-            <span className="price">
-              {currentProduct.price}
-            </span>
+            <div className="price-group" aria-label="Informações de preço">
+              {discount !== null && (
+                <div className="discount-line">
+                  <span className="original-price">{currentProduct.originalPrice}</span>
+                  <span className="discount-badge">-{discount}% OFF</span>
+                </div>
+              )}
+              <span className="price">{currentProduct.price}</span>
+            </div>
           </div>
 
           <h1 className="product-title">
