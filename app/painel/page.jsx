@@ -8,11 +8,11 @@ export default function PainelHome() {
       <h1 className={styles.title}>Sua vitrine, em um só lugar.</h1>
       <p className={styles.lead}>
         Estamos construindo o espaço onde cada criador poderá administrar seus próprios produtos e vídeos.
-        Esta é a estrutura visual inicial; ainda não há acesso a contas ou dados de clientes.
+        O cadastro e o login podem ser ativados conectando o Supabase. O gerenciamento dos produtos será conectado na próxima etapa.
       </p>
       <div className={styles.notice} role="status">
         <span aria-hidden="true">🔒</span>
-        <span>Prévia da estrutura. O cadastro, o login e a proteção dos dados serão conectados na próxima etapa.</span>
+        <span>O cadastro e o login dependem da configuração do Supabase. A área de produtos ainda é uma prévia, sem dados reais.</span>
       </div>
       <div className={styles.grid}>
         <Link className={styles.card} href="/painel/entrar">
