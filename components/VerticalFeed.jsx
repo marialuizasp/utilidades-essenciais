@@ -191,7 +191,7 @@ export default function VerticalFeed({ products = [] }) {
               {currentProduct.category}
             </span>
 
-            <div className="price-group" aria-label="Informações de preço">
+            <div className={`price-group${discount !== null ? " has-discount" : ""}`} aria-label="Informações de preço">
               {discount !== null && (
                 <span className="discount-badge">{discount}% de desconto</span>
               )}
