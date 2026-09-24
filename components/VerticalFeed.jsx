@@ -173,9 +173,11 @@ export default function VerticalFeed({ products = [] }) {
               <span className="price">{currentProduct.price}</span>
               {comparison && (
                 <div className="comparison-info">
-                  <span>Referência ilustrativa: {comparison.reference}</span>
-                  <span>{comparison.percent}% de diferença matemática</span>
-                  <small>Não é preço anterior nem desconto da loja.</small>
+                  <div className="discount-line">
+                    <span className="original-price">{comparison.reference}</span>
+                    <span className="comparison-badge">{comparison.percent}% de diferença</span>
+                  </div>
+                  <small>Valor de referência calculado.</small>
                 </div>
               )}
             </div>
