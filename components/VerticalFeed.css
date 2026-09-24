@@ -735,3 +735,14 @@ body {
   .top-info .category { max-width: 40%; }
   .price-group .price { font-size: 21px; }
 }
+
+/* Retorno ao selo coral original, preservando o layout mobile com swipe. */
+.price-group .discount-badge {
+  background: #FF8676;
+  color: #182451;
+  border: 0;
+  border-radius: 6px;
+  padding: 4px 7px;
+  font-size: 11px;
+  font-weight: 800;
+}
