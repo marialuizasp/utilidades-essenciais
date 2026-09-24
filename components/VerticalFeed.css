@@ -1,59 +1,354 @@
 
-/* Logo e nome sobre o vídeo, sem faixa de fundo */
+/* RESET */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* PÁGINA */
+
+.feed-page {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+  background: #171717;
+
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* CARD DO VÍDEO */
+
+.feed-card {
+  position: relative;
+
+  width: 100%;
+  max-width: 460px;
+
+  height: min(850px, calc(100dvh - 48px));
+  min-height: 550px;
+
+  overflow: hidden;
+  border-radius: 28px;
+
+  background: #111;
+
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+}
+
+/* VÍDEO */
+
+.video-container {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+  background: #111;
+}
+
+.product-video {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.video-overlay {
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.25) 0%,
+    transparent 35%,
+    rgba(0, 0, 0, 0.25) 55%,
+    rgba(0, 0, 0, 0.92) 100%
+  );
+
+  pointer-events: none;
+}
+
+/* CABEÇALHO TRANSPARENTE */
 
 .brand {
   position: absolute;
   top: 24px;
   left: 24px;
+  right: 24px;
   z-index: 5;
 
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 10px;
+  gap: 11px;
 
   background: transparent;
   border: none;
   box-shadow: none;
-  backdrop-filter: none;
 }
 
-.brand-logo {
-  width: 42px;
-  height: 42px;
+/* MOLDURA CIRCULAR */
+
+.brand-avatar {
+  width: 46px;
+  height: 46px;
+
   flex-shrink: 0;
 
-  object-fit: contain;
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  border-radius: 50%;
+  border: 2px solid white;
+
+  background: white;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
 }
 
+/* LOGO PNG */
+
+.brand-logo {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+/* NOME DA EMPRESA */
+
 .brand-name {
-  color: #ffffff;
+  color: #fff;
+
   font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
   font-weight: 700;
+
   line-height: 1.2;
   letter-spacing: 0;
+  text-transform: none;
 
-  background: transparent;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
 }
 
+/* INFORMAÇÕES DO PRODUTO */
+
+.product-content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  padding: 28px;
+
+  color: white;
+}
+
+.top-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.category {
+  padding: 7px 12px;
+
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 30px;
+
+  background: rgba(255, 255, 255, 0.15);
+
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+
+  backdrop-filter: blur(10px);
+}
+
+.price {
+  color: #a7f3d0;
+
+  font-size: 21px;
+  font-weight: 800;
+
+  white-space: nowrap;
+}
+
+.product-title {
+  margin: 0;
+
+  color: white;
+
+  font-size: clamp(24px, 5vw, 32px);
+  font-weight: 800;
+  line-height: 1.12;
+
+  letter-spacing: -0.5px;
+}
+
+.description {
+  margin: 0 0 8px;
+
+  color: rgba(255, 255, 255, 0.85);
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* BOTÃO DE COMPRA */
+
+.offer-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: 56px;
+
+  padding: 12px;
+
+  border-radius: 16px;
+
+  background: white;
+  color: #111;
+
+  font-size: 16px;
+  font-weight: 800;
+
+  text-decoration: none;
+
+  transition: transform 0.2s, background 0.2s;
+}
+
+.offer-button:hover {
+  background: #f1f1f1;
+  transform: translateY(-2px);
+}
+
+/* PRÓXIMO PRODUTO */
+
+.next-button {
+  width: 100%;
+  min-height: 48px;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+
+  background: rgba(20, 20, 20, 0.75);
+  color: white;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+/* SEM PRODUTOS */
+
+.empty-page {
+  min-height: 100dvh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #171717;
+  color: white;
+
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* CELULARES */
+
 @media (max-width: 600px) {
+  .feed-page {
+    padding: 0;
+    align-items: stretch;
+  }
+
+  .feed-card {
+    max-width: none;
+    height: 100dvh;
+    min-height: 0;
+
+    border-radius: 0;
+  }
+
   .brand {
     top: 20px;
     left: 20px;
+    right: 20px;
   }
 
-  .brand-logo {
-    width: 38px;
-    height: 38px;
+  .brand-avatar {
+    width: 42px;
+    height: 42px;
   }
 
   .brand-name {
     font-size: 14px;
+  }
+
+  .product-content {
+    padding: 22px;
+    padding-bottom: max(22px, env(safe-area-inset-bottom));
+  }
+
+  .product-title {
+    font-size: clamp(23px, 7vw, 30px);
+  }
+
+  .price {
+    font-size: 19px;
+  }
+}
+
+/* TELAS BAIXAS */
+
+@media (max-height: 650px) {
+  .product-content {
+    gap: 8px;
+    padding: 18px;
+  }
+
+  .product-title {
+    font-size: 23px;
+  }
+
+  .description {
+    font-size: 12px;
+  }
+
+  .offer-button {
+    min-height: 48px;
   }
 }
