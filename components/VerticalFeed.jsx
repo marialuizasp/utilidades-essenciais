@@ -49,6 +49,44 @@ function comparisonFor(product) {
   };
 }
 
+
+// Frases variadas por produto, sem promessas de desconto ou escassez não verificadas.
+const achadinhoPhrases = [
+  'Um achadinho para facilitar sua rotina! Confira os detalhes e o preço na loja.',
+  'Olha esse achadinho! Descubra como ele pode deixar seu dia a dia mais prático.',
+  'Sabe aquele produto que desperta curiosidade? Confira todos os detalhes na loja!',
+  'Mais praticidade para a sua rotina? Conheça esse achadinho e veja o preço.',
+  'Esse merece entrar na sua lista de achadinhos! Veja os detalhes na loja.',
+  'Um achado para quem adora soluções práticas. Toque e conheça!',
+  'Já imaginou esse item na sua rotina? Confira as informações e o preço.',
+  'Pequenos achados podem fazer diferença no dia a dia. Descubra esse!',
+  'Achadinho da vez! Veja as características e descubra se combina com você.',
+  'Para quem ama encontrar novidades úteis: vale conhecer esse produto!',
+  'Um toque de praticidade que pode fazer sentido para você. Confira na loja.',
+  'Gostou do que viu no vídeo? Veja mais detalhes e o preço atual na loja.',
+  'Esse achadinho chamou sua atenção? Descubra tudo sobre ele!',
+  'Sua próxima descoberta pode estar aqui! Confira esse achado na loja.',
+  'Achadinhos que dão vontade de conhecer melhor! Veja preço e detalhes.',
+  'Uma ideia prática para o cotidiano. Confira se esse achadinho é para você.',
+  'Encontrou algo interessante? Toque para ver as opções disponíveis na loja.',
+  'Esse é daqueles achadinhos que vale conferir de perto. Saiba mais!',
+  'Adora novidades para casa e rotina? Conheça os detalhes desse achado.',
+  'Um achadinho para inspirar novas soluções no seu dia a dia. Confira!',
+  'Olha que descoberta interessante! Veja o produto completo na loja.',
+  'Praticidade e boas descobertas em um só lugar. Conheça esse achadinho!',
+  'Seu próximo achadinho favorito? Confira o produto e decida!',
+  'Se esse vídeo chamou sua atenção, aproveite para conferir os detalhes na loja.'
+];
+
+function phraseForProduct(product) {
+  const key = String(product.id || product.title || '');
+  let hash = 0;
+  for (let i = 0; i < key.length; i++) {
+    hash = (Math.imul(31, hash) + key.charCodeAt(i)) | 0;
+  }
+  return achadinhoPhrases[(hash >>> 0) % achadinhoPhrases.length];
+}
+
 // Embaralha os índices usando Fisher-Yates.
 function shuffle(items) {
   const result = [...items];
@@ -188,8 +226,7 @@ export default function VerticalFeed({ products = [] }) {
           </h1>
 
           <p className="description">
-            Um achadinho para facilitar sua rotina!
-            Confira os detalhes e o preço na loja.
+            {phraseForProduct(currentProduct)}
           </p>
 
           <a
