@@ -178,6 +178,20 @@ export default function VerticalFeed({ products = [] }) {
           />
 
           <div className="video-overlay" />
+        </div>
+
+        {/* Ilha flutuante: identidade da vitrine e controle de áudio no mesmo lugar. */}
+        <header className="feed-island" aria-label="Vitrine e áudio">
+          <div className="island-brand">
+            <span className="island-avatar">
+              <img src="/logo.png.png" alt="" className="island-logo" />
+            </span>
+            <span className="island-brand-text">
+              <span className="island-brand-name">Utilidades Essenciais</span>
+              <span className="island-brand-caption"><span className="island-live-dot" /> Vitrine em vídeo</span>
+            </span>
+          </div>
+          <span className="island-divider" aria-hidden="true" />
           <button
             type="button"
             className="video-sound-button"
@@ -188,21 +202,6 @@ export default function VerticalFeed({ products = [] }) {
           >
             <span aria-hidden="true">{soundOn ? "🔊" : "🔇"}</span>
           </button>
-        </div>
-
-        {/* Logo e nome da empresa */}
-        <header className="brand">
-          <div className="brand-avatar">
-            <img
-              src="/logo.png.png"
-              alt="Logo Utilidades Essenciais"
-              className="brand-logo"
-            />
-          </div>
-
-          <span className="brand-name">
-            Utilidades Essenciais
-          </span>
         </header>
 
         {/* Informações e botões */}
