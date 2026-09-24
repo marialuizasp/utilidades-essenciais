@@ -264,6 +264,10 @@ export default function VerticalFeed({ products = [] }) {
               </button>
             </nav>
           )}
+
+          <footer className="vyra-credit" aria-label="Créditos da plataforma">
+            Desenvolvido com <span className="vyra-wordmark">vyra.</span>
+          </footer>
         </section>
 
       </article>
