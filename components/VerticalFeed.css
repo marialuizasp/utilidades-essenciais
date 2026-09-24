@@ -140,7 +140,7 @@ body {
 
 .top-info {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   gap: 12px;
 }
@@ -155,6 +155,7 @@ body {
   font-weight: 700;
   text-transform: uppercase;
   backdrop-filter: blur(10px);
+  margin-bottom: 2px;
 }
 
 .price-group {
