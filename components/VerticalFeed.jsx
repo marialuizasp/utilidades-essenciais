@@ -4,16 +4,13 @@
 import { useState } from 'react';
 import './VerticalFeed.css';
 
-export default function VerticalFeed({ products }) {
+export default function VerticalFeed({ products = [] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  if (!products || products.length === 0) {
+  if (products.length === 0) {
     return (
       <main className="empty-page">
-        <div>
-          <h1>Nenhum produto disponível</h1>
-          <p>Adicione produtos ao arquivo data/products.json.</p>
-        </div>
+        <h1>Nenhum produto disponível</h1>
       </main>
     );
   }
@@ -26,30 +23,33 @@ export default function VerticalFeed({ products }) {
 
   return (
     <main className="feed-page">
-      <div className="feed-card">
+      <article className="feed-card">
 
-        {/* Vídeo do produto */}
+        {/* Vídeo */}
         <div className="video-container">
           <video
             key={currentProduct.videoUrl}
             src={currentProduct.videoUrl}
+            className="product-video"
             autoPlay
-            loop
             muted
+            loop
             playsInline
             preload="metadata"
-            className="product-video"
           />
           <div className="video-overlay" />
         </div>
 
-        {/* Logo e nome da marca */}
+        {/* Logo e nome da empresa */}
         <header className="brand">
-          <img
-            src="/logo.png"
-            alt="Logo Utilidades Essenciais"
-            className="brand-logo"
-          />
+          <div className="brand-avatar">
+            <img
+              src="/logo.png"
+              alt="Utilidades Essenciais"
+              className="brand-logo"
+            />
+          </div>
+
           <span className="brand-name">
             Utilidades Essenciais
           </span>
@@ -67,7 +67,9 @@ export default function VerticalFeed({ products }) {
             </span>
           </div>
 
-          <h1>{currentProduct.title}</h1>
+          <h1 className="product-title">
+            {currentProduct.title}
+          </h1>
 
           <p className="description">
             Confira esse achadinho e aproveite a oferta!
@@ -85,15 +87,15 @@ export default function VerticalFeed({ products }) {
           {products.length > 1 && (
             <button
               type="button"
-              onClick={handleNext}
               className="next-button"
+              onClick={handleNext}
             >
               Próximo achadinho ↓
             </button>
           )}
         </section>
 
-      </div>
+      </article>
     </main>
   );
 }
