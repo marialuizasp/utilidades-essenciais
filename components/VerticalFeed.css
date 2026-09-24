@@ -805,3 +805,31 @@ body {
   .tutorial-start-button { width: 100%; min-height: 48px; margin-top: 13px; border: 0; border-radius: 13px; background: #D5F971; color: #182451; font: 800 14px Inter, sans-serif; cursor: pointer; }
 }
 @media (prefers-reduced-motion: reduce) { .tutorial-finger { animation: none; } }
+
+/* Cabeçalho sem vidro: logo e nome diretamente sobre o vídeo. */
+.feed-island {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  padding: 0;
+  border-radius: 0;
+}
+.island-brand-name { text-shadow: 0 2px 8px rgba(0,0,0,.9); }
+
+/* Mobile: a categoria ganha sua própria linha e largura, sem disputar espaço com o preço. */
+@media (max-width: 600px) {
+  .top-info { flex-direction: column-reverse; align-items: stretch; gap: 9px; }
+  .top-info .price-group { align-self: flex-end; }
+  .top-info .category {
+    align-self: flex-start;
+    width: max-content;
+    max-width: 100%;
+    flex: none;
+    white-space: nowrap;
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+  .feed-island { max-width: calc(100% - 112px); }
+}
