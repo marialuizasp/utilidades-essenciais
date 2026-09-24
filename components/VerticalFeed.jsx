@@ -103,6 +103,7 @@ export default function VerticalFeed({ products = [] }) {
   // Histórico dos vídeos, na ordem em que foram visitados.
   const [history, setHistory] = useState([0]);
   const [position, setPosition] = useState(0);
+  const [soundOn, setSoundOn] = useState(false);
 
   // Produtos que ainda não apareceram neste ciclo.
   const [remaining, setRemaining] = useState(() =>
@@ -124,11 +125,13 @@ export default function VerticalFeed({ products = [] }) {
 
   function handlePrevious() {
     if (position > 0) {
+      setSoundOn(false);
       setPosition(position - 1);
     }
   }
 
   function handleNext() {
+    setSoundOn(false);
     // Se o visitante voltou, avançamos pelo histórico.
     if (position < history.length - 1) {
       setPosition(position + 1);
@@ -170,13 +173,23 @@ export default function VerticalFeed({ products = [] }) {
             src={currentProduct.videoUrl}
             className="product-video"
             autoPlay
-            muted
+            muted={!soundOn}
             loop
             playsInline
             preload="metadata"
           />
 
           <div className="video-overlay" />
+          <button
+            type="button"
+            className="video-sound-button"
+            onClick={() => setSoundOn((current) => !current)}
+            aria-label={soundOn ? "Desativar som do vídeo" : "Ativar som do vídeo"}
+            aria-pressed={soundOn}
+            title={soundOn ? "Desativar som" : "Ativar som"}
+          >
+            <span aria-hidden="true">{soundOn ? "🔊" : "🔇"}</span>
+          </button>
         </div>
 
         {/* Logo e nome da empresa */}
