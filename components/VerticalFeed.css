@@ -432,3 +432,29 @@ body {
   font-weight: 800;
   letter-spacing: -0.025em;
 }
+
+/* Controle de som: vídeos começam silenciados por exigência do autoplay. */
+.video-sound-button {
+  position: absolute;
+  z-index: 6;
+  top: 24px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+.video-sound-button:hover { background: rgba(0, 0, 0, 0.75); }
+.video-sound-button:focus-visible { outline: 3px solid #b7f7d7; outline-offset: 3px; }
+@media (max-width: 600px) {
+  .video-sound-button { top: 20px; right: 20px; }
+}
