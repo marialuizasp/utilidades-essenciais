@@ -1,6 +1,7 @@
 import VerticalFeed from '@/components/VerticalFeed';
-import productsData from '@/data/products.json';
+import { getProducts } from '@/lib/googleSheets';
 
-export default function Home() {
-  return <VerticalFeed products={productsData} />;
+export default async function Home() {
+  const products = await getProducts();
+  return <VerticalFeed products={products} />;
 }

@@ -1,7 +1,7 @@
 name: Controle diário de afiliados
 on:
   schedule:
-    - cron: '0 11 * * *' # 08h Brasília (UTC-3)
+    - cron: '0 11 * * *'
   workflow_dispatch:
 permissions:
   contents: write
@@ -17,16 +17,24 @@ jobs:
         run: python -m pip install 'openpyxl>=3.1,<4'
       - name: Verificar links e enviar relatório
         env:
+          GOOGLE_SHEET_CSV_URL: ${{ secrets.GOOGLE_SHEET_CSV_URL }}
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
           REPORT_TO: ${{ secrets.REPORT_TO }}
-        run: python scripts/verificar_links.py
-      - name: Salvar planilha atualizada
-        if: always()
         run: |
-          if [ -f controle/controle_links_afiliados_utilidades_essenciais.xlsx ]; then
+          if [ -n "$GOOGLE_SHEET_CSV_URL" ]; then
+            python scripts/verificar_google_sheets.py
+          else
+            python scripts/verificar_links.py
+          fi
+      - name: Salvar Excel antigo quando necessário
+        if: always()
+        env:
+          GOOGLE_SHEET_CSV_URL: ${{ secrets.GOOGLE_SHEET_CSV_URL }}
+        run: |
+          if [ -z "$GOOGLE_SHEET_CSV_URL" ] && [ -f controle/controle_links_afiliados_utilidades_essenciais.xlsx ]; then
             git config user.name 'github-actions[bot]'
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
             git add controle/controle_links_afiliados_utilidades_essenciais.xlsx
