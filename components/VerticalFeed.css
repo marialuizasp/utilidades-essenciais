@@ -470,85 +470,108 @@ body {
 .previous-button:not(:disabled):hover { border-color: #D5F971; }
 .vyra-wordmark { color: #D5F971; }
 
-/* Ilha em estilo Apple: cápsula preta, vidro discreto e sem contorno colorido. */
+/* Ilha compacta no alto à esquerda, com vidro translúcido estilo iOS. */
 .feed-island {
   position: absolute;
   z-index: 8;
   top: max(16px, env(safe-area-inset-top));
-  left: 50%;
-  transform: translateX(-50%);
+  left: 16px;
+  transform: none;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   width: max-content;
-  max-width: calc(100% - 32px);
-  min-height: 58px;
-  padding: 7px 8px 7px 10px;
-  border: 1px solid rgba(255,255,255,.12);
+  max-width: calc(100% - 155px);
+  min-height: 46px;
+  padding: 5px 6px 5px 7px;
+  border: 1px solid rgba(255,255,255,.32);
   border-radius: 999px;
-  background: rgba(6,6,9,.94);
-  color: #FFFFFF;
-  box-shadow: 0 10px 35px rgba(0,0,0,.35);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(35,38,48,.28);
+  color: #fff;
+  box-shadow: 0 5px 24px rgba(0,0,0,.14), inset 0 1px 0 rgba(255,255,255,.2);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
 }
-.island-brand { display: flex; align-items: center; min-width: 0; gap: 9px; }
-.island-avatar { width: 40px; height: 40px; flex-shrink: 0; display: grid; place-items: center; overflow: hidden; border: 1px solid rgba(255,255,255,.35); border-radius: 50%; background: #fff; }
+.island-brand { display: flex; align-items: center; min-width: 0; gap: 7px; }
+.island-avatar {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.6);
+  border-radius: 50%;
+  background: rgba(255,255,255,.9);
+}
 .island-logo { width: 100%; height: 100%; object-fit: contain; }
-.island-brand-text { min-width: 0; display: grid; gap: 3px; }
-.island-brand-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; font-weight: 700; }
-.island-brand-caption { display: flex; align-items: center; gap: 5px; color: rgba(255,255,255,.67); font-size: 10px; white-space: nowrap; }
-.island-live-dot { width: 6px; height: 6px; flex-shrink: 0; border-radius: 50%; background: #D5F971; }
-.island-divider { width: 1px; height: 27px; flex-shrink: 0; background: rgba(255,255,255,.2); }
+.island-brand-text { min-width: 0; display: grid; gap: 2px; }
+.island-brand-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 700;
+  text-shadow: 0 1px 4px rgba(0,0,0,.55);
+}
+.island-brand-caption { display: flex; align-items: center; gap: 5px; color: rgba(255,255,255,.85); font-size: 9px; white-space: nowrap; text-shadow: 0 1px 3px rgba(0,0,0,.5); }
+.island-live-dot { width: 5px; height: 5px; flex-shrink: 0; border-radius: 50%; background: #D5F971; }
+.island-divider { width: 1px; height: 24px; flex-shrink: 0; background: rgba(255,255,255,.38); }
 .feed-island .video-sound-button {
   position: static;
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   flex-shrink: 0;
-  border: 0;
+  border: 1px solid rgba(255,255,255,.24);
   border-radius: 50%;
-  background: #29292d;
+  background: rgba(255,255,255,.16);
   color: #fff;
-  font-size: 20px;
+  font-size: 17px;
   cursor: pointer;
   transition: background .2s;
 }
-.feed-island .video-sound-button:hover { background: #414147; }
+.feed-island .video-sound-button:hover { background: rgba(255,255,255,.3); }
 .feed-island .video-sound-button:focus-visible { outline: 3px solid #D5F971; outline-offset: 2px; }
 
-/* Marca VITRA pequena no alto à direita, sem cobrir textos ou controles. */
+/* Marca VITRA no canto superior direito, com glass transparente. */
 .vitra-signature {
   position: absolute;
-  z-index: 5;
-  top: max(94px, calc(env(safe-area-inset-top) + 80px));
-  right: 20px;
+  z-index: 7;
+  top: max(16px, env(safe-area-inset-top));
+  right: 16px;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 5px 9px 5px 5px;
-  border: 1px solid rgba(255,255,255,.23);
+  gap: 3px;
+  min-height: 44px;
+  padding: 6px 10px 6px 5px;
+  border: 1px solid rgba(255,255,255,.32);
   border-radius: 999px;
-  background: rgba(0,0,0,.57);
+  background: rgba(35,38,48,.24);
   color: #fff;
   font-size: 13px;
   font-weight: 800;
   letter-spacing: -.04em;
   line-height: 1;
-  text-shadow: 0 1px 4px rgba(0,0,0,.45);
+  text-shadow: 0 1px 5px rgba(0,0,0,.5);
   pointer-events: none;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 5px 24px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.18);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
 }
-.vitra-mark { width: 22px; height: 22px; flex-shrink: 0; }
+.vitra-mark { width: 24px; height: 24px; flex-shrink: 0; }
 .vitra-signature-dot { color: #D5F971; }
 @media (max-width: 600px) {
-  .feed-island { top: max(12px, env(safe-area-inset-top)); }
-  .vitra-signature { top: max(82px, calc(env(safe-area-inset-top) + 70px)); right: 16px; }
+  .feed-island { top: max(12px, env(safe-area-inset-top)); left: 12px; max-width: calc(100% - 125px); }
+  .vitra-signature { top: max(12px, env(safe-area-inset-top)); right: 12px; }
 }
 @media (max-width: 370px) {
-  .feed-island { gap: 7px; padding-left: 8px; }
-  .island-avatar { width: 35px; height: 35px; }
-  .island-brand-name { font-size: 11px; }
+  .feed-island { gap: 5px; padding-left: 5px; max-width: calc(100% - 110px); }
+  .island-avatar { width: 28px; height: 28px; }
+  .island-brand-name { font-size: 10px; }
+  .island-brand-caption { font-size: 8px; }
+  .feed-island .video-sound-button { width: 30px; height: 30px; font-size: 15px; }
+  .vitra-signature { padding: 5px 7px 5px 4px; font-size: 11px; }
+  .vitra-mark { width: 20px; height: 20px; }
 }
