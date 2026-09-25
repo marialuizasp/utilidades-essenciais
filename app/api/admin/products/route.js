@@ -53,7 +53,7 @@ export async function POST(request) {
     const existing = data.values || [];
     if (payload.action === 'list') return json({ total: existing.filter(r => r[0] && clean(r[9]).toUpperCase() === 'SIM').length, products: existing.filter(r => r[0]).slice(-15).reverse().map(r => ({ id:r[0], name:r[1], url:r[5] })) });
     if (payload.action !== 'create' || !Array.isArray(payload.products)) return json({ error: 'Operação inválida.' }, 400);
-    if (payload.products.length < 1 || payload.products.length > 50) return json({ error: 'Envie entre 1 e 50 produtos por lote.' }, 400);
+    if (payload.products.length < 1 || payload.products.length > 100) return json({ error: 'Envie entre 1 e 100 produtos por lote.' }, 400);
     const keys = new Set(existing.map(r => r[5]).filter(Boolean).map(productKey));
     const normalize = s => clean(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
     const names = new Set(existing.filter(r => r[1]).map(r => normalize(r[1])));
