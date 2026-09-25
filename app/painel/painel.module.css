@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Sora:wght@400;500;600;700;800&display=swap');
+.screen {
+  --vitra-blue: #243CE6;
+  --vitra-lime: #D5F971;
+  --vitra-coral: #FF8676;
+  --vitra-ink: #182451;
+  --vitra-muted: #64708a;
+  min-height: 100dvh;
+  height: 100dvh;
+  overflow-y: auto;
+  background: #FFF9F0;
+  color: var(--vitra-ink);
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+}
+.header {
+  min-height: 82px;
+  padding: 18px max(24px, calc((100vw - 1120px) / 2));
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1px solid #e5eaf5;
+  background: #FFFFFF;
+}
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--vitra-ink);
+  font-family: 'Sora', Arial, Helvetica, sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  text-decoration: none;
+}
+.logoSymbol {
+  display: block;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+.logoDot { color: var(--vitra-lime); }
+.logoCaption {
+  align-self: flex-end;
+  padding-bottom: 3px;
+  color: #71809e;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+.storeLink, .backLink {
+  color: var(--vitra-blue);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+}
+.storeLink:hover, .backLink:hover { text-decoration: underline; }
+.content { width: 100%; }
+.main { max-width: 1120px; margin: 0 auto; padding: 74px 24px 90px; }
+.eyebrow { color: var(--vitra-blue); font-size: 11px; font-weight: 900; letter-spacing: 0.14em; }
+.title { margin: 12px 0 16px; max-width: 750px; font-size: clamp(34px, 5vw, 57px); line-height: 1.08; letter-spacing: -0.045em; }
+.lead { max-width: 740px; color: var(--vitra-muted); font-size: 17px; line-height: 1.65; }
+.notice { display: flex; gap: 12px; align-items: flex-start; margin: 30px 0 34px; padding: 17px 20px; border: 1px solid #dae3ff; border-radius: 16px; background: #eef1ff; color: #354774; line-height: 1.5; font-size: 13px; }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.card { min-height: 270px; padding: 26px; border: 1px solid #e7ecf7; border-radius: 22px; background: #FFFFFF; box-shadow: 0 8px 25px rgba(37, 60, 105, 0.04); text-decoration: none; color: var(--vitra-ink); transition: transform 150ms, box-shadow 150ms; }
+.card:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(37, 60, 105, 0.09); }
+.cardIcon { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; background: #eff2ff; color: var(--vitra-blue); font-size: 26px; font-weight: 700; }
+.card h2 { font-size: 21px; margin: 27px 0 10px; letter-spacing: -0.025em; }
+.card p { min-height: 70px; color: var(--vitra-muted); font-size: 14px; line-height: 1.55; }
+.cardLink { color: var(--vitra-blue); font-weight: 800; font-size: 13px; }
+.footnote { margin-top: 28px; color: #71809e; font-size: 13px; }
+.formMain { max-width: 520px; margin: 0 auto; padding: 46px 20px 100px; }
+.formCard { margin-top: 28px; padding: 36px; border: 1px solid #e7ecf7; border-radius: 24px; background: #fff; box-shadow: 0 16px 44px rgba(37, 60, 105, 0.06); }
+.formTitle { margin: 13px 0 10px; font-size: clamp(28px, 5vw, 39px); line-height: 1.12; letter-spacing: -0.04em; }
+.formDescription { margin: 0 0 28px; color: var(--vitra-muted); font-size: 14px; line-height: 1.55; }
+.fields { display: grid; gap: 17px; }
+.field { display: grid; gap: 8px; font-size: 13px; font-weight: 700; }
+.field input { width: 100%; height: 48px; padding: 12px 14px; border: 1px solid #dce2ed; border-radius: 12px; background: #FFF9F0; color: #617089; font: inherit; font-weight: 400; }
+.field input:disabled { opacity: 0.8; cursor: not-allowed; }
+.primaryButton { margin-top: 5px; height: 50px; border: 0; border-radius: 13px; background: #8f9be2; color: #fff; font-weight: 800; font-size: 14px; cursor: not-allowed; }
+.formFooter { margin: 27px 0 0; text-align: center; color: var(--vitra-muted); font-size: 13px; }
+.formFooter a { color: #2755e7; font-weight: 800; text-decoration: none; }
+.emptyState { margin-top: 38px; max-width: 700px; padding: 48px 34px; border: 1px dashed #bdcbed; border-radius: 24px; background: #fff; text-align: center; }
+.emptyIcon { font-size: 38px; color: var(--vitra-blue); }
+.emptyState h2 { margin: 18px 0 10px; font-size: 25px; }
+.emptyState p { max-width: 490px; margin: 0 auto 24px; color: var(--vitra-muted); font-size: 15px; line-height: 1.6; }
+.secondaryLink { display: inline-block; padding: 12px 18px; border-radius: 12px; background: #eff2ff; color: #2755e7; font-size: 13px; font-weight: 800; text-decoration: none; }
+@media (max-width: 800px) {
+  .main { padding-top: 48px; }
+  .grid { grid-template-columns: 1fr; }
+  .card { min-height: 0; }
+  .card p { min-height: 0; }
+}
+@media (max-width: 520px) {
+  .header { padding: 18px 16px; }
+  .storeLink { max-width: 105px; text-align: right; font-size: 12px; }
+  .formCard { padding: 28px 23px; }
+  .main { padding: 44px 20px 70px; }
+}
+
+/* Identidade Pulse: Sora para títulos e Inter para textos. */
+.title, .formTitle, .card h2, .emptyState h2 { font-family: 'Sora', Arial, Helvetica, sans-serif; }
+.card:nth-child(1) .cardIcon { background: #D5F971; color: #182451; }
+.card:nth-child(2) .cardIcon { background: #FF8676; color: #182451; }
+.card:nth-child(3) .cardIcon { background: #243CE6; color: #FFFFFF; }
+.cardLink, .storeLink, .backLink { color: #243CE6; }
+.card:hover { border-color: #D5F971; }
+
+/* Formulários habilitados quando o Supabase estiver configurado. */
+.field input:not(:disabled){background:#fff;color:#182451;cursor:text;}
+.primaryButton:not(:disabled){background:#243CE6;color:#fff;cursor:pointer;}
+.primaryButton:not(:disabled):hover{background:#182451;}
