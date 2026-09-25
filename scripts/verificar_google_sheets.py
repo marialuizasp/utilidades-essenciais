@@ -1,5 +1,6 @@
 """Daily link report from the public Products CSV published by Google Sheets."""
 import csv, io, os, ssl, smtplib, time
+from enviar_dashboard import enviar_dashboard
 from datetime import datetime
 from email.message import EmailMessage
 from urllib.request import urlopen
@@ -19,12 +20,15 @@ def main():
     products = [r for r in rows if r.get("active", "").strip().lower() in ("sim", "true", "1", "yes") and r.get("title", "").strip()]
     now = datetime.now(ZoneInfo("America/Sao_Paulo"))
     summary = []
+    dashboard_rows = []
     for product in products:
         status, detail = verificar(product.get("affiliateLink", "").strip())
         summary.append(f"- {product['title']}: {status}. {detail}")
+        dashboard_rows.append({"id": product["id"], "title": product["title"], "status": status, "detail": detail})
         time.sleep(1)
     report = f"Relatório diário — Utilidades Essenciais — {now:%d/%m/%Y %H:%M}\nProdutos ativos: {len(products)}\n\n" + ("\n".join(summary) or "Nenhum produto ativo.") + "\n\nChecagem HTTP não garante estoque, preço ou comissão."
     print(report)
+    enviar_dashboard(now, dashboard_rows)
     msg = EmailMessage()
     msg["Subject"] = f"Relatório de afiliados — {now:%d/%m/%Y}"
     msg["From"] = os.environ["SMTP_USER"]
