@@ -55,20 +55,23 @@ export async function POST(request) {
     if (payload.action !== 'create' || !Array.isArray(payload.products)) return json({ error: 'Operação inválida.' }, 400);
     if (payload.products.length < 1 || payload.products.length > 50) return json({ error: 'Envie entre 1 e 50 produtos por lote.' }, 400);
     const keys = new Set(existing.map(r => r[5]).filter(Boolean).map(productKey));
-    const names = new Set(existing.filter(r => r[1] && r[6]).map(r => clean(r[1]).toLowerCase() + '|' + clean(r[6]).toLowerCase()));
+    const normalize = s => clean(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+    const names = new Set(existing.filter(r => r[1]).map(r => normalize(r[1])));
+    const itemIds = new Set(existing.map(r => (clean(r[10]).match(/Shopee Item ID: (\d+)/)||[])[1]).filter(Boolean));
     let nextId = Math.max(0, ...existing.map(r => Number((clean(r[0]).match(/^prod_(\d+)$/i) || [])[1]) || 0));
     const rows = [], skipped = [], errors = [];
     payload.products.forEach((p, i) => {
       const name = clean(p.name), url = clean(p.affiliateLink), video = clean(p.videoUrl);
-      if (!name || !validUrl(url) || !validUrl(video)) { errors.push({ line:i+1, reason:'Preencha nome, link HTTPS do afiliado e URL HTTPS pública do vídeo.' }); return; }
-      const key = productKey(url), pair = name.toLowerCase() + '|' + video.toLowerCase();
-      if (keys.has(key) || names.has(pair)) { skipped.push({ line:i+1, name, reason:'Produto ou vídeo já cadastrado.' }); return; }
+      if (!name || !validUrl(url) || (video && !validUrl(video))) { errors.push({ line:i+1, reason:'Informe nome, link HTTPS do afiliado e, se houver vídeo, URL HTTPS pública.' }); return; }
+      const key = productKey(url), productUrl=clean(p.productLink), itemId=clean(p.itemId), normalized=normalize(name);
+      const duplicateName = [...names].some(n=>n===normalized || (Math.min(n.length,normalized.length)>28 && (n.includes(normalized)||normalized.includes(n))));
+      if (keys.has(key) || (validUrl(productUrl)&&keys.has(productKey(productUrl))) || (itemId&&itemIds.has(itemId)) || duplicateName) { skipped.push({ line:i+1, name, reason:'Produto possivelmente já cadastrado (link, ID ou nome).' }); return; }
       const price = clean(p.price).replace(/^R\$\s*/i, '').replace(/\./g, '').replace(',', '.');
       const old = clean(p.originalPrice).replace(/^R\$\s*/i, '').replace(/\./g, '').replace(',', '.');
       if ((price && (!Number.isFinite(Number(price)) || Number(price) < 0)) || (old && (!Number.isFinite(Number(old)) || Number(old) < 0))) { errors.push({ line:i+1, reason:'Preço inválido.' }); return; }
       const id = 'prod_' + String(++nextId).padStart(3, '0');
-      rows.push([id,safeCell(name),safeCell(p.category || 'Outros'),price ? Number(price) : '',old ? Number(old) : '',url,video,validUrl(clean(p.imageUrl)) ? clean(p.imageUrl) : '', '', 'SIM',safeCell(p.notes || 'Cadastrado pelo painel administrativo')]);
-      keys.add(key); names.add(pair);
+      rows.push([id,safeCell(name),safeCell(p.category || 'Outros'),price ? Number(price) : '',old ? Number(old) : '',url,video,validUrl(clean(p.imageUrl)) ? clean(p.imageUrl) : '', '', video ? 'SIM' : 'NÃO',safeCell([p.notes || 'Cadastrado pelo painel administrativo',itemId?'Shopee Item ID: '+itemId:'',validUrl(productUrl)?'Produto original: '+productUrl:''].filter(Boolean).join(' | '))]);
+      keys.add(key);if(validUrl(productUrl))keys.add(productKey(productUrl));names.add(normalized);if(itemId)itemIds.add(itemId);
     });
     if (rows.length) await sheets(token, '/values/' + encodeURIComponent('Produtos!A:K') + ':append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS', { method:'POST', body:JSON.stringify({ majorDimension:'ROWS', values:rows }) });
     return json({ created:rows.map(r => ({ id:r[0], name:r[1] })), skipped, errors });
