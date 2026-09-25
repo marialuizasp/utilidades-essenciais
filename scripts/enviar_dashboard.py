@@ -30,8 +30,10 @@ def enviar_dashboard(now, rows):
         req = Request(endpoint, data=payload, headers={"Content-Type": "application/json"}, method="POST")
         with urlopen(req, timeout=60) as response:
             result = json.loads(response.read().decode("utf-8"))
-        if not result.get("ok") or result.get("received") != len(prepared):
-            raise RuntimeError("O Apps Script não confirmou a gravação.")
+        if not result.get("ok"):
+            raise RuntimeError("Apps Script respondeu: " + str(result.get("error", "sem detalhes"))[:180])
+        if result.get("received") != len(prepared):
+            raise RuntimeError(f"Apps Script confirmou {result.get('received')} de {len(prepared)} produtos.")
         print(f"Dashboard atualizado: {len(prepared)} produtos.")
     except Exception as exc:
         print(f"AVISO: falha ao atualizar dashboard ({type(exc).__name__}: {exc}). E-mail continuará normalmente.")
