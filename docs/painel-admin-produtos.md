@@ -27,3 +27,7 @@ Página: `/admin/produtos` (a página é pública, mas as operações de leitura
 - O agendamento de Instagram é independente: novos produtos não entram automaticamente na aba `Publicações`.
 - Para evitar colisões, não envie dois lotes simultaneamente. A verificação de duplicatas ocorre antes de cada inserção, mas a API do Google Sheets não oferece transação atômica de verificação+append. Para vários administradores simultâneos, adicione um serviço com trava transacional.
 - Caso um vídeo esteja hospedado em URLs GitHub que redirecionam ou não sejam aceitas pelo Instagram, migre-o para um host de mídia pública antes de agendar.
+
+## Importação direta do CSV Shopee
+
+O painel agora aceita arquivos `BatchProductLinks*.csv` com as colunas `Item Id`, `Item Name`, `Price`, `Product Link` e `Offer Link`. Use **Importar CSV da Shopee**, revise os produtos e clique em **Verificar duplicatas e cadastrar produtos**. São aceitos até 50 registros por arquivo. O arquivo é lido no navegador, sem precisar reenviá-lo ao servidor como anexo. Produtos sem URL de vídeo são inseridos com `Ativo? = NÃO`, para não aparecerem vazios na vitrine. Os campos de comissão, vendas e nome da loja não são gravados na tabela principal nesta versão. A verificação de duplicatas usa link, ID de item Shopee salvo em Observações e nomes normalizados, mas links curtos diferentes e títulos muito diferentes do mesmo anúncio podem escapar da detecção; revise a prévia antes de salvar.
