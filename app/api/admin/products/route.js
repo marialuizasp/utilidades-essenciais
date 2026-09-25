@@ -51,7 +51,26 @@ export async function POST(request) {
     const token = await accessToken();
     const data = await sheets(token, '/values/' + encodeURIComponent('Produtos!A2:K') + '?valueRenderOption=FORMATTED_VALUE');
     const existing = data.values || [];
-    if (payload.action === 'list') return json({ total: existing.filter(r => r[0] && clean(r[9]).toUpperCase() === 'SIM').length, products: existing.filter(r => r[0]).slice(-15).reverse().map(r => ({ id:r[0], name:r[1], url:r[5] })) });
+    if (payload.action === 'list' || payload.action === 'addCategory') {
+      const meta = await sheets(token, '?fields=sheets.properties.title');
+      const hasCategorySheet = (meta.sheets || []).some(s => s.properties.title === 'Categorias');
+      let stored = [];
+      if (hasCategorySheet) {
+        const saved = await sheets(token, '/values/' + encodeURIComponent('Categorias!A:A'));
+        stored = (saved.values || []).flat().map(clean).filter(Boolean);
+      }
+      const categories = [...new Set([...existing.map(r => clean(r[2])).filter(Boolean), ...stored])].sort((a,b) => a.localeCompare(b,'pt-BR'));
+      if (payload.action === 'addCategory') {
+        const category = clean(payload.category).replace(/\\s+/g,' ');
+        if (!category || category.length > 80 || /^[=+@-]/.test(category)) return json({error:'Informe uma categoria válida com até 80 caracteres.'},400);
+        const match = categories.find(x => x.toLocaleLowerCase('pt-BR') === category.toLocaleLowerCase('pt-BR'));
+        if (match) return json({category:match,categories});
+        if (!hasCategorySheet) await sheets(token, ':batchUpdate', {method:'POST',body:JSON.stringify({requests:[{addSheet:{properties:{title:'Categorias'}}}]})});
+        await sheets(token, '/values/' + encodeURIComponent('Categorias!A:A') + ':append?valueInputOption=RAW&insertDataOption=INSERT_ROWS', {method:'POST',body:JSON.stringify({values:[[category]]})});
+        return json({category,categories:[...categories,category].sort((a,b)=>a.localeCompare(b,'pt-BR'))});
+      }
+      return json({ total: existing.filter(r => r[0] && clean(r[9]).toUpperCase() === 'SIM').length, products: existing.filter(r => r[0]).slice(-15).reverse().map(r => ({ id:r[0], name:r[1], url:r[5] })), categories });
+    }
     if (payload.action !== 'create' || !Array.isArray(payload.products)) return json({ error: 'Operação inválida.' }, 400);
     if (payload.products.length < 1 || payload.products.length > 100) return json({ error: 'Envie entre 1 e 100 produtos por lote.' }, 400);
     const keys = new Set(existing.map(r => r[5]).filter(Boolean).map(productKey));
