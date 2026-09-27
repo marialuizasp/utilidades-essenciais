@@ -3,7 +3,7 @@ export const runtime='nodejs';
 export const dynamic='force-dynamic';
 const noStore={'Cache-Control':'no-store'};
 function cookie(request,name){return request.headers.get('cookie')?.split(';').map(x=>x.trim()).find(x=>x.startsWith(name+'='))?.slice(name.length+1);}
-function seal(data,key){const iv=randomBytes(12),c=createCipheriv('aes-256-gcm',Buffer.from(key,'hex'),iv);return Buffer.concat([iv,c.getAuthTag(),c.update(JSON.stringify(data),'utf8'),c.final()]).toString('base64url');}
+function seal(data,key){const iv=randomBytes(12),c=createCipheriv('aes-256-gcm',Buffer.from(key,'hex'),iv);const encrypted=Buffer.concat([c.update(JSON.stringify(data),'utf8'),c.final()]);return Buffer.concat([iv,c.getAuthTag(),encrypted]).toString('base64url');}
 function unseal(value,key){const b=Buffer.from(value,'base64url'),d=createDecipheriv('aes-256-gcm',Buffer.from(key,'hex'),b.subarray(0,12));d.setAuthTag(b.subarray(12,28));return JSON.parse(Buffer.concat([d.update(b.subarray(28)),d.final()]).toString());}
 export async function GET(request){
  const key=process.env.TIKTOK_SESSION_SECRET;
