@@ -25,7 +25,6 @@ function Preview({ product, theme, index }) {
       <h2>{product.title}</h2>
       <p className="note">{theme.note}</p>
       <div className="media">{product.videoUrl ? <video src={product.videoUrl} muted loop autoPlay playsInline preload="metadata" aria-label={'Vídeo do produto '+product.title}/> : <div className="missing">Produto sem vídeo</div>}<span className="corner">✦</span></div>
-      <div className="details"><div className="pill">✓ Produto cadastrado</div><div className="pill">✧ Confira os detalhes</div></div>
       {current ? <div className="price"><div><small>Preço cadastrado</small><strong>{current}</strong>{discount ? <small className="old">De {old}</small> : null}</div>{discount ? <div className="discount">{discount}%<br/><small>OFF</small></div> : null}</div> : <div className="price"><span>Confira o preço atualizado na loja</span></div>}
       <div className="cta">CONFIRA NA BIO <span>↗</span></div>
     </div>
@@ -48,16 +47,15 @@ export default async function StoriesPreview() {
       .top-safe{height:15.625%;flex:none;border-bottom:1px dashed #b7a89999;background:#ffffff20;display:flex;align-items:center;justify-content:center}
       .bottom-safe{height:18.23%;flex:none;border-top:1px dashed #b7a89999;background:#ffffff20;display:flex;align-items:center;justify-content:center}
       .top-safe span,.bottom-safe span{font-size:10px;letter-spacing:1px;color:#887d6b}
-      .story-body{height:66.145%;display:flex;flex-direction:column;align-items:center;padding:12px 24px 13px;gap:7px;min-height:0;position:relative}
-      .brand{display:flex;align-items:center;gap:6px;font-weight:800;line-height:.92;font-size:14px;letter-spacing:-.6px}.brand-icon{color:var(--warm);font-size:25px}
-      .eyebrow{background:var(--accent);color:white;border-radius:24px;font-size:11px;font-weight:800;letter-spacing:1px;padding:8px 17px;margin-top:5px}
-      h2{font-size:clamp(16px,5.3vw,23px);line-height:1.07;text-align:center;margin:2px 0 0;max-height:52px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-      .note{font-size:12px;text-align:center;margin:0;line-height:1.3}
-      .media{position:relative;flex:1;min-height:90px;width:100%;border-radius:18px;overflow:hidden;background:#e5d6c2;box-shadow:0 6px 18px #2d33231a}
+      .story-body{height:66.145%;display:flex;flex-direction:column;align-items:center;padding:9px 20px 10px;gap:5px;min-height:0;position:relative}
+      .brand{display:flex;align-items:center;gap:6px;font-weight:800;line-height:.92;font-size:13px;letter-spacing:-.6px}.brand-icon{color:var(--warm);font-size:22px}
+      .eyebrow{background:var(--accent);color:white;border-radius:24px;font-size:11px;font-weight:800;letter-spacing:1px;padding:6px 14px;margin-top:2px}
+      h2{font-size:clamp(16px,5.3vw,23px);line-height:1.07;text-align:center;margin:2px 0 0;max-height:44px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+      .note{font-size:11px;text-align:center;margin:0;line-height:1.2}
+      .media{position:relative;flex:1 1 auto;min-height:150px;width:100%;border-radius:18px;overflow:hidden;background:#e5d6c2;box-shadow:0 6px 18px #2d33231a}
       video{height:100%;width:100%;object-fit:cover}.corner{position:absolute;right:12px;top:6px;color:var(--warm);font-size:28px}.missing{display:grid;place-items:center;height:100%}
-      .details{display:flex;gap:5px;justify-content:center;flex-wrap:wrap}.pill{font-size:9px;background:#ffffffc9;border-radius:14px;padding:6px 9px}
-      .price{width:100%;background:#fff9f0;border-radius:15px;padding:8px 14px;display:flex;align-items:center;justify-content:space-between;min-height:51px}.price small{display:block;font-size:9px}.price strong{font-size:23px}.old{text-decoration:line-through;color:#80685e}.discount{background:var(--warm);border-radius:12px;color:white;font-size:18px;font-weight:800;text-align:center;padding:5px 9px}
-      .cta{width:100%;background:var(--accent);border-radius:28px;color:white;text-align:center;font-size:12px;font-weight:800;letter-spacing:.5px;padding:12px 16px;display:flex;justify-content:center;gap:15px}
+      .price{width:100%;background:#fff9f0;border-radius:15px;padding:6px 12px;display:flex;align-items:center;justify-content:space-between;min-height:43px}.price small{display:block;font-size:9px}.price strong{font-size:21px}.old{text-decoration:line-through;color:#80685e}.discount{background:var(--warm);border-radius:12px;color:white;font-size:16px;font-weight:800;text-align:center;padding:4px 8px}
+      .cta{width:100%;background:var(--accent);border-radius:28px;color:white;text-align:center;font-size:11px;font-weight:800;letter-spacing:.5px;padding:9px 14px;display:flex;justify-content:center;gap:15px}
       .caption{text-align:center;font-weight:700;color:#415646}
       @media(min-width:850px){h2{font-size:23px}}
     `}</style>
