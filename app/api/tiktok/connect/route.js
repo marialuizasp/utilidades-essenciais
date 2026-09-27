@@ -11,7 +11,5 @@ export async function GET(request){
   url.searchParams.set('scope','user.info.basic,video.publish');
   url.searchParams.set('redirect_uri',redirectUri);
   url.searchParams.set('state',state);
-  const response=Response.redirect(url,302);
-  response.headers.append('Set-Cookie',`tt_oauth_state=${state}; Path=/api/tiktok; HttpOnly; Secure; SameSite=Lax; Max-Age=600`);
-  return response;
+  return new Response(null,{status:302,headers:{Location:url.toString(),'Set-Cookie':`tt_oauth_state=${state}; Path=/api/tiktok; HttpOnly; Secure; SameSite=Lax; Max-Age=600`,'Cache-Control':'no-store'}});
 }
