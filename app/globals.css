@@ -8,11 +8,15 @@ body {
   padding: 0;
   width: 100%;
   min-height: 100%;
-  background: #111111;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   overflow-x: hidden;
+  background: #fffaf5;
 }
 
 * {
