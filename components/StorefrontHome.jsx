@@ -31,6 +31,15 @@ function matchesCategory(product, filter) {
   return filter.keywords.some((keyword) => haystack.includes(normalize(keyword)));
 }
 
+function publicCodeFor(product) {
+  const id = String(product?.id || '').trim();
+  const match = id.match(/^prod_(\d+)$/i);
+
+  if (!match) return '';
+
+  return 'UE' + String(Number(match[1])).padStart(4, '0');
+}
+
 function dailyFeatureScore(product, dayKey) {
   const key = dayKey + '|' + String(product.id || product.title || '');
   let hash = 2166136261;
@@ -72,7 +81,12 @@ function ProductCard({ product }) {
     <article className="store-product-card">
       <ProductVisual product={product} />
       <div className="store-product-copy">
-        <p className="store-product-kicker">Achadinho selecionado</p>
+        <div className="store-product-meta">
+          <p className="store-product-kicker">Achadinho selecionado</p>
+          {publicCodeFor(product) && (
+            <span className="store-product-code">{publicCodeFor(product)}</span>
+          )}
+        </div>
         <h3>{product.title}</h3>
         {product.price && <strong className="store-product-price">{product.price}</strong>}
         <a
@@ -98,7 +112,10 @@ function SmallCard({ product }) {
     >
       <ProductVisual product={product} compact />
       <div>
-        <span>{product.category || 'Achadinho'}</span>
+        <div className="store-small-meta">
+          <span>{product.category || 'Achadinho'}</span>
+          {publicCodeFor(product) && <b>{publicCodeFor(product)}</b>}
+        </div>
         <strong>{product.title}</strong>
         {product.price && <small>{product.price}</small>}
       </div>
@@ -122,7 +139,12 @@ export default function StorefrontHome({ products = [] }) {
       if (!normalizedQuery) return true;
 
       const haystack = normalize(
-        [product.title, product.category, ...(product.tags || [])].join(' ')
+        [
+          product.title,
+          product.category,
+          publicCodeFor(product),
+          ...(product.tags || [])
+        ].join(' ')
       );
 
       return haystack.includes(normalizedQuery);
@@ -187,7 +209,7 @@ export default function StorefrontHome({ products = [] }) {
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="O que você está procurando?"
+              placeholder="Busque por produto ou código (ex.: UE0001)"
               aria-label="Buscar achadinhos"
             />
             {query && (
@@ -317,7 +339,12 @@ export default function StorefrontHome({ products = [] }) {
               <div className="store-discovery-video">
                 <video src={product.videoUrl} muted autoPlay loop playsInline preload="metadata" />
                 <span className="store-discovery-play">▶</span>
-                <span className="store-discovery-category">{product.category || 'Achadinho'}</span>
+                <div className="store-discovery-tags">
+                  <span className="store-discovery-category">{product.category || 'Achadinho'}</span>
+                  {publicCodeFor(product) && (
+                    <span className="store-discovery-code">{publicCodeFor(product)}</span>
+                  )}
+                </div>
               </div>
               <div className="store-discovery-copy">
                 <h3>{product.title}</h3>
