@@ -31,6 +31,18 @@ function matchesCategory(product, filter) {
   return filter.keywords.some((keyword) => haystack.includes(normalize(keyword)));
 }
 
+function dailyFeatureScore(product, dayKey) {
+  const key = dayKey + '|' + String(product.id || product.title || '');
+  let hash = 2166136261;
+
+  for (let i = 0; i < key.length; i++) {
+    hash ^= key.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+
+  return hash >>> 0;
+}
+
 function ProductVisual({ product, compact = false }) {
   return (
     <div className={compact ? 'store-product-media compact' : 'store-product-media'}>
@@ -120,9 +132,33 @@ export default function StorefrontHome({ products = [] }) {
   const visibleProducts =
     filteredProducts.length > 0 ? filteredProducts : products;
 
-  const featured = visibleProducts.slice(0, 4);
-  const discovery = visibleProducts.slice(4, 8).length
-    ? visibleProducts.slice(4, 8)
+  const dayKey = new Intl.DateTimeFormat('pt-BR', {
+    timeZone: 'America/Sao_Paulo',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).format(new Date());
+
+  const featured = useMemo(
+    () =>
+      [...visibleProducts]
+        .sort(
+          (a, b) =>
+            dailyFeatureScore(a, dayKey) -
+            dailyFeatureScore(b, dayKey)
+        )
+        .slice(0, 4),
+    [visibleProducts, dayKey]
+  );
+
+  const featuredIds = new Set(featured.map((product) => product.id));
+
+  const discoveryCandidates = visibleProducts.filter(
+    (product) => !featuredIds.has(product.id)
+  );
+
+  const discovery = discoveryCandidates.slice(0, 4).length
+    ? discoveryCandidates.slice(0, 4)
     : visibleProducts.slice(0, 4);
 
   const categoryRows = [
@@ -238,7 +274,7 @@ export default function StorefrontHome({ products = [] }) {
                 {query
                   ? 'Resultados para “' + query + '”'
                   : selectedCategory === 'Todos'
-                    ? 'Uma seleção para começar a explorar'
+                    ? 'Uma seleção diferente todos os dias'
                     : 'Seleção em ' + selectedCategory}
               </p>
             </div>
