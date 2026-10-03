@@ -481,6 +481,10 @@
   overflow-wrap: anywhere;
 }
 
+.store-product-copy h3 {
+  min-height: 39px;
+}
+
 .store-product-price {
   display: block;
   margin: 9px 0 14px;
