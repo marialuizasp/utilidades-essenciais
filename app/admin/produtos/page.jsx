@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-const blank = () => ({ name:'', category:'', price:'', originalPrice:'', affiliateLink:'', videoUrl:'', imageUrl:'' });
+const blank = () => ({ name:'', category:'', price:'', originalPrice:'', affiliateLink:'', videoUrl:'', imageUrl:'', seasonal:false, seasonalStart:'', seasonalEnd:'', recurrence:'ANUAL' });
 const categories = ['Casa e Construção','Beleza','Celulares e Dispositivos','Acessórios para Veículos','Limpeza Veicular','Cozinha','Roupas Femininas','Esportes e Lazer','Mãe e Bebê','Brinquedos','Viagens e Bagagens','Impressoras 3D','Outros'];
 
 function parseShopeeCSV(text) {
@@ -10,7 +10,7 @@ function parseShopeeCSV(text) {
   const header=(rows.shift()||[]).map(x=>x.replace(/^\uFEFF/,'').trim().toLowerCase());
   const index=name=>header.indexOf(name.toLowerCase());
   if(['Item Id','Item Name','Price','Product Link','Offer Link'].some(x=>index(x)<0))throw Error('CSV da Shopee não reconhecido: confira os cabeçalhos.');
-  return rows.map(r=>({itemId:(r[index('Item Id')]||'').trim(),name:(r[index('Item Name')]||'').trim(),price:(r[index('Price')]||'').trim(),productLink:(r[index('Product Link')]||'').trim(),affiliateLink:(r[index('Offer Link')]||'').trim(),category:'Outros',videoUrl:'',imageUrl:'',originalPrice:''})).filter(r=>r.name&&r.affiliateLink);
+  return rows.map(r=>({itemId:(r[index('Item Id')]||'').trim(),name:(r[index('Item Name')]||'').trim(),price:(r[index('Price')]||'').trim(),productLink:(r[index('Product Link')]||'').trim(),affiliateLink:(r[index('Offer Link')]||'').trim(),category:'Outros',videoUrl:'',imageUrl:'',originalPrice:'',seasonal:false,seasonalStart:'',seasonalEnd:'',recurrence:'ANUAL'})).filter(r=>r.name&&r.affiliateLink);
 }
 
 export default function AdminProdutos() {
@@ -58,7 +58,7 @@ export default function AdminProdutos() {
   const addBulk = () => {
     const parsed = bulk.split(/\r?\n/).filter(x => x.trim()).map(line => {
       const [name,affiliateLink,videoUrl,price='',category='Outros',originalPrice='',imageUrl=''] = line.split('\t').map(x => x.trim());
-      return {name,affiliateLink,videoUrl,price,category,originalPrice,imageUrl};
+      return {name,affiliateLink,videoUrl,price,category,originalPrice,imageUrl,seasonal:false,seasonalStart:'',seasonalEnd:'',recurrence:'ANUAL'};
     });
     if (!parsed.length) return;
     setRows(prev => [...prev.filter(x => x.name || x.affiliateLink || x.videoUrl),...parsed].slice(0,100));
@@ -86,6 +86,18 @@ export default function AdminProdutos() {
       {rows.map((r,i)=><section key={i} className="rounded-2xl border border-slate-200 bg-white p-5"><div className="mb-4 flex items-center justify-between"><h3 className="font-semibold">Produto {i+1}</h3><button type="button" onClick={()=>setRows(prev=>prev.length===1?[blank()]:prev.filter((_,j)=>j!==i))} className="text-sm text-rose-700 hover:underline">Remover</button></div><div className="grid gap-4 sm:grid-cols-2">
       {[[ 'name','Nome do produto *','text'],['affiliateLink','Link de afiliado *','url'],['videoUrl','URL pública do vídeo (opcional)','url'],['price','Preço atual (R$)','text'],['originalPrice','Preço anterior real (R$)','text'],['imageUrl','URL da imagem','url']].map(([key,label,type])=><label key={key} className="block text-sm"><span className="mb-1 block text-slate-700">{label}</span><input type={type} value={r[key]} onChange={e=>change(i,key,e.target.value)} placeholder={key==='price'?'39,90':undefined} className="w-full rounded-lg border border-slate-300 bg-white p-3 outline-none focus:border-emerald-500" /></label>)}
       <label className="block text-sm"><span className="mb-1 block text-slate-700">Categoria</span><select value={r.category} onChange={e=>change(i,'category',e.target.value)} className="w-full rounded-lg border border-slate-300 bg-white p-3">{allCategories.map(c=><option key={c}>{c}</option>)}</select></label>
+      <div className="sm:col-span-2 rounded-xl border border-amber-200 bg-amber-50 p-4">
+        <label className="flex items-center gap-3 text-sm font-semibold text-slate-800">
+          <input type="checkbox" checked={!!r.seasonal} onChange={e=>change(i,'seasonal',e.target.checked)} className="h-4 w-4" />
+          Produto sazonal
+        </label>
+        <p className="mt-1 text-xs text-slate-600">Marque para produtos de Natal, Páscoa, Dia das Mães ou outras datas específicas.</p>
+        {r.seasonal&&<div className="mt-4 grid gap-4 sm:grid-cols-3">
+          <label className="block text-sm"><span className="mb-1 block text-slate-700">Início sazonal *</span><input type="date" value={r.seasonalStart} onChange={e=>change(i,'seasonalStart',e.target.value)} required={r.seasonal} className="w-full rounded-lg border border-slate-300 bg-white p-3"/></label>
+          <label className="block text-sm"><span className="mb-1 block text-slate-700">Fim sazonal *</span><input type="date" value={r.seasonalEnd} onChange={e=>change(i,'seasonalEnd',e.target.value)} required={r.seasonal} className="w-full rounded-lg border border-slate-300 bg-white p-3"/></label>
+          <label className="block text-sm"><span className="mb-1 block text-slate-700">Recorrência</span><select value={r.recurrence||'ANUAL'} onChange={e=>change(i,'recurrence',e.target.value)} className="w-full rounded-lg border border-slate-300 bg-white p-3"><option value="ANUAL">Todos os anos</option><option value="UNICA">Somente neste período</option></select></label>
+        </div>}
+      </div>
       </div></section>)}
       <button type="submit" disabled={loading||!password} className="w-full rounded-xl bg-emerald-600 px-6 py-4 text-lg font-bold text-white disabled:opacity-40">{loading?'Salvando...':'Verificar duplicatas e cadastrar produtos'}</button></form></>}
       {feedback && <section role="status" className="rounded-2xl border border-slate-300 bg-white p-5">{feedback.error?<p className="text-rose-700">{feedback.error}</p>:feedback.info?<p>{feedback.info}</p>:<div className="space-y-2"><p className="font-semibold text-emerald-700">{feedback.created.length} produtos cadastrados com sucesso.</p><p>{feedback.skipped.length} duplicatas ignoradas · {feedback.errors.length} registros com erro.</p>{feedback.skipped.map((x,i)=><p key={'s'+i} className="text-sm text-amber-700">Linha {x.line}: {x.name} — {x.reason}</p>)}{feedback.errors.map((x,i)=><p key={'e'+i} className="text-sm text-rose-700">Linha {x.line}: {x.reason}</p>)}</div>}</section>}
