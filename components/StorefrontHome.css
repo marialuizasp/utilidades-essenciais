@@ -987,3 +987,82 @@
 
   .store-small-card { flex-basis: 68vw; }
 }
+
+
+/* Código público dos achadinhos */
+.store-product-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 7px;
+}
+
+.store-product-meta .store-product-kicker {
+  margin: 0;
+}
+
+.store-product-code,
+.store-discovery-code,
+.store-small-meta b {
+  flex: 0 0 auto;
+  border: 1px solid rgba(7,63,49,.14);
+  border-radius: 999px;
+  background: var(--store-cream);
+  color: var(--store-green);
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: .03em;
+}
+
+.store-product-code {
+  padding: 5px 8px;
+}
+
+.store-small-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.store-small-meta > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.store-small-meta b {
+  padding: 4px 6px;
+}
+
+.store-discovery-tags {
+  position: absolute;
+  z-index: 2;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.store-discovery-tags .store-discovery-category {
+  position: static;
+  max-width: calc(100% - 70px);
+}
+
+.store-discovery-code {
+  padding: 6px 8px;
+  background: rgba(255,243,231,.94);
+}
+
+@media (max-width: 700px) {
+  .store-product-code { font-size: 8px; padding: 5px 7px; }
+  .store-small-meta b { font-size: 8px; }
+}
