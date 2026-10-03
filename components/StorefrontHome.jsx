@@ -161,27 +161,25 @@ export default function StorefrontHome({ products = [] }) {
     day: '2-digit'
   }).format(new Date());
 
-  const featured = useMemo(
+  const dailyOrder = useMemo(
     () =>
-      [...visibleProducts]
-        .sort(
-          (a, b) =>
-            dailyFeatureScore(a, dayKey) -
-            dailyFeatureScore(b, dayKey)
-        )
-        .slice(0, 4),
+      [...visibleProducts].sort(
+        (a, b) =>
+          dailyFeatureScore(a, dayKey + '|home') -
+          dailyFeatureScore(b, dayKey + '|home')
+      ),
     [visibleProducts, dayKey]
   );
 
-  const featuredIds = new Set(featured.map((product) => product.id));
+  const usedProductIds = new Set();
 
-  const discoveryCandidates = visibleProducts.filter(
-    (product) => !featuredIds.has(product.id)
-  );
+  const featured = dailyOrder.slice(0, 4);
+  featured.forEach((product) => usedProductIds.add(product.id));
 
-  const discovery = discoveryCandidates.slice(0, 4).length
-    ? discoveryCandidates.slice(0, 4)
-    : visibleProducts.slice(0, 4);
+  const discovery = dailyOrder
+    .filter((product) => !usedProductIds.has(product.id))
+    .slice(0, 4);
+  discovery.forEach((product) => usedProductIds.add(product.id));
 
   const categoryRows = [
     { title: 'Para sua casa', filter: CATEGORY_FILTERS[1] },
@@ -189,10 +187,26 @@ export default function StorefrontHome({ products = [] }) {
     { title: 'Beleza & autocuidado', filter: CATEGORY_FILTERS[3] },
     { title: 'Achadinhos para pets', filter: CATEGORY_FILTERS[5] }
   ]
-    .map((row) => ({
-      ...row,
-      products: products.filter((product) => matchesCategory(product, row.filter)).slice(0, 6)
-    }))
+    .map((row, rowIndex) => {
+      const candidates = products
+        .filter((product) => matchesCategory(product, row.filter))
+        .sort(
+          (a, b) =>
+            dailyFeatureScore(a, dayKey + '|row-' + rowIndex) -
+            dailyFeatureScore(b, dayKey + '|row-' + rowIndex)
+        );
+
+      const selected = candidates
+        .filter((product) => !usedProductIds.has(product.id))
+        .slice(0, 6);
+
+      selected.forEach((product) => usedProductIds.add(product.id));
+
+      return {
+        ...row,
+        products: selected
+      };
+    })
     .filter((row) => row.products.length > 0);
 
   return (
