@@ -1,11 +1,11 @@
-
 [
   {
     "id": "prod_001",
-    "title": "Lavadora de Alta Pressão Bivolt Portátil Profissional Sem Fio Recarregável Original",
-    "category": "Casa e Cozinha",
+    "title": "Lavadora de Alta Pressão Bivolt Portátil",
+    "category": "Casa e Construção",
     "price": "R$ 94,05",
-    "videoUrl": "https://bjdcjttjwsmbbytqwvzm.supabase.co/storage/v1/object/public/videos/lavadora-alta-pressao.mp4.mp4",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/lavadora-alta-pressao.mp4.mp4",
     "affiliateLink": "https://s.shopee.com.br/W6plju24t",
     "tags": [
       "lavadora de alta pressão",
@@ -14,5 +14,1260 @@
       "recarregável",
       "limpeza"
     ]
+  },
+  {
+    "id": "prod_002",
+    "title": "Creme Hidratante Facial Principia",
+    "category": "Beleza",
+    "price": "R$ 39,00",
+    "originalPrice": "R$ 42,99",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Creme-Hidratante-Facial-pRINCIPIA.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/8V97IL1OdC",
+    "tags": [
+      "Creme Hidratante Facial",
+      "Manteiga de Karité",
+      "Glicerina",
+      "Niacinamida",
+      "CH-01",
+      "Principia"
+    ]
+  },
+  {
+    "id": "prod_003",
+    "title": "Filamento PETG 1kg 1.75mm",
+    "category": "Impressoras 3D",
+    "price": "R$ 79,99",
+    "originalPrice": "R$ 109,99",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Filamento-PETG-1kg-mp4.mp4",
+    "affiliateLink": "https://shopee.com.br/product/967211054/58216920720",
+    "tags": [
+      "Filamento PETG, Impressora 3D,Masterprint,Alta Resistência Baixo Empenamento, 1.75mm"
+    ]
+  },
+  {
+    "id": "prod_004",
+    "title": "Pano Microfibra Lavagem, Secagem e Polimento",
+    "category": "Acessórios para Veículos",
+    "price": "R$ 12,90",
+    "originalPrice": "R$ 50,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/pano-microfibra-automotivo.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/4qFovW8iHG",
+    "tags": [
+      "Pano Microfibra, Toalha Grande, Microfibra, Pano, Secar Carro, Automotivo, Lavagem, Secagem,Polimento"
+    ]
+  },
+  {
+    "id": "prod_005",
+    "title": "Percarbonato 100% Puro Tira Manchas",
+    "category": "Casa e Construção",
+    "price": "R$ 17,90",
+    "originalPrice": "R$ 29,90",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/percabonato-de-s%C3%B3dio.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/8AWGtWleSL",
+    "tags": [
+      "Percarbonato, 100% Puro,Tira Manchas, Roupas Brancas e Coloridas"
+    ]
+  },
+  {
+    "id": "prod_006",
+    "title": "Body Splash Nativa SPA",
+    "category": "Beleza",
+    "price": "R$ 19,90",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Body-Splash-Nativa-SPA-morango.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/1136LIZ3g7",
+    "tags": [
+      "Body Splash Nativa SPA"
+    ]
+  },
+  {
+    "id": "prod_007",
+    "title": "Kit 3 Cremes Natura Tododia",
+    "category": "Beleza",
+    "price": "R$ 39,99",
+    "originalPrice": "R$ 79,80",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Cremes-Natura-tododia.MP4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/8AWLdlHAPZ",
+    "tags": [
+      "Cremes, Natura, Tododia,Hidratar e Perfumear o Corpo"
+    ]
+  },
+  {
+    "id": "prod_008",
+    "title": "Suporte De Telefone Com Faixa Ajustável",
+    "category": "Celulares e Dispositivos",
+    "price": "R$ 14,67",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/PFG-Braet-Montado-Na-Cabe%C3%A7a-Ajust%C3%A1vel-Transmiss%C3%A3o-Ao-Vivo-Suporte-Do-Telefone-M%C3%B3vel-Primeira-Pessoa-Perspectiva-Fixa-Pre.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/5LCAHIR2Y3",
+    "tags": [
+      "Suporte De Telefone Com Faixa Ajustável Quente Para Transmissão Ao Vivo E Visão Primeira Pessoa"
+    ]
+  },
+  {
+    "id": "prod_009",
+    "title": "Bolsa Mala de Viagem Multifuncional",
+    "category": "Viagens e Bagagens",
+    "price": "R$ 34,83",
+    "originalPrice": "R$ 110,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Bolsa-Mala-de-Viagem-Multifuncional-de-Grande-Capacidade-Resistente-e-Imperme%C3%A1vel.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/6fhXs6urq9",
+    "tags": [
+      "Bolsa Mala de Viagem Multifuncional de Grande Capacidade Resistente e Impermeável"
+    ]
+  },
+  {
+    "id": "prod_010",
+    "title": "Kit Wella Invigo Nutri Enrich Shampoo E Condicionador 1 Litro",
+    "category": "Beleza",
+    "price": "R$ 147,25",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Kit-Wella-Invigo-Nutri-Enrich-Shampoo-E-Condicionador-1-Litro.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/AKaqJD3ppe",
+    "tags": [
+      "Kit Wella Invigo Nutri Enrich Shampoo E Condicionador 1 Litro"
+    ]
+  },
+  {
+    "id": "prod_011",
+    "title": "KIit 4 capas de almofadas Decorativas Natal",
+    "category": "Casa e Construção",
+    "price": "R$ 24,90",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/kit-4-capas-de-almofadas-Decorativas-Natal.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/9zxzuphRij",
+    "tags": [
+      "kit 4 capas de almofadas Decorativas Natal"
+    ]
+  },
+  {
+    "id": "prod_012",
+    "title": "Siàge Ultra Bond Reset: Reconstrução Profunda",
+    "category": "Beleza",
+    "price": "R$ 69,99",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Si%C3%A0ge-Ultra-Bond-Reset-Reconstru%C3%A7%C3%A3o-Profunda.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/2LYYnGJm0c",
+    "tags": []
+  },
+  {
+    "id": "prod_013",
+    "title": "Kit Triplo de Hidratação Corporal Nativa Spa",
+    "category": "Beleza",
+    "price": "R$ 39,90",
+    "originalPrice": "R$ 79,80",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Kit-Triplo-de-Hidrata%C3%A7%C3%A3o-Corporal-Nativa-Spa-400ml.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/1gIs0RCDCY",
+    "tags": []
+  },
+  {
+    "id": "prod_014",
+    "title": "Bola De Aperto De Pão De Ouro",
+    "category": "Brinquedos",
+    "price": "R$ 9,64",
+    "originalPrice": "R$ 37,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Bola-De-Aperto-De-P%C3%A3o-De-Ouro-Colorida-Fofa.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/3B7fncMKQv",
+    "tags": []
+  },
+  {
+    "id": "prod_015",
+    "title": "Carregador Portátil Mini Power Bank 10000mAh Com 02 Saídas Tipo-C / Lightning",
+    "category": "Computadores e Acessórios",
+    "price": "R$ 31,99",
+    "originalPrice": "R$ 58,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Carregador-Port%C3%A1til-Mini-Power-Bank-10000mAh-Com-02-Sa%C3%ADdas-Tipo-C--Lightning.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/5LCANtBPna",
+    "tags": []
+  },
+  {
+    "id": "prod_016",
+    "title": "Body Splash Femininos + Colônia Desodorante",
+    "category": "Beleza",
+    "price": "R$ 14,95",
+    "originalPrice": "R$ 29,90",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/2-Body-Splash-Femininos-%2B-Col%C3%B4nia-Desodorante-%E2%80%93-Kit-Perfumado-Corporal.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/2BF8cZFLc8",
+    "tags": []
+  },
+  {
+    "id": "prod_017",
+    "title": "Principia Protetor Solar PS-05 Cor 3.0 ",
+    "category": "Beleza",
+    "price": "R$ 49,00",
+    "originalPrice": "R$ 53,99",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Principia-Protetor-Solar.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/7KxEmTcEsL",
+    "tags": []
+  },
+  {
+    "id": "prod_018",
+    "title": "Caneca Mixer Automática Recarregável",
+    "category": "Eletrodomésticos",
+    "price": "R$ 30,99",
+    "originalPrice": "R$ 99,99",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Caneca-Mixer-Autom%C3%A1tica-Recarreg%C3%A1vel-Misturador-Magn%C3%A9tico-para-Caf%C3%A9-Leite-Chocolate-com-TampaUSB.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/7VGeyvC2Ww",
+    "tags": []
+  },
+  {
+    "id": "prod_019",
+    "title": "Jogo 6 Copos de Vidro Diamond Borda Dourada",
+    "category": "Casa e Construção",
+    "price": "R$ 66,49",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Jogo-6-Copos-de-Vidro-Diamond-Borda-Dourada-350ml-Mesa-Posta-Luxo.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/9fL9Z5ywYP",
+    "tags": []
+  },
+  {
+    "id": "prod_020",
+    "title": "Guarda-chuva Grande Sombrinha Reforçada",
+    "category": "Esportes e Lazer\n",
+    "price": "R$ 25,99",
+    "originalPrice": "R$ 68,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Guarda-chuva-Grande-Sombrinha-Refor%C3%A7ada-Super-Resistente-%C3%A0-%C3%81gua-Pronta-Entrega.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/905Sm78gs1",
+    "tags": []
+  },
+  {
+    "id": "prod_021",
+    "title": "Celimax Creme Iluminador Poros + Manchas Escuras",
+    "category": "Beleza",
+    "price": "R$ 59,43",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Celimax-Creme-Iluminador-Poros-%2B-Manchas-Escuras-35ml-%2C-7ml.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/8AWLmwc6Ze",
+    "tags": []
+  },
+  {
+    "id": "prod_022",
+    "title": "Utensílios Silicone Cozinha Antiaderente",
+    "category": "Casa e Construção",
+    "price": "R$ 18,61",
+    "originalPrice": "R$ 89,90",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Utens%C3%ADlios-Silicone-Cozinha-Antiaderente-F%C3%A1cil-Limpeza-Alta-Resist%C3%AAncia.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/4Vd3QNuQ3o",
+    "tags": []
+  },
+  {
+    "id": "prod_023",
+    "title": "Faixas de Resistência Elástica de Algodão",
+    "category": "Esportes e Lazer\n",
+    "price": "R$ 19,99",
+    "originalPrice": "R$ 89,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Faixas-de-Resist%C3%AAncia-El%C3%A1stica-de-Algod%C3%A3o-Kit-3-N%C3%ADveis-Antiderrapante-para-Gl%C3%BAteos-Pernas-Fitness.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/7fa5CQyhzR",
+    "tags": []
+  },
+  {
+    "id": "prod_024",
+    "title": "The Ordinary Serum Calmante & Barreira De Apoio",
+    "category": "Beleza",
+    "price": "R$ 136,09",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/The-Ordinary-Sororo-Calmante-%26-Barreira-De-Apoio-30ml.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/4Vd4WGEtkL",
+    "tags": []
+  },
+  {
+    "id": "prod_025",
+    "title": "Jogo de Lençol 400 Fios Extra Macio",
+    "category": "Casa e Construção",
+    "price": "R$ 12,50",
+    "originalPrice": "R$ 26,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Jogo-de-Len%C3%A7ol-400-Fios-Extra-Macio-com-fronhas-ponto-palito-Ber%C3%A7o-Solteiro-Casal-Queen-King-02-e-03-Pe%C3%A7as.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/9KiKHFy0CS",
+    "tags": []
+  },
+  {
+    "id": "prod_026",
+    "title": "Balança Bioimpedancia Digital Bluetooth Corporal",
+    "category": "Saúde",
+    "price": "R$ 30,99",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Balan%C3%A7a-Bioimpedancia-Digital-Bluetooth-Corporal-at%C3%A9-180kg-Resultado-Pelo-Celular-3-Cores.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/AUuHfl6fiM",
+    "tags": []
+  },
+  {
+    "id": "prod_027",
+    "title": "Body Splash WEPINK",
+    "category": "Beleza",
+    "price": "R$ 32,39",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Body-Splash-Virg%C3%ADnia-WEP1NK-200ml-Feminino-Aut%C3%AAntico-Obsessed-Infinity-Libert%C3%A9-VF-Golden--Unit%C3%A1rio%2C-Sortido-ou-Kit-cm-4.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/AKarTgfFTE",
+    "tags": []
+  },
+  {
+    "id": "prod_028",
+    "title": "Jogo Panelas Completo 6 Peças Antiaderente",
+    "category": "Casa e Construção",
+    "price": "R$ 231,06",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Jogo-Panelas-Completo-6-Pe%C3%A7as-Antiaderente-Cer%C3%A2mica-com-Acess%C3%B3rios-Silicone.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/BU5N8sFXb",
+    "tags": []
+  },
+  {
+    "id": "prod_029",
+    "title": "Kit 1200 Lenço Umedecido Baby Club",
+    "category": "Mãe e Bebê",
+    "price": "R$ 45,90",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Kit-1200-Len%C3%A7o-Umedecido-Baby-Club-Aloe-Vera-Caixa-C-12-Pack.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/6VO8v0kcUb",
+    "tags": []
+  },
+  {
+    "id": "prod_030",
+    "title": "Pijama Conjunto De Três Peças De Verão ",
+    "category": "Roupas Femininas\r",
+    "price": "R$ 59,05",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Conjunto-De-Tr%C3%AAs-Pe%C3%A7as-De-Ver%C3%A3o--Pijama-Fino-Em-Nuvem-Para-Mulheres-%2C-Lindo-E-Doce-%2C-N%C3%B3-De-Borboleta-%2C-Roupa-De-Casa.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/1Lg2lkOxl1",
+    "tags": []
+  },
+  {
+    "id": "prod_031",
+    "title": "Espelho Orgânico Lapidado Moderno",
+    "category": "Casa e Construção",
+    "price": "R$ 78,99",
+    "originalPrice": "R$ 99,99",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Espelho-Org%C3%A2nico-120X50cm-e-95x40cm-Lapidado-Moderno-Grande-Forms-C-SUPORTE-ou-LED-TOUCH-(FORM-SUPORTE)-OU-LED.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/5VVbkcDvxP",
+    "tags": []
+  },
+  {
+    "id": "prod_032",
+    "title": "Lança Bolhas Sabão Automático",
+    "category": "Brinquedos",
+    "price": "R$ 21,89",
+    "originalPrice": "R$ 25,89",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Lan%C3%A7a-Bolhas-Sab%C3%A3o-Autom%C3%A1tico-Brinquedo-Infantil-Menino-Menina-Festa-Anivers%C3%A1rio-Presente-El%C3%A9trico.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/8V9DKR3hrH",
+    "tags": []
+  },
+  {
+    "id": "prod_033",
+    "title": "Auxiliar de Partida Carregador Bateria Com Compressor de Ar",
+    "category": "",
+    "price": "R$ 72,51",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Auxiliar-de-Partida-Carregador-Bateria-Com-Compressor-de-Ar-Emerg%C3%AAncia-Port%C3%A1til-Veicular-Automotivo.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/6VO8wsHIBC",
+    "tags": []
+  },
+  {
+    "id": "prod_034",
+    "title": "Kit 3 Blusas Feminina Muscle Tee Moderna Casual",
+    "category": "Roupas Femininas",
+    "price": "R$ 47,99",
+    "originalPrice": "R$ 57,32",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Kit-3-Blusas-Feminina-Muscle-Tee-Moderna-Casual-100%25-Algod%C3%A3o---F00.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/9KiKKEBjot",
+    "tags": []
+  },
+  {
+    "id": "prod_035",
+    "title": "Conjunto de Cílios Postiços Longos",
+    "category": "Beleza",
+    "price": "R$ 9,72",
+    "originalPrice": "R$ 16,98",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Conjunto-de-C%C3%ADlios-Posti%C3%A7os-Longos-Hibridos-Tipo-D-Volume-8-16mm-Natural-e-Fofinho-Reutilizavel.mp4",
+    "affiliateLink": "https://s.shopee.com.br/9fLAxkSrlV",
+    "tags": []
+  },
+  {
+    "id": "prod_036",
+    "title": "Tênis De Placa De Carbono Maratona Leve Respirável ",
+    "category": "Esportes e Lazer",
+    "price": "R$ 65,22",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Chiquebloja_pindown.io_1790356552.mp4",
+    "affiliateLink": "https://s.shopee.com.br/4B0EQ196Ze",
+    "tags": []
+  },
+  {
+    "id": "prod_037",
+    "title": "Porta Ampolas 3ml - Proteção Reforçada",
+    "category": "Saúde",
+    "price": "R$ 9,00",
+    "originalPrice": "R$ 13,90",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Porta-Ampolas-3ml---Protecao-Reforcada-e-Portatil-Segura.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/4fwV1ItVhc",
+    "tags": []
+  },
+  {
+    "id": "prod_038",
+    "title": "Kit com 3 Óleos de Tratamento",
+    "category": "Beleza",
+    "price": "R$ 46,20",
+    "originalPrice": "R$ 55,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Kit-com-3-Oleos-de-Tratamento-Coco%2C-Super-Oleos-e-Multibeneficios.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/3VkXdHhet8",
+    "tags": []
+  },
+  {
+    "id": "prod_039",
+    "title": "Kit Produto para Lavar Moto e Carro",
+    "category": "Limpeza Veicular\r\n",
+    "price": "R$ 118,66",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Kit-Produto-para-Lavar-Moto-Cera-Shampoo-Desengraxante-Pretinho-Limpador-de-Corrente-Vonixx.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/AKarmAVQWd",
+    "tags": []
+  },
+  {
+    "id": "prod_040",
+    "title": "Macaquinho Feminino Academia Canelado Forro Duplo",
+    "category": "Roupas Femininas",
+    "price": "R$ 29,99",
+    "originalPrice": "R$ 47,99",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Macaquinho-Feminino-Academia-Canelado-Forro-Duplo-Yoga-Moda-Virginia.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/1AfTpRsEK",
+    "tags": []
+  },
+  {
+    "id": "prod_041",
+    "title": "Bolsa de Compras Dobrável Com Rodas",
+    "category": "Viagens e Bagagens",
+    "price": "R$ 45,00",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Bolsa-de-Compras-Dobravel-Com-Rodas-Para-Feira-Sacola-de-Compras-Com-Rodinha.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/9V1knWhO0U",
+    "tags": []
+  },
+  {
+    "id": "prod_042",
+    "title": "Bolsa Pasta Organizador De Documento",
+    "category": "Viagens e Bagagens",
+    "price": "R$ 35,90",
+    "originalPrice": "R$ 45,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Bolsa-Pasta-Organizador-De-Documentos-Varios-Compartimento-Trava-Com-Segredo-Passaporte-Porta-Cartao.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/1VzTH0y7tJ",
+    "tags": []
+  },
+  {
+    "id": "prod_089",
+    "title": "Hidrabene Protetor Solar Clareador Facial 70 FPS",
+    "category": "Beleza",
+    "price": "R$ 36,90",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Hidrabene-Protetor-Solar-Clareador-Facial-70-FPS.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/1VzTK8Goxt",
+    "tags": []
+  },
+  {
+    "id": "prod_090",
+    "title": "OralGos Escova de Dente Deep Cleaning Pacote Familiar Com 6 Unidades",
+    "category": "Outros",
+    "price": "R$ 29,90",
+    "originalPrice": "R$ 49,90",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/OralGos-Escova-de-Dente-Deep-Cleaning-Pacote-Familiar-Com-6-Unidades.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/1gItWRGBcw",
+    "tags": []
+  },
+  {
+    "id": "prod_091",
+    "title": "Jogo de Lençol 400 Fios Micropercal Com Fronha em Ponto Palito",
+    "category": "Casa e Construção",
+    "price": "R$ 12,90",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Jogo-de-Lencol-400-Fios-Micropercal-Com-Fronha-em-Ponto-Palito.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/1qcJikFYHz",
+    "tags": []
+  },
+  {
+    "id": "prod_092",
+    "title": "Calcinha de Emagrecimento",
+    "category": "Outros",
+    "price": "R$ 27,99",
+    "originalPrice": "R$ 50,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Calcinha-de-Emagrecimento-Cinta-Modeladora-Roupa-Intima-Afina-a-Barriga-Leggings-Calca-Feminina-2024.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/20vjv3Eux2",
+    "tags": []
+  },
+  {
+    "id": "prod_093",
+    "title": "Creatina Suplemento Monohidratada em Pó 100% Pura Importada - Soldiers Nutrition",
+    "category": "Outros",
+    "price": "R$ 33,90",
+    "originalPrice": "R$ 69,90",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Creatina-Suplemento-Monohidratada-em-Po-100%25-Pura-Importada---Soldiers-Nutrition.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/2BFA7MEHc5",
+    "tags": []
+  },
+  {
+    "id": "prod_094",
+    "title": "Spray Vedatudo 400ml Impermeabilizante Emborrachado Dryko",
+    "category": "Casa e Construção",
+    "price": "R$ 26,59",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Spray-Vedatudo-400ml-Impermeabilizante-Emborrachado-Dryko.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/2Vs0VyD0wB",
+    "tags": []
+  },
+  {
+    "id": "prod_095",
+    "title": "Areia Catbio Biodegradável 4 Kg - Max Clean - Grãos Finos",
+    "category": "Outros",
+    "price": "R$ 49,90",
+    "originalPrice": "R$ 69,90",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Areia-Catbio-Biodegradavel-4-Kg---Max-Clean---Graos-Finos.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/2gBQiHCNbE",
+    "tags": []
+  },
+  {
+    "id": "prod_096",
+    "title": "KIT De 100 á 300 Tampas De Plástico Descartável",
+    "category": "Casa e Construção",
+    "price": "R$ 7,99",
+    "originalPrice": "R$ 20,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/KIT-De-100-a-300-Tampas-De-Plastico-Descartavel-Para-Alimento-Com-100-Ate-300-Unidades.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/2qUquaBkGH",
+    "tags": []
+  },
+  {
+    "id": "prod_097",
+    "title": "Novo Guarda Chuva Automático",
+    "category": "Esportes e Lazer",
+    "price": "R$ 26,99",
+    "originalPrice": "R$ 60,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Guarda-chuva-Grande-Sombrinha-Refor%C3%A7ada-Super-Resistente-%C3%A0-%C3%81gua-Pronta-Entrega.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/30oH6tB6vK",
+    "tags": []
+  },
+  {
+    "id": "prod_098",
+    "title": "Kit Protetor de Porta do Carro 4 Peças",
+    "category": "Acessórios para Veículos",
+    "price": "R$ 13,59",
+    "originalPrice": "R$ 27,19",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Kit-Protetor-de-Porta-do-Carro-4-Pecas---Amortecedor-Borracha-Anti-Colisao.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/3B7hJCATaN",
+    "tags": []
+  },
+  {
+    "id": "prod_099",
+    "title": "Depilador Indolor Removedor Instantâneo",
+    "category": "Beleza",
+    "price": "R$ 11,99",
+    "originalPrice": "R$ 48,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Depilador-Indolor-Caneta-Sobrancelha-Removedor-Instantaneo-A-Pilha.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/3LR7VV9qFQ",
+    "tags": []
+  },
+  {
+    "id": "prod_100",
+    "title": "Brinquedo Super Macio e Lento de Apertar com Aroma de Manteiga, Presente de Natal para Alívio do Estresse",
+    "category": "Brinquedos",
+    "price": "R$ 11,79",
+    "originalPrice": "R$ 17,50",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Brinquedo-Super-Macio-e-Lento-de-Apertar-com-Aroma-de-Manteiga-Presente-de-Natal-para-Alivio-do-Estresse.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/3VkXho9CuT",
+    "tags": []
+  },
+  {
+    "id": "prod_101",
+    "title": "Kit Pomadas Cera Caramelito",
+    "category": "Beleza",
+    "price": "R$ 11,97",
+    "originalPrice": "R$ 23,17",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Kit-1x-a-3x-Pomadas-Cera-Caramelito-80g-Infinity-Classe-A---Antifrizz-Penteados-Modela-Alta-Fixacao-Hidrata-os-Fios-Fox.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/3g3xu78ZZW",
+    "tags": []
+  },
+  {
+    "id": "prod_102",
+    "title": "Batedor Misturador Mixer Elétrico para Bebidas Leite Café Clara de Ovo 2 em 1",
+    "category": "Cozinha",
+    "price": "R$ 18,99",
+    "originalPrice": "R$ 89,99",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Batedor-Misturador-Mixer-Eletrico-para-Bebidas-Leite-Cafe-Clara-de-Ovo-2-em-1.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/3qNO6Q7wEZ",
+    "tags": []
+  },
+  {
+    "id": "prod_103",
+    "title": "Escova Linfática Facial De Ajuste De Precisão",
+    "category": "Beleza",
+    "price": "R$ 10,85",
+    "originalPrice": "R$ 21,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Escova-Linfatica-Facial-De-Ajuste-De-Precisao-Massageador-Ergonomico-Para-Alivio-Da-Fadiga-E-Inchaco.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/40goIj7Itc",
+    "tags": []
+  },
+  {
+    "id": "prod_104",
+    "title": "Jogo De Taças De Vidro Diamond Cristal",
+    "category": "Casa e Construção",
+    "price": "R$ 34,99",
+    "originalPrice": "R$ 34,99",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Jogo-De-Tacas-De-Vidro-Diamond-Cristal-325ml-6-Pecas.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/4B0EV26fYf",
+    "tags": []
+  },
+  {
+    "id": "prod_105",
+    "title": "Lavitan Cabelos e Unhas 60 Cápsulas",
+    "category": "Outros",
+    "price": "R$ 16,38",
+    "originalPrice": "R$ 21,38",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Lavitan-Cabelos-e-Unhas-60-Capsulas.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/4Vd4te5Osl",
+    "tags": []
+  },
+  {
+    "id": "prod_106",
+    "title": "Adesivo Detox Para os Pés Kit",
+    "category": "Beleza",
+    "price": "R$ 10,49",
+    "originalPrice": "R$ 40,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Adesivo-Detox-Para-os-Pes-Kit-10-a-50-Foot-Patch-Natural-Relaxamento-Bem-Estar-Uso-Noturno-Pes-Cansa.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/4fwV5x4lXo",
+    "tags": []
+  },
+  {
+    "id": "prod_107",
+    "title": "Jogo de Lençol 400 Fios Ponto Palito Tecido Leve",
+    "category": "Casa e Construção",
+    "price": "R$ 13,90",
+    "originalPrice": "R$ 33,45",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Jogo-de-Lencol-400-Fios-Ponto-Palito-Tecido-Leve-Suave-Berco-Solteiro-Casal-Queen-King-02-e-03-Pecas.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/4qFvIG48Cr",
+    "tags": []
+  },
+  {
+    "id": "prod_108",
+    "title": "Alaxe5 Geração Alto Falante Original",
+    "category": "Outros",
+    "price": "R$ 49,99",
+    "originalPrice": "R$ 199,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Alaxe5-Geracao-Alto-Falante-Original-Envio-Imediato-Melhor-Preco.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/50ZLUZ3Uru",
+    "tags": []
+  },
+  {
+    "id": "prod_109",
+    "title": "Palmilha de Gel Ortopédica",
+    "category": "Outros",
+    "price": "R$ 9,99",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Palmilha-de-Gel-Ortopedica-P-u-Confortavel-Macia-Ideal-Para-Quem-Trabalha-Em-Pe-Muitas-Horas.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/5Aslgs2rWx",
+    "tags": []
+  },
+  {
+    "id": "prod_110",
+    "title": "Suporte Organizador De Metal",
+    "category": "Casa e Construção",
+    "price": "R$ 7,99",
+    "originalPrice": "R$ 23,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Suporte-Organizador-De-Metal-Rack-de-Parede-Banheiro-Cozinha-Prateleiras-Porta-Shampoo.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/5LCBtB2EC0",
+    "tags": []
+  },
+  {
+    "id": "prod_111",
+    "title": "Jogo De Lençol 400 Fios Micropercal 3 Peças",
+    "category": "Casa e Construção",
+    "price": "R$ 22,69",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Jogo-De-Lencol-400-Fios-Micropercal-3-Pecas-Cama-Casal-Queen-King-Solteiro-Elastico-Toque-Macio.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/5VVc5U1ar3",
+    "tags": []
+  },
+  {
+    "id": "prod_112",
+    "title": "Creatina Max Titanium 300g Pura",
+    "category": "Outros",
+    "price": "R$ 44,00",
+    "originalPrice": "R$ 180,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Creatina-Max-Titanium-300g-Pura.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/5fp2Hn0xW6",
+    "tags": []
+  },
+  {
+    "id": "prod_113",
+    "title": "Kit Clareador Facial - Sabonete Líquido + Protetor Solar Clareador 70 FPS + Sérum Multicorretivo Clareador",
+    "category": "Beleza",
+    "price": "R$ 79,90",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Kit-Clareador-Facial---Sabonete-Liquido---Protetor-Solar-Clareador-70-FPS---Serum-Multicorretivo-Clareador.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/5q8SU60KB9",
+    "tags": []
+  },
+  {
+    "id": "prod_114",
+    "title": "Spray Impermeabilizante VedaTudo Dryko",
+    "category": "Casa e Construção",
+    "price": "R$ 19,69",
+    "originalPrice": "R$ 25,90",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Spray-Impermeabilizante-VedaTudo-400ml-235g-Dryko.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/60RsgOzgqC",
+    "tags": []
+  },
+  {
+    "id": "prod_115",
+    "title": "Capa Para Colchão Impermeavel Matelado Com Elastico",
+    "category": "Casa e Construção",
+    "price": "R$ 13,90",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Capa-Para-Colchao-Impermeavel-Matelado-Com-Elastico.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/6AlIshz3VF",
+    "tags": []
+  },
+  {
+    "id": "prod_116",
+    "title": "Brincos femininos",
+    "category": "Outros",
+    "price": "R$ 7,88",
+    "originalPrice": "R$ 55,08",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Brincos-femininos-1-par-na-cor-dourada-com-zirconia-embutida-design-de-estrela-de-oito-pontas-feitos-de-liga-metalica.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/6L4j50yQAI",
+    "tags": []
+  },
+  {
+    "id": "prod_117",
+    "title": "Sérum Roll-On Área dos Olhos Adeus Olheiras 10ml Kokeshi",
+    "category": "Beleza",
+    "price": "R$ 29,90",
+    "originalPrice": "R$ 12,90",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Kit-Clareador-Facial---Sabonete-Liquido---Protetor-Solar-Clareador-70-FPS---Serum-Multicorretivo-Clareador.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/6VO9HJxmpL",
+    "tags": []
+  },
+  {
+    "id": "prod_118",
+    "title": "Ração Úmida Friskies 85g - Caixa com 15 unidades",
+    "category": "Outros",
+    "price": "R$ 39,90",
+    "originalPrice": "R$ 79,90",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Racao-Umida-Friskies-85g---Caixa-com-15-unidades.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/6fhZTcx9UO",
+    "tags": []
+  },
+  {
+    "id": "prod_119",
+    "title": "Senbenbao X55 Fones De Ouvido TWS Sono Sem Fio Bluetooth Display Led Alta Fidelidade Estéreo Cancelamento Ruído À Prova",
+    "category": "Outros",
+    "price": "R$ 15,13",
+    "originalPrice": "R$ 22,48",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Senbenbao-X55-Fones-De-Ouvido-TWS-Sono-Sem-Fio-Bluetooth-Display-Led-Alta-Fidelidade-Estereo-Cancelamento-Ruido-A-Prova.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/6q0zfvwW9R",
+    "tags": []
+  },
+  {
+    "id": "prod_120",
+    "title": "Máquina Nebulizadora Portátil Inalador Nebulizador Adulto Infantil Silencioso",
+    "category": "Outros",
+    "price": "R$ 20,99",
+    "originalPrice": "R$ 99,99",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Maquina-Nebulizadora-Portatil-Inalador-Nebulizador-Adulto-Infantil-Silencioso.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/70KPsEvsoU",
+    "tags": []
+  },
+  {
+    "id": "prod_121",
+    "title": "Hidrocolóide Acne Remendos Rosto Espinha Adesivos",
+    "category": "Beleza",
+    "price": "R$ 3,00",
+    "originalPrice": "R$ 13,50",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/40-120-Pcs-Hidrocoloide-Acne-Remendos-Rosto-Espinha-Adesivos-Para-Zits-Tratamento-De-Ponto-Cuidados-Com-A-Pele-Essencial.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/7Adq4XvFTX",
+    "tags": []
+  },
+  {
+    "id": "prod_122",
+    "title": "Jogo De Chave Catraca Caixa De Ferramentas para Reparo",
+    "category": "Casa e Construção",
+    "price": "R$ 28,99",
+    "originalPrice": "R$ 99,80",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/40-Pecas-46-Pecas-Jogo-De-Chave-Catraca-Caixa-De-Ferramentas-para-Reparo-de-Carros---Conjuntos-de-Chaves.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/7KxGGquc8a",
+    "tags": []
+  },
+  {
+    "id": "prod_123",
+    "title": "Pack Saco de Lixo Lavanda Pia e Banheiro",
+    "category": "Casa e Construção",
+    "price": "R$ 8,99",
+    "originalPrice": "R$ 42,99",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Pack-Saco-de-Lixo-Lavanda-Pia-e-Banheiro-34x38cm-Neutraliza-Odores-Material-Resistente.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/7VGgT9tynd",
+    "tags": []
+  },
+  {
+    "id": "prod_124",
+    "title": "Oxímetro de Dedo Digital Portátil",
+    "category": "Outros",
+    "price": "R$ 13,49",
+    "originalPrice": "R$ 99,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Oximetro-de-Dedo-Digital-Portatil---Medidor-de-Oxigenio-SpO2-e-Frequencia-Cardiaca-com-Tela-LED-Colorida.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/7fa6fStLSg",
+    "tags": []
+  },
+  {
+    "id": "prod_125",
+    "title": "Lencol 400 Fios Micropercal Cama Tecido Super Macio",
+    "category": "Casa e Construção",
+    "price": "R$ 25,99",
+    "originalPrice": "R$ 65,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Lencol-Queen-400-Fios-Micropercal-Cama-Casal-Solteiro-Tecido-Super-Macio.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/7ptWrlsi7j",
+    "tags": []
+  },
+  {
+    "id": "prod_181",
+    "title": "Squishy Bolinho Dumpling Brilhante",
+    "category": "Brinquedos",
+    "price": "R$ 26,79",
+    "originalPrice": "R$ 119,90",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Squishy-Bolinho-Dumpling-Brilhante-Glitter-Led-9cm-Anti-Estresse-Paozinho-Baozi-Alivio-Apertar.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/1Lg6cJBnGO",
+    "tags": []
+  },
+  {
+    "id": "prod_182",
+    "title": "Meias Divertidas de Algodão Premium",
+    "category": "Roupas Femininas",
+    "price": "R$ 20,66",
+    "originalPrice": "R$ 93,25",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Meias-3D-para-Volta-as-Aulas---Meias-Divertidas-de-Algodao-Premium-com-Personagens-para-Criancas-LJCV.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/1VzWocB9vR",
+    "tags": []
+  },
+  {
+    "id": "prod_183",
+    "title": "Squishy Bun Surpresa",
+    "category": "Outros",
+    "price": "R$ 15,99",
+    "originalPrice": "R$ 89,99",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Squishy-Bun-Surpresa-2-Estilos-6-Cores-Brinquedo-Sensorial-Macio-Glitter-para-Apertar-3%2B.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/1gIx0vAWaU",
+    "tags": []
+  },
+  {
+    "id": "prod_184",
+    "title": "Parafusadeira Furadeira 25V Nakasaki Sem Fio a Bateria Profissional Kit Completo com Maleta",
+    "category": "Casa e Construção",
+    "price": "R$ 76,00",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Parafusadeira-Furadeira-25V-Nakasaki-Sem-Fio-a-Bateria-Profissional-Kit-Completo-com-Maleta.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/1qcNDE9tFX",
+    "tags": []
+  },
+  {
+    "id": "prod_185",
+    "title": "Organizador de maquiagem Acrílico Giratório 360º Suporte Para Cosméticos",
+    "category": "Casa e Construção",
+    "price": "R$ 39,90",
+    "originalPrice": "R$ 45,90",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Organizador-de-maquiagem-Acrilico-Giratorio-360o-Suporte-Para-Cosmeticos.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/gQPp5EKcK",
+    "tags": []
+  },
+  {
+    "id": "prod_186",
+    "title": "Conjunto Short Duplo Tactel Poliamida",
+    "category": "Moda feminina",
+    "price": "R$ 144,00",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Conjunto-Short-Duplo-Tactel-Poliamida-Fitness-Academia-Treino.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/qjq1ODhHN",
+    "tags": []
+  },
+  {
+    "id": "prod_187",
+    "title": "Bolsa Feminina Média Bordada Dubai",
+    "category": "Moda feminina",
+    "price": "R$ 43,96",
+    "originalPrice": "R$ 119,90",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Bolsa-Feminina-Media-Bordada-Dubai-dia-a-dia.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/113GDhD3wQ",
+    "tags": []
+  },
+  {
+    "id": "prod_188",
+    "title": "Jaqueta De Couro Feminino Retro",
+    "category": "Roupas Femininas",
+    "price": "R$ 209,75",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Outono-Inverno-Solto-Jaqueta-De-Couro-Feminino-Retro-Rua-Lichia-Modelado-Falso-Streetwear-Plutonio-Outwear.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/1BMgQ0CQbT",
+    "tags": []
+  },
+  {
+    "id": "prod_189",
+    "title": "Adeforte Turbo + Biotina Original",
+    "category": "Saúde",
+    "price": "R$ 59,99",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Adeforte-Turbo---Biotina-3ml-Original-Vitamina-Cabelos-Pele-Unhas.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/1Aj1rGryG",
+    "tags": []
+  },
+  {
+    "id": "prod_190",
+    "title": "Expositor de Doces p/ Carro",
+    "category": "Acessórios para Veículos",
+    "price": "R$ 28,99",
+    "originalPrice": "R$ 153,68",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Expositor-de-Doces-p--Carro-Uber-99-taxi-Indriver-Banco-Porta-Treco-Multiuso.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/BU9EAGEdJ",
+    "tags": []
+  },
+  {
+    "id": "prod_191",
+    "title": "Kit Hidratante Corporal + Body Splash Feminino VS",
+    "category": "Beleza",
+    "price": "R$ 69,93",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Kit-Hidratante-Corporal---Body-Splash-Feminino---Fragrancia-Doce-Frutal---Hidratacao-Prolongada---Pele-Macia.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/LnZQTFbIM",
+    "tags": []
+  },
+  {
+    "id": "prod_192",
+    "title": "Eudora Siàge Pro Cronology",
+    "category": "Beleza",
+    "price": "R$ 190,00",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Eudora-Siage-Pro-Cronology.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/W6zcmExxP",
+    "tags": []
+  },
+  {
+    "id": "prod_193",
+    "title": "Medusa Brinquedo",
+    "category": "Brinquedos",
+    "price": "R$ 19,99",
+    "originalPrice": "R$ 99,99",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Medusa-Pinch-Music-Needoh-Brinquedo-Brinquedo-de-descompressao-de-recuperacao-lenta.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/9zy4wEengG",
+    "tags": []
+  },
+  {
+    "id": "prod_194",
+    "title": "Par de Manoplas GTA 165mm Bike",
+    "category": "Esportes e Lazer",
+    "price": "R$ 13,90",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Par-de-Manoplas-GTA-165mm-Bike-MTB-BMX-DH-Freeride-Patinete-Gios-Hupi---Punho-Antiderrapante.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/AAHV8XeALJ",
+    "tags": []
+  },
+  {
+    "id": "prod_195",
+    "title": "Manteiga Squeeze",
+    "category": "Brinquedos",
+    "price": "R$ 12,90",
+    "originalPrice": "R$ 79,80",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/3-Pcs-23.5cm-Manteiga-Squeeze-Brinquedo-Macio-Vara-Lento-Subindo-Fidget-Alivio-Do-Estresse-Barra-Tijolo-Se.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/AKavKqdX0M",
+    "tags": []
+  },
+  {
+    "id": "prod_196",
+    "title": "Kit C/5 Calcinha Fio Dental Fio Duplo",
+    "category": "Roupas Femininas",
+    "price": "R$ 32,80",
+    "originalPrice": "R$ 59,90",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Kit-C-5-Calcinha-Fio-Dental-Fio-Duplo-Calcinha-Feminina-Lingerie-Sensual.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/9KiO90hL2C",
+    "tags": []
+  },
+  {
+    "id": "prod_197",
+    "title": "Porta Ampola 3ml - Coração",
+    "category": "Saúde",
+    "price": "R$ 11,90",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Porta-Ampola-3ml---Coracao.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/9V1oLJghhF",
+    "tags": []
+  },
+  {
+    "id": "prod_198",
+    "title": "Cabelo maluco unisex",
+    "category": "Outros",
+    "price": "R$ 24,92",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Cabelo%20maluco%20unisex%20menino%20e%20menina%20presilha%20divertida.mp4",
+    "affiliateLink": "https://s.shopee.com.br/9fLEXcg4MI",
+    "tags": []
+  },
+  {
+    "id": "prod_199",
+    "title": "Conjunto Short Duplo+Top Alcinha Com Bojo",
+    "category": "Roupas Femininas",
+    "price": "R$ 98,00",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Conjunto-Short-Duplo-Top-Alcinha-Com-Bojo-Para-Treinos-Esportivos-No-Geral.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/9peejvfR1L",
+    "tags": []
+  },
+  {
+    "id": "prod_200",
+    "title": "MATATABI PARA GATOS KIT 10 UNIDADES",
+    "category": "Outros",
+    "price": "R$ 14,90",
+    "originalPrice": "R$ 19,90",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/MATATABI-PARA-GATOS-KIT-10-UNIDADES.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/8fShLmjsO8",
+    "tags": []
+  },
+  {
+    "id": "prod_201",
+    "title": "Celimax Creme Clareador Pore Dark Spot",
+    "category": "Beleza e cuidados com a pele",
+    "price": "R$ 107,00",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Elimax-Creme-Clareador-Pore-Dark-Spot-35-Ml-Todo-Tipo-De-Pele-Dia-Noite.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/8pm7Y5jF3B",
+    "tags": []
+  },
+  {
+    "id": "prod_202",
+    "title": "Meia Maluca Divertida Guerreiras do k-pop 33 ao 39",
+    "category": "Roupas Femininas",
+    "price": "R$ 49,99",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Meia-Maluca-Divertida-Guerreiras-do-k-pop-33-ao-39.mp4.mp4",
+    "affiliateLink": "https://s.shopee.com.br/9AOxwhhyNH",
+    "tags": []
+  },
+  {
+    "id": "prod_203",
+    "title": "Kit 2 Baldes 3 Bacias",
+    "category": "Limpeza e organização",
+    "price": "R$ 39,89",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Kit%202%20Baldes%203%20Bacias%20Coloridos%20Lavanderia%20Roupas.mp4",
+    "affiliateLink": "https://s.shopee.com.br/3qNUWT05LT",
+    "tags": []
+  },
+  {
+    "id": "prod_204",
+    "title": "Anel Prata 925 Moissanite",
+    "category": "Moda feminina",
+    "price": "R$ 364,00",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Anel%20Prata%20925%20Moissanite%203%20Pedras%20com%20Pedra%20Central%205mm%20Sofisticado.mp4",
+    "affiliateLink": "https://s.shopee.com.br/40guilzS0W",
+    "tags": []
+  },
+  {
+    "id": "prod_205",
+    "title": "Brincos De Moissanite De Girassol",
+    "category": "Moda feminina",
+    "price": "R$ 22,47",
+    "originalPrice": "R$ 29,95",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Brincos%20Elegantes%20De%20Moissanite%20De%20Girassol-0.56%20Quilates%20Cada%20%2C%20Prata%20Esterlina%20925%20%2C%20Perfeitos%20Para%20Anivers%C3%A1rios%20%2C%20E%20C.mp4",
+    "affiliateLink": "https://s.shopee.com.br/4B0Kv4yofZ",
+    "tags": []
+  },
+  {
+    "id": "prod_206",
+    "title": "Pote Vidro Hermético Decor Afeto Coração",
+    "category": "Cozinha",
+    "price": "R$ 39,96",
+    "originalPrice": "R$ 55,90",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Pote%20Vidro%20%C3%82mbar%20Herm%C3%A9tico%20Decor%20Afeto%20Cora%C3%A7%C3%A3o.mp4",
+    "affiliateLink": "https://s.shopee.com.br/4LJl7NyBKc",
+    "tags": []
+  },
+  {
+    "id": "prod_207",
+    "title": "Vassoura Mágica 2 em 1",
+    "category": "Limpeza e lavanderia",
+    "price": "R$ 75,99",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Vassoura%20M%C3%A1gica%202%20em%201%20%E2%80%93%20Aspirador%20Manual%20e%20Esfreg%C3%A3o%20Girat%C3%B3rio%20para%20Limpeza%20Dom%C3%A9stica%20Pr%C3%A1tica.mp4",
+    "affiliateLink": "https://s.shopee.com.br/4VdBJgxXzf",
+    "tags": []
+  },
+  {
+    "id": "prod_208",
+    "title": "Conjunto de Pijamas de Seda para Mulheres",
+    "category": "Roupas Femininas",
+    "price": "R$ 37,78",
+    "originalPrice": "R$ 253,93",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Conjunto%20de%20Pijamas%20de%20Seda%20para%20Mulheres.mp4",
+    "affiliateLink": "https://s.shopee.com.br/4fwbVzwuei",
+    "tags": []
+  },
+  {
+    "id": "prod_209",
+    "title": "Mini Umidificador Difusor Aromatizador Egg Portátil Usb",
+    "category": "Casa e Construção",
+    "price": "R$ 16,99",
+    "originalPrice": "R$ 39,80",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Mini%20Umidificador%20Difusor%20Aromatizador%20Egg%20Port%C3%A1til%20Usb.mp4",
+    "affiliateLink": "https://s.shopee.com.br/4qG1iIwHJl",
+    "tags": []
+  },
+  {
+    "id": "prod_210",
+    "title": "Suporte De Parede Multifuncional",
+    "category": "Outros",
+    "price": "R$ 23,93",
+    "originalPrice": "R$ 32,79",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Suporte%20De%20Parede%20Multifuncional%20Chapinha%20Babyliss%20Secador%20De%20Cabelo%20Organizador%20De%20Sal%C3%A3o%20Banheiro.mp4",
+    "affiliateLink": "https://s.shopee.com.br/50ZRubvdyo",
+    "tags": []
+  },
+  {
+    "id": "prod_211",
+    "title": "Kit Anti Mofo Evita Fungos Umidade",
+    "category": "Limpeza e lavanderia",
+    "price": "R$ 26,90",
+    "originalPrice": "R$ 62,90",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Kit%20Anti%20Mofo%20Evita%20Fungos%20Umidade%20Cheiro%20Guarda%20Gavetas%20Arm%C3%A1rios%20Roupas.mp4",
+    "affiliateLink": "https://s.shopee.com.br/5Ass6uv0dr",
+    "tags": []
+  },
+  {
+    "id": "prod_212",
+    "title": "Organizador De Mala De Bagagem Viagem Kit",
+    "category": "Viagens e Bagagens",
+    "price": "R$ 19,99",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Organizador%20De%20Mala%20De%20Bagagem%20Viagem%20Kit%206%20Necessaire%20Bolsa.mp4",
+    "affiliateLink": "https://s.shopee.com.br/5LCIJDuNIu",
+    "tags": []
+  },
+  {
+    "id": "prod_213",
+    "title": "Body modelador feminino",
+    "category": "Moda feminina",
+    "price": "R$ 115,67",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Body%20modelador%20colombiano%20feminino%20com%209%20pe%C3%A7as%20de%20suporte.mp4",
+    "affiliateLink": "https://s.shopee.com.br/5VViVWtjxx",
+    "tags": []
+  },
+  {
+    "id": "prod_214",
+    "title": "Espelho Redondo Decorativo",
+    "category": "Casa e Construção",
+    "price": "R$ 22,90",
+    "originalPrice": "R$ 139,90",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Espelho%20Redondo%20Decorativo%20Adnet%20Al%C3%A7a%20Couro%20Suporte%2060cm%20Sala%20Quarto%20Banheiro.mp4",
+    "affiliateLink": "https://s.shopee.com.br/5fp8hpt6d0",
+    "tags": []
+  },
+  {
+    "id": "prod_215",
+    "title": "Caixa de Presente Dobrável Magnética",
+    "category": "Outros",
+    "price": "R$ 27,80",
+    "originalPrice": "R$ 60,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Caixa%20de%20Presente%20Dobr%C3%A1vel%20Magn%C3%A9tica%20com%20La%C3%A7o%20de%20Cetim%20%E2%80%93%203%20Tamanhos.mp4",
+    "affiliateLink": "https://s.shopee.com.br/5q8Yu8sTI3",
+    "tags": []
+  },
+  {
+    "id": "prod_216",
+    "title": "Anel Solitário Moissanite 6mm",
+    "category": "Moda feminina",
+    "price": "R$ 499,00",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Anel%20Solit%C3%A1rio%20Moissanite%206mm%20Cravejado%20com%20Detalhe%20na%20Caixa%20em%20Prata%20925%20Elegante.mp4",
+    "affiliateLink": "https://s.shopee.com.br/60Rz6Rrpx6",
+    "tags": []
+  },
+  {
+    "id": "prod_217",
+    "title": "Ômega 3 1450mg óleo de peixe - EPA + TDH 30 cáps",
+    "category": "Saúde",
+    "price": "R$ 20,96",
+    "originalPrice": "R$ 68,99",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/%C3%94mega%203%201450mg%20%C3%B3leo%20de%20peixe%20-%20EPA%20%2B%20TDH%2030%20c%C3%A1ps.mp4",
+    "affiliateLink": "https://s.shopee.com.br/6L4pV3qZHC",
+    "tags": []
+  },
+  {
+    "id": "prod_218",
+    "title": "Adesivos Personalizados 4x4 cm",
+    "category": "Outros",
+    "price": "R$ 18,49",
+    "originalPrice": "R$ 79,99",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Adesivos%20Personalizados%204x4%20cm%20-%201000%20unidades%2C%20500%2C%20300%20ou%20200%20unidades%20-%20Com%20sua%20logo%20ou%20arte.mp4",
+    "affiliateLink": "https://s.shopee.com.br/6VOFhMpvwF",
+    "tags": []
+  },
+  {
+    "id": "prod_219",
+    "title": "Guarda-Chuva Grande Automático",
+    "category": "Outros",
+    "price": "R$ 21,98",
+    "originalPrice": "R$ 84,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Guarda-Chuva%20Grande%20Autom%C3%A1tico%20-%20Fibra%20de%20Vidro%20Blackout%20para%20Prote%C3%A7%C3%A3o%20UV%2C%20Refor%C3%A7ado%20para%20Tempestade%EF%BC%81.mp4",
+    "affiliateLink": "https://s.shopee.com.br/6fhftfpIbI",
+    "tags": []
+  },
+  {
+    "id": "prod_220",
+    "title": "Fatiador Ralador 16 em 1 Profissional",
+    "category": "Cozinha",
+    "price": "R$ 35,98",
+    "originalPrice": "R$ 89,90",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Fatiador%20Ralador%2016%20em%201%20Profissional%20de%20Cozinha%20em%20A%C3%A7o%20Inoxid%C3%A1vel%20Multifuncional%20para%20Legumes%20Frutas%20e%20Verduras.mp4",
+    "affiliateLink": "https://s.shopee.com.br/6q165yofGL",
+    "tags": []
+  },
+  {
+    "id": "prod_221",
+    "title": "Bolsa Feminina Baú Transversal Média",
+    "category": "Moda feminina",
+    "price": "R$ 39,98",
+    "originalPrice": "R$ 120,00",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Bolsa%20Feminina%20Ba%C3%BA%20Transversal%20M%C3%A9dia%20com%20Len%C3%A7o%20Al%C3%A7a%20Tiracolo%20Estruturada%20e%20Espa%C3%A7osa.mp4",
+    "affiliateLink": "https://s.shopee.com.br/7AdwUanOaR",
+    "tags": []
+  },
+  {
+    "id": "prod_222",
+    "title": "Kit Balão Bexiga Ano Novo 2027",
+    "category": "Outros",
+    "price": "R$ 25,90",
+    "originalPrice": "",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Kit%20Bal%C3%A3o%20Bexiga%20Ano%20Novo%202027%20%2B%20Numero%20Metalizado%20%2B%20Branco%20%2B%20Cristal%20Decora%C3%A7%C3%A3o.mp4",
+    "affiliateLink": "https://s.shopee.com.br/7KxMgtmlFU",
+    "tags": []
+  },
+  {
+    "id": "prod_223",
+    "title": "Organizadores de Geladeira de Acrílico com Tampa Drenagem 2,2 Litros",
+    "category": "Cozinha",
+    "price": "R$ 29,90",
+    "originalPrice": "R$ 139,90",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Organizadores%20de%20Geladeira%20de%20Acr%C3%ADlico%20com%20Tampa%20Drenagem%202%2C2%20Litros.mp4",
+    "affiliateLink": "https://s.shopee.com.br/7VGmtCm7uX",
+    "tags": []
+  },
+  {
+    "id": "prod_224",
+    "title": "Água Perfumada 500ml Para Lençóis, Roupas e Tecidos + Borrifador",
+    "category": "Casa e Construção",
+    "price": "R$ 28,89",
+    "originalPrice": "R$ 59,90",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/%C3%81gua%20Perfumada%20500ml%20Para%20Len%C3%A7%C3%B3is%2C%20Roupas%20e%20Tecidos%20%2B%20Borrifador%20Alpha%20Oriental.mp4",
+    "affiliateLink": "https://s.shopee.com.br/7faD5VlUZa",
+    "tags": []
+  },
+  {
+    "id": "prod_261",
+    "title": "Colchão Massageador Shiatsu com Aquecimento",
+    "category": "Saúde",
+    "price": "R$ 437,99",
+    "originalPrice": "R$ 1.125,90",
+    "videoUrl": "https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/videos/Colch%C3%A3o%20Massageador%20Shiatsu%20com%20Aquecimento%2C%20Airbag%2C%20Vibra%C3%A7%C3%A3o%20e%20Controle%20Remoto.mp4",
+    "affiliateLink": "https://s.shopee.com.br/20vqL6744z",
+    "tags": []
   }
 ]
