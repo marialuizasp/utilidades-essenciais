@@ -37,13 +37,16 @@ function ProductVisual({ product, compact = false }) {
       <video
         src={product.videoUrl}
         muted
+        autoPlay
         loop
         playsInline
-        preload="metadata"
-        onMouseEnter={(event) => event.currentTarget.play().catch(() => {})}
-        onMouseLeave={(event) => {
-          event.currentTarget.pause();
-          event.currentTarget.currentTime = 0;
+        preload="auto"
+        onLoadedData={(event) => {
+          const video = event.currentTarget;
+          if (video.currentTime === 0) {
+            try { video.currentTime = 0.08; } catch {}
+          }
+          video.play().catch(() => {});
         }}
       />
       <span className="store-media-badge">{product.category || 'Achadinho'}</span>
