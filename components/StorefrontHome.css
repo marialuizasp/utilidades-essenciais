@@ -974,18 +974,96 @@
 }
 
 @media (max-width: 430px) {
-  .store-hero-actions { display: grid; }
-  .store-hero-actions a { width: 100%; }
+  .store-header-inner {
+    width: calc(100% - 24px);
+  }
 
-  .store-product-grid { grid-template-columns: 1fr; }
-  .store-product-card { display: grid; grid-template-columns: 42% 58%; height: auto; }
-  .store-product-copy { min-width: 0; }
-  .store-card-cta { margin-top: 12px; }
-  .store-product-media { aspect-ratio: auto; min-height: 172px; }
-  .store-product-kicker { font-size: 8px; }
-  .store-card-cta { margin-top: 10px; }
+  .store-search {
+    min-height: 46px;
+  }
 
-  .store-small-card { flex-basis: 68vw; }
+  .store-search input {
+    font-size: 13px;
+  }
+
+  .store-hero-inner,
+  .store-section,
+  .store-discovery,
+  .store-category-rows,
+  .store-benefits {
+    width: calc(100% - 24px);
+  }
+
+  .store-hero-copy h1 {
+    font-size: 46px;
+    line-height: .94;
+  }
+
+  .store-hero-actions {
+    display: grid;
+  }
+
+  .store-hero-actions a {
+    width: 100%;
+  }
+
+  .store-section-heading {
+    flex-wrap: wrap;
+  }
+
+  .store-product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .store-product-card {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+
+  .store-product-media {
+    aspect-ratio: 16 / 10;
+    min-height: 0;
+  }
+
+  .store-product-copy {
+    min-width: 0;
+    padding: 14px;
+  }
+
+  .store-product-copy h3 {
+    min-height: 0;
+    font-size: 15px;
+  }
+
+  .store-product-kicker {
+    font-size: 9px;
+  }
+
+  .store-card-cta {
+    margin-top: 12px;
+  }
+
+  .store-discovery-card {
+    flex-basis: 82vw;
+  }
+
+  .store-small-card {
+    flex-basis: 72vw;
+  }
+
+  .store-row-heading {
+    align-items: center;
+  }
+
+  .store-row-heading button {
+    flex: 0 0 auto;
+  }
+
+  .store-footer {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
 }
 
 
@@ -1065,4 +1143,13 @@
 @media (max-width: 700px) {
   .store-product-code { font-size: 8px; padding: 5px 7px; }
   .store-small-meta b { font-size: 8px; }
+}
+
+
+@media (max-width: 370px) {
+  .store-hero-copy h1 { font-size: 42px; }
+  .store-discovery-card { flex-basis: 86vw; }
+  .store-small-card { flex-basis: 78vw; }
+  .store-row-heading h2 { font-size: 23px; }
+  .store-row-heading button { padding: 0 10px; }
 }
