@@ -49,7 +49,7 @@ export async function POST(request) {
     const payload = await request.json();
     if (!passwordMatches(payload.password)) return json({ error: 'Senha administrativa inválida ou não configurada.' }, 401);
     const token = await accessToken();
-    const data = await sheets(token, '/values/' + encodeURIComponent('Produtos!A2:K') + '?valueRenderOption=FORMATTED_VALUE');
+    const data = await sheets(token, '/values/' + encodeURIComponent('Produtos!A2:O') + '?valueRenderOption=FORMATTED_VALUE');
     const existing = data.values || [];
     if (payload.action === 'list' || payload.action === 'addCategory') {
       const meta = await sheets(token, '?fields=sheets.properties.title');
@@ -89,10 +89,19 @@ export async function POST(request) {
       const old = clean(p.originalPrice).replace(/^R\$\s*/i, '').replace(/\./g, '').replace(',', '.');
       if ((price && (!Number.isFinite(Number(price)) || Number(price) < 0)) || (old && (!Number.isFinite(Number(old)) || Number(old) < 0))) { errors.push({ line:i+1, reason:'Preço inválido.' }); return; }
       const id = 'prod_' + String(++nextId).padStart(3, '0');
-      rows.push([id,safeCell(name),safeCell(p.category || 'Outros'),price ? Number(price) : '',old ? Number(old) : '',url,video,validUrl(clean(p.imageUrl)) ? clean(p.imageUrl) : '', '', video ? 'SIM' : 'NÃO',safeCell([p.notes || 'Cadastrado pelo painel administrativo',itemId?'Shopee Item ID: '+itemId:'',validUrl(productUrl)?'Produto original: '+productUrl:''].filter(Boolean).join(' | '))]);
+      const seasonal = p.seasonal === true || clean(p.seasonal).toUpperCase() === 'SIM';
+      const toDayMonth = value => { const m=clean(value).match(/^\d{4}-(\d{2})-(\d{2})$/); return m ? m[2]+'/'+m[1] : ''; };
+      const seasonalStart = seasonal ? toDayMonth(p.seasonalStart) : '';
+      const seasonalEnd = seasonal ? toDayMonth(p.seasonalEnd) : '';
+      if (seasonal && (!seasonalStart || !seasonalEnd)) { errors.push({ line:i+1, reason:'Produto sazonal precisa ter data inicial e final.' }); nextId--; return; }
+      const recurrence = seasonal ? (clean(p.recurrence).toUpperCase() || 'ANUAL') : '';
+      rows.push([id,safeCell(name),safeCell(p.category || 'Outros'),price ? Number(price) : '',old ? Number(old) : '',url,video,validUrl(clean(p.imageUrl)) ? clean(p.imageUrl) : '', '', video ? 'SIM' : 'NÃO',safeCell([p.notes || 'Cadastrado pelo painel administrativo',itemId?'Shopee Item ID: '+itemId:'',validUrl(productUrl)?'Produto original: '+productUrl:''].filter(Boolean).join(' | ')),seasonal?'SIM':'NÃO',seasonalStart,seasonalEnd,recurrence]);
       keys.add(key);if(validUrl(productUrl))keys.add(productKey(productUrl));names.add(normalized);if(itemId)itemIds.add(itemId);
     });
-    if (rows.length) await sheets(token, '/values/' + encodeURIComponent('Produtos!A:K') + ':append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS', { method:'POST', body:JSON.stringify({ majorDimension:'ROWS', values:rows }) });
+    if (rows.length) {
+      await sheets(token, '/values/' + encodeURIComponent('Produtos!L1:O1') + '?valueInputOption=RAW', { method:'PUT', body:JSON.stringify({ values:[['Sazonal?','Início sazonal','Fim sazonal','Recorrência']] }) });
+      await sheets(token, '/values/' + encodeURIComponent('Produtos!A:O') + ':append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS', { method:'POST', body:JSON.stringify({ majorDimension:'ROWS', values:rows }) });
+    }
     return json({ created:rows.map(r => ({ id:r[0], name:r[1] })), skipped, errors });
   } catch (error) { console.error('Admin products:', error); return json({ error:error.message || 'Erro ao cadastrar produtos.' }, 500); }
 }
