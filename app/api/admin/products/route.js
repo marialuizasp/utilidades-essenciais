@@ -46,7 +46,20 @@ export async function POST(request) {
   try {
     const origin = request.headers.get('origin');
     if (origin && origin !== new URL(request.url).origin) return json({ error: 'Origem não autorizada.' }, 403);
-    const payload = await request.json();
+    const contentType = (request.headers.get('content-type') || '').toLowerCase();
+    if (!contentType.startsWith('application/json')) {
+      return json({ error: 'Content-Type não suportado.' }, 415);
+    }
+    const raw = await request.text();
+    if (Buffer.byteLength(raw, 'utf8') > 2_000_000) {
+      return json({ error: 'Requisição muito grande.' }, 413);
+    }
+    let payload;
+    try {
+      payload = JSON.parse(raw);
+    } catch {
+      return json({ error: 'JSON inválido.' }, 400);
+    }
     if (!passwordMatches(payload.password)) return json({ error: 'Senha administrativa inválida ou não configurada.' }, 401);
     const token = await accessToken();
     const data = await sheets(token, '/values/' + encodeURIComponent('Produtos!A2:O') + '?valueRenderOption=FORMATTED_VALUE');
