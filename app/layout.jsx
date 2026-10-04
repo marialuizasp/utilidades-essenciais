@@ -3,13 +3,13 @@ import './globals.css';
 
 export const metadata = {
   title: 'Utilidades Essenciais',
-  description: 'Os melhores achadinhos e utilidades.',
+  description: 'Achadinhos, utilidades e boas descobertas para facilitar sua rotina.',
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
-      <body className="bg-black text-white antialiased m-0 p-0 overflow-hidden">
+      <body>
         {children}
         <Analytics />
       </body>
