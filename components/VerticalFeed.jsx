@@ -311,7 +311,7 @@ export default function VerticalFeed({ products = [] }) {
           )}
 
           <a
-            href={currentProduct.affiliateLink}
+            href={`/go/${encodeURIComponent(currentProduct.id)}`}
             target="_blank"
             rel="noopener noreferrer sponsored"
             className="offer-button"
