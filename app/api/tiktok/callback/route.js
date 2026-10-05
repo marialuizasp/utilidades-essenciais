@@ -21,7 +21,7 @@ export async function GET(request){
     if(value.length>3700)return result('A sessão retornada pelo TikTok é muito grande para armazenar com segurança.');
     const response=result('Sua conta foi autorizada no Sandbox. Esta etapa apenas conecta a conta neste navegador; a publicação agendada ainda não está ativada.',true);
     response.headers.append('Set-Cookie','tt_oauth_state=; Path=/api/tiktok; HttpOnly; Secure; SameSite=Lax; Max-Age=0');
-    response.headers.append('Set-Cookie',`tt_sandbox_session=${value}; Path=/api/tiktok; HttpOnly; Secure; SameSite=Strict; Max-Age=2592000`);
+    response.headers.append('Set-Cookie',`tt_sandbox_session=${value}; Path=/api/tiktok; HttpOnly; Secure; SameSite=Lax; Max-Age=2592000`);
     return response;
   }catch(error){console.error('TikTok OAuth callback:',error.message);return result('Falha temporária na conexão com o TikTok. Tente novamente.');}
 }
