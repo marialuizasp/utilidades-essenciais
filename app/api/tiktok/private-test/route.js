@@ -1,3 +1,4 @@
+import { adminSessionIsValid } from '../../../../lib/adminAuth';
 import {createDecipheriv} from 'node:crypto';
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
@@ -10,8 +11,9 @@ function session(request){
  decipher.setAuthTag(bytes.subarray(12,28));
  return JSON.parse(Buffer.concat([decipher.update(bytes.subarray(28)),decipher.final()]).toString());
 }
-export async function GET(){return new Response('<!doctype html><html lang="pt-BR"><meta charset="utf-8"><title>Teste privado TikTok</title><body style="font:18px Arial;max-width:650px;margin:60px auto;padding:20px"><h1>Teste privado: lavadora de alta pressão</h1><p>Este teste enviará um vídeo real ao TikTok com privacidade Somente eu. A publicação depende do processamento pelo TikTok.</p><form method="post"><button style="padding:15px" type="submit">Enviar vídeo privado de teste</button></form></body>',{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'}});}
+export async function GET(request){if(!adminSessionIsValid(request))return Response.json({ok:false,error:'Sessão administrativa necessária.'},{status:401,headers:{'Cache-Control':'no-store'}});return new Response('<!doctype html><html lang="pt-BR"><meta charset="utf-8"><title>Teste privado TikTok</title><body style="font:18px Arial;max-width:650px;margin:60px auto;padding:20px"><h1>Teste privado: lavadora de alta pressão</h1><p>Este teste enviará um vídeo real ao TikTok com privacidade Somente eu. A publicação depende do processamento pelo TikTok.</p><form method="post"><button style="padding:15px" type="submit">Enviar vídeo privado de teste</button></form></body>',{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'}});}
 export async function POST(request){
+ if(!adminSessionIsValid(request))return Response.json({ok:false,error:'Sessão administrativa necessária.'},{status:401,headers:{'Cache-Control':'no-store'}});
  const origin=request.headers.get('origin');if(origin!==new URL(request.url).origin)return Response.json({ok:false,error:'Origem inválida.'},{status:403});
  let s;try{s=session(request);}catch{return Response.json({ok:false,error:'Reconecte o TikTok.'},{status:401});}
  if(Date.now()>s.expires_at-60000)return Response.json({ok:false,error:'Sessão expirada. Reconecte o TikTok e tente novamente.'},{status:401});
