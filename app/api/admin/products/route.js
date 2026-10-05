@@ -1,4 +1,5 @@
-import { createSign, timingSafeEqual } from 'node:crypto';
+import { createSign } from 'node:crypto';
+import { adminSessionIsValid } from '../../../../lib/adminAuth';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -16,58 +17,6 @@ const productKey = value => {
     return u.origin.toLowerCase() + u.pathname.replace(/\/$/, '').toLowerCase();
   } catch { return clean(value).toLowerCase(); }
 };
-function passwordMatches(value) {
-  const expected = process.env.ADMIN_PASSWORD || '';
-  if (!expected || !value) return false;
-  const a = Buffer.from(String(value)), b = Buffer.from(expected);
-  return a.length === b.length && timingSafeEqual(a, b);
-}
-const AUTH_WINDOW_MS = 10 * 60 * 1000;
-const AUTH_MAX_FAILURES = 8;
-const authFailures = globalThis.__ueAdminAuthFailures || (globalThis.__ueAdminAuthFailures = new Map());
-
-function clientKey(request) {
-  return clean(
-    request.headers.get('x-real-ip')
-    || request.headers.get('x-forwarded-for')?.split(',')[0]
-    || 'unknown'
-  ).slice(0, 128);
-}
-
-function authGate(key) {
-  const now = Date.now();
-  const state = authFailures.get(key);
-  if (!state) return { blocked: false };
-  if (state.blockedUntil > now) {
-    return { blocked: true, retryAfter: Math.max(1, Math.ceil((state.blockedUntil - now) / 1000)) };
-  }
-  if (now - state.firstAt > AUTH_WINDOW_MS) {
-    authFailures.delete(key);
-    return { blocked: false };
-  }
-  return { blocked: false };
-}
-
-function recordAuthFailure(key) {
-  const now = Date.now();
-  if (authFailures.size > 1000) {
-    for (const [entryKey, state] of authFailures) {
-      if (now - state.firstAt > AUTH_WINDOW_MS && state.blockedUntil <= now) authFailures.delete(entryKey);
-    }
-  }
-  const current = authFailures.get(key);
-  const state = !current || now - current.firstAt > AUTH_WINDOW_MS
-    ? { count: 1, firstAt: now, blockedUntil: 0 }
-    : { ...current, count: current.count + 1 };
-  if (state.count >= AUTH_MAX_FAILURES) state.blockedUntil = now + AUTH_WINDOW_MS;
-  authFailures.set(key, state);
-  return authGate(key);
-}
-
-function clearAuthFailures(key) {
-  authFailures.delete(key);
-}
-
 async function accessToken() {
   const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
   const key = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.replace(/\\n/g, '\n');
@@ -92,6 +41,7 @@ export async function POST(request) {
   try {
     const origin = request.headers.get('origin');
     if (origin && origin !== new URL(request.url).origin) return json({ error: 'Origem não autorizada.' }, 403);
+    if (!adminSessionIsValid(request)) return json({ error: 'Sessão administrativa expirada ou inválida.' }, 401);
     const contentType = (request.headers.get('content-type') || '').toLowerCase();
     if (!contentType.startsWith('application/json')) {
       return json({ error: 'Content-Type não suportado.' }, 415);
@@ -106,27 +56,6 @@ export async function POST(request) {
     } catch {
       return json({ error: 'JSON inválido.' }, 400);
     }
-    const requester = clientKey(request);
-    const gate = authGate(requester);
-    if (gate.blocked) {
-      return json(
-        { error: 'Muitas tentativas de acesso. Tente novamente em alguns minutos.' },
-        429,
-        { 'Retry-After': String(gate.retryAfter) }
-      );
-    }
-    if (!passwordMatches(payload.password)) {
-      const afterFailure = recordAuthFailure(requester);
-      if (afterFailure.blocked) {
-        return json(
-          { error: 'Muitas tentativas de acesso. Tente novamente em alguns minutos.' },
-          429,
-          { 'Retry-After': String(afterFailure.retryAfter) }
-        );
-      }
-      return json({ error: 'Senha administrativa inválida ou não configurada.' }, 401);
-    }
-    clearAuthFailures(requester);
     const token = await accessToken();
     const data = await sheets(token, '/values/' + encodeURIComponent('Produtos!A2:O') + '?valueRenderOption=FORMATTED_VALUE');
     const existing = data.values || [];
