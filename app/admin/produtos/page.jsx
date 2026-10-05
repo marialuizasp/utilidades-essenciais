@@ -50,7 +50,6 @@ export default function AdminProdutos() {
     if (!category) return;
     setSavingCategory(true);setFeedback(null);
     try {
-      const result=await call('addCategory');
       const response=await fetch('/api/admin/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'addCategory',category})});
       const categoryResult=await response.json();
       if(!response.ok)throw new Error(categoryResult.error||'Não foi possível salvar a categoria.');
