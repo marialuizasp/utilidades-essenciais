@@ -5,6 +5,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   smoke:
@@ -31,3 +32,21 @@ jobs:
         env:
           SMOKE_BASE_URL: https://utilidades-essenciais-kappa.vercel.app
         run: npm run security:smoke
+
+      - name: Verify incident channel authentication
+        if: success()
+        shell: bash
+        env:
+          INCIDENT_URL: https://utilidades-essenciais-kappa.vercel.app/api/ci/incident
+        run: |
+          OIDC_TOKEN="$(curl --fail --silent --show-error             -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN"             "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=utilidades-essenciais-ci" | jq -r '.value')"
+          curl --fail --silent --show-error             -X POST "$INCIDENT_URL"             -H "Authorization: Bearer $OIDC_TOKEN"             -H "Content-Type: application/json"             --data "{"mode":"probe","sha":"$GITHUB_SHA"}" >/dev/null
+
+      - name: Record production smoke failure
+        if: failure()
+        shell: bash
+        env:
+          INCIDENT_URL: https://utilidades-essenciais-kappa.vercel.app/api/ci/incident
+        run: |
+          OIDC_TOKEN="$(curl --fail --silent --show-error             -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN"             "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=utilidades-essenciais-ci" | jq -r '.value')"
+          curl --fail --silent --show-error             -X POST "$INCIDENT_URL"             -H "Authorization: Bearer $OIDC_TOKEN"             -H "Content-Type: application/json"             --data "{"mode":"incident","sha":"$GITHUB_SHA","run_id":"$GITHUB_RUN_ID","run_attempt":"$GITHUB_RUN_ATTEMPT","failed_step":"production-smoke job"}" >/dev/null
