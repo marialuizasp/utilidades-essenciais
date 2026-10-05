@@ -37,3 +37,47 @@ jobs:
 
       - name: Analyze
         uses: github/codeql-action/analyze@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4
+
+  security-smoke:
+    name: Security and automation regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Guard Instagram and TikTok automation contracts
+        run: npm run security:contracts
+
+      - name: Build application
+        run: npm run build
+
+      - name: Smoke test navigation and security
+        shell: bash
+        run: |
+          npm run start -- -p 3100 > /tmp/ue-next.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+
+          for i in {1..30}; do
+            if curl --silent --fail http://127.0.0.1:3100/ >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+
+          if ! curl --silent --fail http://127.0.0.1:3100/ >/dev/null; then
+            cat /tmp/ue-next.log
+            exit 1
+          fi
+
+          npm run security:smoke
