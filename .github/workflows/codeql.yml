@@ -58,6 +58,9 @@ jobs:
       - name: Guard Instagram and TikTok automation contracts
         run: npm run security:contracts
 
+      - name: Test affiliate audit rules
+        run: npm run security:affiliate-audit
+
       - name: Build application
         run: npm run build
 
