@@ -217,7 +217,27 @@ export async function POST(request) {
 
     return Response.json({ ok: true, recorded: true }, { headers: noStore });
   } catch (error) {
-    console.error('CI incident endpoint:', safeText(error?.message, 120));
-    return Response.json({ ok: false, error: 'unauthorized_or_unavailable' }, { status: 401, headers: noStore });
+    const code = safeText(error?.message, 80);
+    console.error('CI incident endpoint:', code);
+    const authErrors = new Set([
+      'invalid_token',
+      'invalid_alg',
+      'github_jwks_failed',
+      'github_jwks_invalid',
+      'unknown_kid',
+      'invalid_signature',
+      'invalid_issuer',
+      'invalid_audience',
+      'expired',
+      'not_yet_valid',
+      'invalid_repository',
+      'invalid_workflow',
+      'invalid_event',
+    ]);
+    const status = authErrors.has(code) ? 401 : 500;
+    return Response.json(
+      { ok: false, error: authErrors.has(code) ? code : 'incident_channel_unavailable' },
+      { status, headers: noStore },
+    );
   }
 }
