@@ -23,7 +23,7 @@ export async function GET(request){
   const j=await r.json();
   const ok=r.ok&&j.error?.code==='ok';
   const result=Response.json(ok?{ok:true,username:j.data?.creator_username,privacy_level_options:j.data?.privacy_level_options,max_video_post_duration_sec:j.data?.max_video_post_duration_sec,can_test_private:j.data?.privacy_level_options?.includes('SELF_ONLY')}:{ok:false,error:j.error?.code||'creator_info_failed',message:j.error?.message||'Não foi possível consultar as permissões.'},{status:ok?200:400,headers:noStore});
-  if(renewed)result.headers.append('Set-Cookie','tt_sandbox_session='+seal(session,key)+'; Path=/api/tiktok; HttpOnly; Secure; SameSite=Strict; Max-Age=2592000');
+  if(renewed)result.headers.append('Set-Cookie','tt_sandbox_session='+seal(session,key)+'; Path=/api/tiktok; HttpOnly; Secure; SameSite=Lax; Max-Age=2592000');
   return result;
  }catch(e){console.error('TikTok creator info:',e.message);return Response.json({ok:false,error:'Sessão inválida ou falha temporária. Reconecte o TikTok.'},{status:401,headers:noStore});}
 }
