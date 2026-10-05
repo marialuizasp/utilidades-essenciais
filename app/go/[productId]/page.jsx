@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getProducts } from '@/lib/googleSheets';
 import RedirectClient from './RedirectClient';
+import { safeAffiliateUrl } from '@/lib/affiliateUrl';
 
 export const metadata = {
   title: 'Abrindo produto | Utilidades Essenciais',
@@ -14,9 +15,11 @@ export default async function GoToProduct({ params }) {
   const products = await getProducts();
   const product = products.find((item) => String(item.id) === String(params.productId));
 
-  if (!product?.affiliateLink) {
+  const safeUrl = safeAffiliateUrl(product?.affiliateLink);
+
+  if (!safeUrl) {
     notFound();
   }
 
-  return <RedirectClient url={product.affiliateLink} title={product.title} />;
+  return <RedirectClient url={safeUrl} title={product.title} />;
 }

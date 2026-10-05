@@ -1,5 +1,6 @@
 import { createSign } from 'node:crypto';
 import { adminSessionIsValid } from '../../../../lib/adminAuth';
+import { safeAffiliateUrl } from '../../../../lib/affiliateUrl';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -88,8 +89,8 @@ export async function POST(request) {
     let nextId = Math.max(0, ...existing.map(r => Number((clean(r[0]).match(/^prod_(\d+)$/i) || [])[1]) || 0));
     const rows = [], skipped = [], errors = [];
     payload.products.forEach((p, i) => {
-      const name = clean(p.name), url = clean(p.affiliateLink), video = clean(p.videoUrl);
-      if (!name || !validUrl(url) || (video && !validUrl(video))) { errors.push({ line:i+1, reason:'Informe nome, link HTTPS do afiliado e, se houver vídeo, URL HTTPS pública.' }); return; }
+      const name = clean(p.name), rawAffiliate = clean(p.affiliateLink), url = safeAffiliateUrl(rawAffiliate), video = clean(p.videoUrl);
+      if (!name || !url || (video && !validUrl(video))) { errors.push({ line:i+1, reason:'Informe nome, link afiliado HTTPS permitido (Shopee, Amazon ou Mercado Livre) e, se houver vídeo, URL HTTPS pública.' }); return; }
       const key = productKey(url), productUrl=clean(p.productLink), itemId=clean(p.itemId), normalized=normalize(name);
       const duplicateName = [...names].some(n=>n===normalized || (Math.min(n.length,normalized.length)>28 && (n.includes(normalized)||normalized.includes(n))));
       if (keys.has(key) || (validUrl(productUrl)&&keys.has(productKey(productUrl))) || (itemId&&itemIds.has(itemId)) || duplicateName) { skipped.push({ line:i+1, name, reason:'Produto possivelmente já cadastrado (link, ID ou nome).' }); return; }
