@@ -8,6 +8,7 @@ import { prepareMediaAudit, safeMediaUrl } from '../../../../lib/mediaAudit.js';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
 
 const EXPECTED_ISSUER = 'https://token.actions.githubusercontent.com';
 const EXPECTED_AUDIENCE = 'utilidades-essenciais-ci';
