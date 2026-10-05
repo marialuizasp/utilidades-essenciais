@@ -19,7 +19,8 @@ function sameOrigin(request) {
 
 async function googleAccessToken() {
   const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-  const key = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.replace(/\\n/g, '\n');
+  const key = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.replace(/\n/g, '
+');
   if (!email || !key) throw new Error('Conta de serviço do Google não configurada.');
 
   const now = Math.floor(Date.now() / 1000);
@@ -162,7 +163,7 @@ export async function POST(request) {
     const caption = clean(payload.caption);
     const date = clean(payload.date);
     const time = clean(payload.time);
-    const privacy = clean(payload.privacy || 'SELF_ONLY');
+    const privacy = clean(payload.privacy);
 
     if (!videoUrl.startsWith(R2_PREFIX)) {
       return json({ error: 'Use uma URL de vídeo do R2 verificado do Utilidades Essenciais.' }, 400);
@@ -172,6 +173,9 @@ export async function POST(request) {
     }
     if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !/^\d{2}:\d{2}$/.test(time)) {
       return json({ error: 'Informe data e horário válidos.' }, 400);
+    }
+    if (!privacy) {
+      return json({ error: 'Selecione manualmente a privacidade do post.' }, 400);
     }
 
     const info = await creatorInfo();
@@ -183,12 +187,34 @@ export async function POST(request) {
       }, 409);
     }
 
+    const commercialDisclosure = payload.commercialDisclosure === true;
+    const brandOrganic = commercialDisclosure && payload.brandOrganic === true;
+    const brandContent = commercialDisclosure && payload.brandContent === true;
+
+    if (commercialDisclosure && !brandOrganic && !brandContent) {
+      return json({
+        error: 'Ao ativar divulgação comercial, selecione “Sua marca” ou “Conteúdo de marca / terceiro”.',
+      }, 400);
+    }
+
+    if (brandContent && privacy === 'SELF_ONLY') {
+      return json({
+        error: 'Conteúdo de marca de terceiros não pode usar visibilidade SELF_ONLY.',
+      }, 400);
+    }
+
     const yesNo = value => value === true ? 'Sim' : 'Não';
     const comments = !info.comment_disabled && payload.comments === true;
     const duet = !info.duet_disabled && payload.duet === true;
     const stitch = !info.stitch_disabled && payload.stitch === true;
     const createdAt = formatSaoPaulo();
-    const id = 'UE_TT_' + date.replaceAll('-', '') + '_' + time.replace(':', '') + '_' + randomBytes(3).toString('hex').toUpperCase();
+    const id =
+      'UE_TT_' +
+      date.replaceAll('-', '') +
+      '_' +
+      time.replace(':', '') +
+      '_' +
+      randomBytes(3).toString('hex').toUpperCase();
 
     const row = [
       id,
@@ -201,8 +227,8 @@ export async function POST(request) {
       yesNo(comments),
       yesNo(duet),
       yesNo(stitch),
-      yesNo(payload.brandOrganic === true),
-      yesNo(payload.brandContent === true),
+      yesNo(brandOrganic),
+      yesNo(brandContent),
       yesNo(payload.isAigc === true),
       'Pendente',
       '',
