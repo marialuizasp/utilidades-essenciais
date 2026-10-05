@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "security:contracts": "node scripts/security-contracts.mjs",
-    "security:smoke": "node scripts/site-smoke.mjs"
+    "security:smoke": "node scripts/site-smoke.mjs",
+    "security:affiliate-audit": "node --experimental-default-type=module scripts/affiliate-audit-test.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
