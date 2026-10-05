@@ -405,6 +405,7 @@ export default function StorefrontHome({ products = [] }) {
         </div>
         <p>Achadinhos, utilidades e boas descobertas para a rotina.</p>
         <div>
+          <Link href="/tiktok">Para criadores / TikTok</Link>
           <Link href="/privacidade">Privacidade</Link>
           <Link href="/termos">Termos</Link>
           <Link href="/exclusao-de-dados">Exclusão de dados</Link>
