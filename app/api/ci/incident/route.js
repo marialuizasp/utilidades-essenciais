@@ -119,32 +119,13 @@ async function accessToken() {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({
-      grant_type: 'urn:ietf:params:oauth-grant-type:jwt-bearer',
+      grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
       assertion,
     }),
     cache: 'no-store',
   });
 
-  if (!response.ok) {
-    // The canonical grant type is retried below for compatibility with existing credentials.
-    const retry = await fetch('https://oauth2.googleapis.com/token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-        assertion,
-      }),
-      cache: 'no-store',
-    });
-    if (!retry.ok) throw new Error('google_token_failed');
-    const data = await retry.json();
-    globalThis.__ueGoogleTokenCache = {
-      token: data.access_token,
-      expiresAt: Date.now() + Number(data.expires_in || 3000) * 1000,
-    };
-    return data.access_token;
-  }
-
+  if (!response.ok) throw new Error('google_token_failed');
   const data = await response.json();
   globalThis.__ueGoogleTokenCache = {
     token: data.access_token,
