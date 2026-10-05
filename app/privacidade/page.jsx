@@ -24,7 +24,7 @@ export default function Privacy() {
         <h1>Política de Privacidade</h1>
 
         <p>
-          <strong>Última atualização:</strong> 2 de outubro de 2026.
+          <strong>Última atualização:</strong> 5 de outubro de 2026.
         </p>
 
         <p>
@@ -60,8 +60,18 @@ export default function Privacy() {
         </p>
 
         <p>
-          Outras integrações de redes sociais, como TikTok, poderão tratar
-          dados equivalentes quando forem habilitadas e autorizadas.
+          Na integração com TikTok, quando o próprio criador conecta sua conta,
+          podemos tratar identificadores da conta, nome de usuário, nome exibido,
+          permissões concedidas, tokens de acesso e atualização, opções de
+          privacidade disponíveis, identificadores de publicação, status de
+          processamento e informações técnicas necessárias para concluir e
+          acompanhar o envio.
+        </p>
+
+        <p>
+          Vídeos escolhidos pelo criador podem ser enviados diretamente do
+          dispositivo ao TikTok após revisão e confirmação explícita. A
+          Utilidades Essenciais não solicita nem recebe a senha da conta TikTok.
         </p>
 
         <h2>2. Finalidades</h2>
@@ -98,10 +108,12 @@ export default function Privacy() {
 
         <p>
           Tokens e credenciais de integração são mantidos em ambientes de
-          acesso restrito e não devem ser exibidos publicamente. Os dados são
-          conservados pelo período necessário para operar, monitorar e manter
-          a integração, cumprir obrigações aplicáveis e investigar falhas
-          operacionais.
+          acesso restrito e não devem ser exibidos publicamente. Na integração
+          com TikTok, as sessões de criadores são armazenadas separadamente e
+          protegidas para que cada usuário opere apenas a própria conta
+          autorizada. Os dados são conservados pelo período necessário para
+          operar, monitorar e manter a integração, cumprir obrigações aplicáveis
+          e investigar falhas operacionais.
         </p>
 
         <p>
