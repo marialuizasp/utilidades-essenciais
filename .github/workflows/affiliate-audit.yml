@@ -1,0 +1,31 @@
+name: Affiliate link audit
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  deployment_status:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  audit:
+    if: >-
+      github.event_name == 'schedule' ||
+      (github.event_name == 'deployment_status' &&
+       github.event.deployment_status.state == 'success' &&
+       github.event.deployment.environment == 'Production')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Audit active affiliate links without following marketplaces
+        shell: bash
+        env:
+          AUDIT_URL: https://utilidades-essenciais-kappa.vercel.app/api/ci/affiliate-audit
+        run: |
+          OIDC_TOKEN="$(
+            curl --fail --silent --show-error               -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN"               "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=utilidades-essenciais-ci"             | jq -r '.value'
+          )"
+
+          curl --fail-with-body --silent --show-error             -X POST "$AUDIT_URL"             -H "Authorization: Bearer $OIDC_TOKEN"             -H "Content-Type: application/json"
