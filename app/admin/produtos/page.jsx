@@ -28,27 +28,41 @@ export default function AdminProdutos() {
   const allCategories = [...new Set([...categories,...savedCategories,...rows.map(r=>r.category).filter(Boolean)])].sort((a,b)=>a.localeCompare(b,'pt-BR'));
   const change = (index,key,value) => setRows(prev => prev.map((row,i) => i === index ? {...row,[key]:value} : row));
   const call = async (action,products) => {
-    const response = await fetch('/api/admin/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password,action,products})});
+    const response = await fetch('/api/admin/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,products})});
     const result = await response.json();
     if (!response.ok) throw new Error(result.error || 'Não foi possível concluir a operação.');
     return result;
   };
-  const connect = async () => { setLoading(true);setFeedback(null);try {const data=await call('list');setSummary(data);setSavedCategories(data.categories||[]);setShowPassword(false);} catch(e){setFeedback({error:e.message});}finally{setLoading(false);} };
+  const connect = async () => {
+    setLoading(true);setFeedback(null);
+    try {
+      const login=await fetch('/api/admin/session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password})});
+      const loginResult=await login.json();
+      if(!login.ok)throw new Error(loginResult.error||'Não foi possível iniciar a sessão administrativa.');
+      setPassword('');
+      const data=await call('list');
+      setSummary(data);setSavedCategories(data.categories||[]);setShowPassword(false);
+    } catch(e){setFeedback({error:e.message});}
+    finally{setLoading(false);}
+  };
   const addCategory = async () => {
     const category=newCategory.trim().replace(/\s+/g,' ');
     if (!category) return;
     setSavingCategory(true);setFeedback(null);
     try {
-      const response=await fetch('/api/admin/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password,action:'addCategory',category})});
-      const result=await response.json();
-      if(!response.ok)throw new Error(result.error||'Não foi possível salvar a categoria.');
-      setSavedCategories(result.categories||[]);
+      const response=await fetch('/api/admin/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'addCategory',category})});
+      const categoryResult=await response.json();
+      if(!response.ok)throw new Error(categoryResult.error||'Não foi possível salvar a categoria.');
+      setSavedCategories(categoryResult.categories||[]);
       setNewCategory('');
-      setFeedback({info:'Categoria "'+result.category+'" salva e disponível nos próximos cadastros.'});
+      setFeedback({info:'Categoria "'+categoryResult.category+'" salva e disponível nos próximos cadastros.'});
     } catch(e){setFeedback({error:e.message});}
     finally{setSavingCategory(false);}
   };
-  const disconnect = () => {setSummary(null);setPassword('');setShowPassword(false);setFeedback(null);};
+  const disconnect = async () => {
+    try { await fetch('/api/admin/session',{method:'DELETE'}); } catch {}
+    setSummary(null);setPassword('');setShowPassword(false);setFeedback(null);
+  };
   const importCSV = async e => {
     const file=e.target.files?.[0];if(!file)return;
     try{const imported=parseShopeeCSV(await file.text());if(imported.length>100)throw Error('Este painel aceita até 100 produtos por arquivo. Divida o CSV em lotes.');
@@ -99,7 +113,7 @@ export default function AdminProdutos() {
         </div>}
       </div>
       </div></section>)}
-      <button type="submit" disabled={loading||!password} className="w-full rounded-xl bg-emerald-600 px-6 py-4 text-lg font-bold text-white disabled:opacity-40">{loading?'Salvando...':'Verificar duplicatas e cadastrar produtos'}</button></form></>}
+      <button type="submit" disabled={loading} className="w-full rounded-xl bg-emerald-600 px-6 py-4 text-lg font-bold text-white disabled:opacity-40">{loading?'Salvando...':'Verificar duplicatas e cadastrar produtos'}</button></form></>}
       {feedback && <section role="status" className="rounded-2xl border border-slate-300 bg-white p-5">{feedback.error?<p className="text-rose-700">{feedback.error}</p>:feedback.info?<p>{feedback.info}</p>:<div className="space-y-2"><p className="font-semibold text-emerald-700">{feedback.created.length} produtos cadastrados com sucesso.</p><p>{feedback.skipped.length} duplicatas ignoradas · {feedback.errors.length} registros com erro.</p>{feedback.skipped.map((x,i)=><p key={'s'+i} className="text-sm text-amber-700">Linha {x.line}: {x.name} — {x.reason}</p>)}{feedback.errors.map((x,i)=><p key={'e'+i} className="text-sm text-rose-700">Linha {x.line}: {x.reason}</p>)}</div>}</section>}
       <p className="pb-8 text-xs text-slate-500">Os novos produtos aparecem no site após a atualização do CSV. Sem vídeo, os produtos ficam inativos. O cadastro não agenda automaticamente Reels ou Stories.</p>
     </div>
