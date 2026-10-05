@@ -1,6 +1,7 @@
 import {
   adminSessionCookie,
   clearAdminSessionCookie,
+  clearLegacyAdminSessionCookie,
   clientKey,
   authGate,
   recordAuthFailure,
@@ -71,11 +72,10 @@ export async function POST(request) {
 
     clearAuthFailures(requester);
     const token = createAdminSessionToken();
-    return json(
-      { authenticated: true, expiresIn: 3600 },
-      200,
-      { 'Set-Cookie': adminSessionCookie(token) },
-    );
+    const response = json({ authenticated: true, expiresIn: 3600 });
+    response.headers.append('Set-Cookie', adminSessionCookie(token));
+    response.headers.append('Set-Cookie', clearLegacyAdminSessionCookie());
+    return response;
   } catch (error) {
     console.error('Admin session:', error);
     return json({ error: 'Não foi possível iniciar a sessão administrativa.' }, 500);
@@ -84,5 +84,8 @@ export async function POST(request) {
 
 export async function DELETE(request) {
   if (!sameOrigin(request)) return json({ ok: false }, 403);
-  return json({ ok: true }, 200, { 'Set-Cookie': clearAdminSessionCookie() });
+  const response = json({ ok: true });
+  response.headers.append('Set-Cookie', clearAdminSessionCookie());
+  response.headers.append('Set-Cookie', clearLegacyAdminSessionCookie());
+  return response;
 }
