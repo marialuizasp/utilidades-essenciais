@@ -6,7 +6,7 @@ function assert(condition, message) {
 
 const csv = [
   'id,title,category,price,videourl,affiliatelink,active',
-  'prod_ok,Produto OK,Casa,R$ 10,https://media.example/video.mp4,https://s.shopee.com.br/abc,SIM',
+  'prod_ok,Produto OK,Casa,R$ 10,,https://s.shopee.com.br/abc,SIM',
   'prod_dup,Produto 1,Casa,R$ 20,https://media.example/a.mp4,https://amazon.com.br/dp/abc,SIM',
   'prod_dup,Produto 2,Casa,R$ 30,https://media.example/b.mp4,https://mercadolivre.com.br/item,SIM',
   'prod_bad,Produto Ruim,Casa,R$ 40,https://media.example/c.mp4,https://shopee.com.br.evil.example/phish,SIM',
@@ -17,6 +17,14 @@ const result = auditAffiliateCsv(csv);
 
 assert(result.ok === false, 'auditoria deveria detectar problemas');
 assert(result.activeCount === 4, 'contagem de ativos incorreta');
+assert(
+  result.warnings.some(warning => warning.code === 'missing_video_url' && warning.id === 'prod_ok'),
+  'vídeo ausente deve ser apenas aviso de completude',
+);
+assert(
+  !result.issues.some(issue => issue.id === 'prod_ok'),
+  'vídeo ausente não deve falhar a auditoria de links',
+);
 assert(result.issues.some(issue => issue.code === 'duplicate_id' && issue.id === 'prod_dup'), 'ID duplicado não detectado');
 assert(
   result.issues.some(issue =>
