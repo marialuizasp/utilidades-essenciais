@@ -34,6 +34,7 @@ jobs:
         run: npm run security:smoke
 
       - name: Verify incident channel authentication
+        id: incident_probe
         if: success()
         shell: bash
         env:
@@ -48,7 +49,7 @@ jobs:
           curl --fail-with-body --silent --show-error             -X POST "$INCIDENT_URL"             -H "Authorization: Bearer $OIDC_TOKEN"             -H "Content-Type: application/json"             --data "$PAYLOAD"
 
       - name: Record production smoke failure
-        if: failure()
+        if: ${{ failure() && steps.incident_probe.outcome != 'failure' }}
         shell: bash
         env:
           INCIDENT_URL: https://utilidades-essenciais-kappa.vercel.app/api/ci/incident
