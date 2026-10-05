@@ -19,8 +19,7 @@ function sameOrigin(request) {
 
 async function googleAccessToken() {
   const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-  const key = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.replace(/\n/g, '
-');
+  const key = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.replace(/\\n/g, '\n');
   if (!email || !key) throw new Error('Conta de serviço do Google não configurada.');
 
   const now = Math.floor(Date.now() / 1000);
