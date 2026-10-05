@@ -2,6 +2,7 @@ import {
   adminSessionCookie,
   clearAdminSessionCookie,
   clearLegacyAdminSessionCookie,
+  clearLegacyAdminSubpathCookie,
   clientKey,
   authGate,
   recordAuthFailure,
@@ -74,6 +75,8 @@ export async function POST(request) {
     const token = createAdminSessionToken();
     const response = json({ authenticated: true, expiresIn: 3600 });
     response.headers.append('Set-Cookie', adminSessionCookie(token));
+    response.headers.append('Set-Cookie', clearLegacyAdminSessionCookie());
+    response.headers.append('Set-Cookie', clearLegacyAdminSubpathCookie());
     return response;
   } catch (error) {
     console.error('Admin session:', error);
@@ -86,5 +89,6 @@ export async function DELETE(request) {
   const response = json({ ok: true });
   response.headers.append('Set-Cookie', clearAdminSessionCookie());
   response.headers.append('Set-Cookie', clearLegacyAdminSessionCookie());
+  response.headers.append('Set-Cookie', clearLegacyAdminSubpathCookie());
   return response;
 }
