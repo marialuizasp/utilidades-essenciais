@@ -24,7 +24,7 @@ export default function Terms() {
         <h1>Termos de Uso</h1>
 
         <p>
-          <strong>Última atualização:</strong> 2 de outubro de 2026.
+          <strong>Última atualização:</strong> 5 de outubro de 2026.
         </p>
 
         <p>
@@ -59,16 +59,33 @@ export default function Terms() {
           Instagram.
         </p>
 
-        <h2>3. Outras integrações</h2>
+        <h2>3. Integração com TikTok</h2>
+
+        <p>
+          Criadores podem conectar voluntariamente a própria conta TikTok por
+          meio da autorização oficial da plataforma. A ferramenta consulta as
+          opções disponíveis para aquela conta e permite que o criador revise o
+          vídeo, edite a legenda, escolha manualmente a privacidade e configure
+          interações antes de confirmar o envio.
+        </p>
+
+        <p>
+          A publicação somente é iniciada após confirmação explícita do
+          criador. O processamento, a disponibilidade pública do conteúdo e os
+          limites de publicação permanecem sujeitos às regras e decisões do
+          TikTok.
+        </p>
+
+        <h2>4. Outros serviços utilizados</h2>
 
         <p>
           A ferramenta também pode utilizar serviços como Google Sheets,
-          Google Apps Script, Cloudflare R2, Vercel e, quando habilitado,
-          TikTok. O funcionamento de cada integração está sujeito às regras,
-          limitações, permissões e disponibilidade do respectivo serviço.
+          Google Apps Script, Cloudflare R2 e Vercel. O funcionamento de cada
+          integração está sujeito às regras, limitações, permissões e
+          disponibilidade do respectivo serviço.
         </p>
 
-        <h2>4. Conteúdo, produtos e links de afiliado</h2>
+        <h2>5. Conteúdo, produtos e links de afiliado</h2>
 
         <p>
           O responsável pelo conteúdo deve possuir autorização para utilizar
@@ -83,7 +100,7 @@ export default function Terms() {
           plataforma aplicável.
         </p>
 
-        <h2>5. Comentários e interações</h2>
+        <h2>6. Comentários e interações</h2>
 
         <p>
           Quando o gerenciamento de comentários estiver habilitado, a
@@ -98,7 +115,7 @@ export default function Terms() {
           humana.
         </p>
 
-        <h2>6. Agendamentos e disponibilidade</h2>
+        <h2>7. Agendamentos e disponibilidade</h2>
 
         <p>
           Horários programados são referências de execução. Falhas de rede,
@@ -113,7 +130,7 @@ export default function Terms() {
           plataformas.
         </p>
 
-        <h2>7. Privacidade</h2>
+        <h2>8. Privacidade</h2>
 
         <p>
           O tratamento de dados relacionado às integrações está descrito na{' '}
@@ -123,7 +140,7 @@ export default function Terms() {
           .
         </p>
 
-        <h2>8. Alterações</h2>
+        <h2>9. Alterações</h2>
 
         <p>
           Estes termos podem ser atualizados para refletir mudanças na
@@ -131,7 +148,7 @@ export default function Terms() {
           requisitos legais aplicáveis.
         </p>
 
-        <h2>9. Contato</h2>
+        <h2>10. Contato</h2>
 
         <p>
           Dúvidas podem ser enviadas ao perfil oficial{' '}
