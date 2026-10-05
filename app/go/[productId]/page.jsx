@@ -12,8 +12,9 @@ export const metadata = {
 };
 
 export default async function GoToProduct({ params }) {
+  const { productId } = await params;
   const products = await getProducts();
-  const product = products.find((item) => String(item.id) === String(params.productId));
+  const product = products.find((item) => String(item.id) === String(productId));
 
   const safeUrl = safeAffiliateUrl(product?.affiliateLink);
 
