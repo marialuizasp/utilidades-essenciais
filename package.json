@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "security:contracts": "node scripts/security-contracts.mjs",
+    "security:smoke": "node scripts/site-smoke.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
