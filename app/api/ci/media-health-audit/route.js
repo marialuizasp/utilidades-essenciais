@@ -20,7 +20,8 @@ const JWKS_URL = 'https://token.actions.githubusercontent.com/.well-known/jwks';
 const SHEET_ID = '19xpC1aQRDEhqHK6e1fRR3fDteX6OA6U6MfqiTcPQ7Yk';
 const SHEETS = 'https://sheets.googleapis.com/v4/spreadsheets/';
 const SHARD_COUNT = 4;
-const CONCURRENCY = 16;
+const CONCURRENCY = 8;
+const RETRY_CONCURRENCY = 4;
 const PROBE_TIMEOUT_MS = 8_000;
 
 function safeText(value, max = 160) {
@@ -293,8 +294,9 @@ async function probeShard(candidates) {
   const failed = first.filter(item => !item.result.ok);
   if (!failed.length) return first;
 
-  await new Promise(resolve => setTimeout(resolve, 750));
-  const retry = await mapConcurrent(failed, CONCURRENCY, async item => ({
+  const hasRateLimit = failed.some(item => item.result.code === 'http_429');
+  await new Promise(resolve => setTimeout(resolve, hasRateLimit ? 12_000 : 1_000));
+  const retry = await mapConcurrent(failed, RETRY_CONCURRENCY, async item => ({
     media: item.media,
     result: await oneProbe(item.media),
   }));

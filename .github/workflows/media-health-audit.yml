@@ -40,7 +40,13 @@ jobs:
             esac
           fi
 
+          FIRST=1
           for SHARD in $SHARDS; do
+            if [[ "$GITHUB_EVENT_NAME" == "deployment_status" && "$FIRST" -eq 0 ]]; then
+              sleep 15
+            fi
+            FIRST=0
+
             PAYLOAD="$(jq -cn --argjson shard "$SHARD" '{shard:$shard}')"
             curl --fail-with-body --silent --show-error               -X POST "$AUDIT_URL"               -H "Authorization: Bearer $OIDC_TOKEN"               -H "Content-Type: application/json"               --data "$PAYLOAD"
             echo
