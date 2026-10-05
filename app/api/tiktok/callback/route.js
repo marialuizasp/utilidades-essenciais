@@ -1,3 +1,4 @@
+import { saveTikTokAutomationSession } from '../../../../lib/tiktokAutomationStore';
 import { randomBytes, createCipheriv, timingSafeEqual } from 'node:crypto';
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
@@ -19,7 +20,8 @@ export async function GET(request){
     const payload=JSON.stringify({access_token:data.access_token,refresh_token:data.refresh_token,open_id:data.open_id,expires_at:Date.now()+Number(data.expires_in||0)*1000,refresh_expires_at:Date.now()+Number(data.refresh_expires_in||0)*1000});
     const encrypted=Buffer.concat([cipher.update(payload,'utf8'),cipher.final()]);const value=Buffer.concat([iv,cipher.getAuthTag(),encrypted]).toString('base64url');
     if(value.length>3700)return result('A sessão retornada pelo TikTok é muito grande para armazenar com segurança.');
-    const response=result('Sua conta foi autorizada no Sandbox. Esta etapa apenas conecta a conta neste navegador; a publicação agendada ainda não está ativada.',true);
+    await saveTikTokAutomationSession(value);
+    const response=result('Sua conta foi autorizada no Sandbox e a sessão da automação foi salva com segurança. A publicação agendada ainda não está ativada.',true);
     response.headers.append('Set-Cookie','tt_oauth_state=; Path=/api/tiktok; HttpOnly; Secure; SameSite=Lax; Max-Age=0');
     response.headers.append('Set-Cookie',`tt_sandbox_session=${value}; Path=/api/tiktok; HttpOnly; Secure; SameSite=Lax; Max-Age=2592000`);
     return response;
