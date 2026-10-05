@@ -1,0 +1,47 @@
+name: Media health audit
+
+on:
+  schedule:
+    - cron: '23 5,11,17,23 * * *'
+  deployment_status:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  audit:
+    if: >-
+      github.event_name == 'schedule' ||
+      (github.event_name == 'deployment_status' &&
+       github.event.deployment_status.state == 'success' &&
+       github.event.deployment.environment == 'Production')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Audit active media in bounded shards
+        shell: bash
+        env:
+          AUDIT_URL: https://utilidades-essenciais-kappa.vercel.app/api/ci/media-health-audit
+        run: |
+          OIDC_TOKEN="$(
+            curl --fail --silent --show-error               -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN"               "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=utilidades-essenciais-ci"             | jq -r '.value'
+          )"
+
+          if [[ "$GITHUB_EVENT_NAME" == "deployment_status" ]]; then
+            SHARDS="0 1 2 3"
+          else
+            case "$(date -u +%H)" in
+              05) SHARDS="0" ;;
+              11) SHARDS="1" ;;
+              17) SHARDS="2" ;;
+              23) SHARDS="3" ;;
+              *)  SHARDS="0" ;;
+            esac
+          fi
+
+          for SHARD in $SHARDS; do
+            PAYLOAD="$(jq -cn --argjson shard "$SHARD" '{shard:$shard}')"
+            curl --fail-with-body --silent --show-error               -X POST "$AUDIT_URL"               -H "Authorization: Bearer $OIDC_TOKEN"               -H "Content-Type: application/json"               --data "$PAYLOAD"
+            echo
+          done
