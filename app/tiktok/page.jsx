@@ -191,6 +191,11 @@ export default function TikTokCreatorPage() {
 
   const brandedPrivate = brandContent && privacy === 'SELF_ONLY';
 
+  const publishInProgress =
+    Boolean(publishState?.publish_id) &&
+    publishState?.status !== 'PUBLISH_COMPLETE' &&
+    publishState?.status !== 'FAILED';
+
   const canPublish =
     Boolean(file) &&
     Boolean(duration) &&
@@ -200,7 +205,8 @@ export default function TikTokCreatorPage() {
     !durationTooLong &&
     !commercialInvalid &&
     !brandedPrivate &&
-    !publishing;
+    !publishing &&
+    !publishInProgress;
 
   const uploadChunks = async (uploadUrl, upload, selectedFile) => {
     const total = Number(upload.total_chunk_count);
@@ -768,7 +774,11 @@ export default function TikTokCreatorPage() {
                   disabled={!canPublish}
                   className="w-full rounded-xl bg-black px-6 py-4 text-lg font-bold text-white disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  {publishing ? 'Enviando ao TikTok...' : 'Publicar no TikTok'}
+                  {publishing
+                    ? 'Enviando ao TikTok...'
+                    : publishInProgress
+                      ? 'Aguardando o TikTok...'
+                      : 'Publicar no TikTok'}
                 </button>
               </form>
             )}
