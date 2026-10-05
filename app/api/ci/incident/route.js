@@ -8,7 +8,6 @@ const EXPECTED_AUDIENCE = 'utilidades-essenciais-ci';
 const EXPECTED_REPOSITORY = 'marialuizasp/utilidades-essenciais';
 const EXPECTED_WORKFLOW_PATH =
   'marialuizasp/utilidades-essenciais/.github/workflows/production-smoke.yml';
-const EXPECTED_REF = 'refs/heads/main';
 const JWKS_URL = 'https://token.actions.githubusercontent.com/.well-known/jwks';
 const SHEET_ID = '19xpC1aQRDEhqHK6e1fRR3fDteX6OA6U6MfqiTcPQ7Yk';
 const SHEETS = 'https://sheets.googleapis.com/v4/spreadsheets/';
@@ -73,7 +72,6 @@ async function verifyGithubOidc(token) {
   if (payload.repository !== EXPECTED_REPOSITORY) throw new Error('invalid_repository');
   const workflowPath = String(payload.workflow_ref || '').split('@')[0];
   if (workflowPath !== EXPECTED_WORKFLOW_PATH) throw new Error('invalid_workflow');
-  if (payload.ref !== EXPECTED_REF) throw new Error('invalid_ref');
   if (payload.event_name !== 'deployment_status') throw new Error('invalid_event');
 
   return payload;
@@ -235,7 +233,6 @@ export async function POST(request) {
       'not_yet_valid',
       'invalid_repository',
       'invalid_workflow',
-      'invalid_ref',
       'invalid_event',
     ]);
     const status = authErrors.has(code) ? 401 : 500;
