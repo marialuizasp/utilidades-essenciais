@@ -1,3 +1,4 @@
+import { adminSessionIsValid } from '../../../../../lib/adminAuth';
 import { createDecipheriv } from 'node:crypto';
 
 export const runtime = 'nodejs';
@@ -25,6 +26,10 @@ function openSession(raw) {
 }
 
 export async function GET(request) {
+  if (!adminSessionIsValid(request)) {
+    return Response.json({ ok: false, error: 'Sessão administrativa necessária.' }, { status: 401, headers: noStore });
+  }
+
   const id = new URL(request.url).searchParams.get('publish_id');
   if (!id || !/^v_pub_[A-Za-z0-9_~.\-]{5,150}$/.test(id)) {
     return Response.json({ ok: false, error: 'Informe o publish_id retornado pelo teste.' }, { status: 400, headers: noStore });
