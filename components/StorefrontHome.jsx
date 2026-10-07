@@ -877,6 +877,7 @@ export default function StorefrontHome({ products = [] }) {
           </div>
         )}
 
+        {featured.length > 0 ? (
           <>
             <div className="store-product-grid">
               {featured.map((product) => (
