@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import './StorefrontHome.css';
 
 const BRAND_ICON = 'https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/UE/Utilidades_Essenciais_Logo_Transparente(5).png';
@@ -126,6 +126,18 @@ function SmallCard({ product }) {
 export default function StorefrontHome({ products = [] }) {
   const [query, setQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Todos');
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 650);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const activeFilter =
     CATEGORY_FILTERS.find((item) => item.label === selectedCategory) ||
@@ -397,6 +409,18 @@ export default function StorefrontHome({ products = [] }) {
           </div>
         ))}
       </section>
+
+      {showBackToTop && (
+        <button
+          type="button"
+          className="store-back-to-top"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          aria-label="Voltar ao topo"
+          title="Voltar ao topo"
+        >
+          <span aria-hidden="true">↑</span>
+        </button>
+      )}
 
       <footer className="store-footer">
         <div className="store-brand footer-brand">
