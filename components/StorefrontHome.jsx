@@ -609,6 +609,27 @@ export default function StorefrontHome({ products = [] }) {
   const activeExtraFilterCount =
     (priceFilter !== 'all' ? 1 : 0) + (onlyOffers ? 1 : 0);
 
+  const hasActiveStoreFilters =
+    Boolean(query.trim()) ||
+    selectedCategory !== 'Todos' ||
+    priceFilter !== 'all' ||
+    onlyOffers;
+
+  const clearAllStoreFilters = () => {
+    setQuery('');
+    setSelectedCategory('Todos');
+    setPriceFilter('all');
+    setOnlyOffers(false);
+    setSearchFocused(false);
+    setFiltersOpen(false);
+
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.delete('buscar');
+      window.history.replaceState({}, '', url.pathname + url.search + url.hash);
+    } catch {}
+  };
+
   const searchSuggestions = useMemo(() => {
     if (query.trim().length < 2) return [];
     return filteredProducts.slice(0, 4);
@@ -881,6 +902,16 @@ export default function StorefrontHome({ products = [] }) {
               {activeExtraFilterCount > 0 && <b>{activeExtraFilterCount}</b>}
               <span aria-hidden="true">{filtersOpen ? '↑' : '↓'}</span>
             </button>
+            {hasActiveStoreFilters && (
+              <button
+                type="button"
+                className="store-clear-all"
+                onClick={clearAllStoreFilters}
+                aria-label="Limpar busca e todos os filtros"
+              >
+                Limpar tudo
+              </button>
+            )}
             <span className="store-results-count">{visibleProducts.length} itens</span>
           </div>
         </div>
@@ -970,15 +1001,7 @@ export default function StorefrontHome({ products = [] }) {
         ) : (
           <div className="store-empty-search">
             <strong>Nenhum achadinho encontrado.</strong>
-            <button
-              type="button"
-              onClick={() => {
-                setQuery('');
-                setSelectedCategory('Todos');
-                setPriceFilter('all');
-                setOnlyOffers(false);
-              }}
-            >
+            <button type="button" onClick={clearAllStoreFilters}>
               Limpar filtros
             </button>
           </div>
