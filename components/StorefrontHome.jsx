@@ -40,6 +40,32 @@ function publicCodeFor(product) {
   return 'UE' + String(Number(match[1])).padStart(4, '0');
 }
 
+function productPriceValue(product) {
+  const raw = String(product?.currentPrice || product?.price || '').trim();
+  if (!raw) return null;
+
+  let numeric = raw.replace(/[^0-9,.-]/g, '');
+  if (numeric.includes(',')) {
+    numeric = numeric.replace(/\./g, '').replace(',', '.');
+  }
+
+  const value = Number(numeric);
+  return Number.isFinite(value) ? value : null;
+}
+
+function productHasOffer(product) {
+  const original = productPriceValue({
+    currentPrice:
+      product?.originalPrice ||
+      product?.previousPrice ||
+      product?.priceBefore ||
+      ''
+  });
+  const current = productPriceValue(product);
+
+  return original !== null && current !== null && original > current;
+}
+
 function dailyFeatureScore(product, dayKey) {
   const key = dayKey + '|' + String(product.id || product.title || '');
   let hash = 2166136261;
@@ -306,6 +332,9 @@ export default function StorefrontHome({ products = [] }) {
   const [copyNotice, setCopyNotice] = useState('');
   const [recentIds, setRecentIds] = useState([]);
   const [searchFocused, setSearchFocused] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [priceFilter, setPriceFilter] = useState('all');
+  const [onlyOffers, setOnlyOffers] = useState(false);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -501,6 +530,14 @@ export default function StorefrontHome({ products = [] }) {
 
     return products.filter((product) => {
       if (!matchesCategory(product, activeFilter)) return false;
+
+      const price = productPriceValue(product);
+      if (priceFilter === 'under50' && (price === null || price >= 50)) return false;
+      if (priceFilter === '50to100' && (price === null || price < 50 || price > 100)) return false;
+      if (priceFilter === '100to200' && (price === null || price <= 100 || price > 200)) return false;
+      if (priceFilter === 'over200' && (price === null || price <= 200)) return false;
+      if (onlyOffers && !productHasOffer(product)) return false;
+
       if (!normalizedQuery) return true;
 
       const haystack = normalize([
@@ -516,15 +553,17 @@ export default function StorefrontHome({ products = [] }) {
 
       return terms.every((term) => haystack.includes(term));
     });
-  }, [products, query, activeFilter]);
+  }, [products, query, activeFilter, priceFilter, onlyOffers]);
+
+  const activeExtraFilterCount =
+    (priceFilter !== 'all' ? 1 : 0) + (onlyOffers ? 1 : 0);
 
   const searchSuggestions = useMemo(() => {
     if (query.trim().length < 2) return [];
     return filteredProducts.slice(0, 4);
   }, [filteredProducts, query]);
 
-  const visibleProducts =
-    filteredProducts.length > 0 ? filteredProducts : products;
+  const visibleProducts = filteredProducts;
 
   const dayKey = new Intl.DateTimeFormat('pt-BR', {
     timeZone: 'America/Sao_Paulo',
@@ -689,6 +728,7 @@ export default function StorefrontHome({ products = [] }) {
               className={selectedCategory === item.label ? 'active' : ''}
               onClick={() => {
                 setSelectedCategory(item.label);
+                setOnlyOffers(false);
                 document.getElementById('achadinhos')?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
@@ -697,9 +737,10 @@ export default function StorefrontHome({ products = [] }) {
           ))}
           <button
             type="button"
-            className={selectedCategory === 'Ofertas' ? 'active accent' : 'accent'}
+            className={onlyOffers ? 'active accent' : 'accent'}
             onClick={() => {
               setSelectedCategory('Todos');
+              setOnlyOffers(true);
               document.getElementById('achadinhos')?.scrollIntoView({ behavior: 'smooth' });
             }}
           >
@@ -757,8 +798,70 @@ export default function StorefrontHome({ products = [] }) {
               </p>
             </div>
           </div>
-          <span className="store-results-count">{visibleProducts.length} itens</span>
+          <div className="store-section-controls">
+            <button
+              type="button"
+              className={activeExtraFilterCount ? 'store-filter-trigger active' : 'store-filter-trigger'}
+              onClick={() => setFiltersOpen((open) => !open)}
+              aria-expanded={filtersOpen}
+              aria-controls="store-extra-filters"
+            >
+              Filtrar
+              {activeExtraFilterCount > 0 && <b>{activeExtraFilterCount}</b>}
+              <span aria-hidden="true">{filtersOpen ? '↑' : '↓'}</span>
+            </button>
+            <span className="store-results-count">{visibleProducts.length} itens</span>
+          </div>
         </div>
+
+        {filtersOpen && (
+          <div className="store-extra-filters" id="store-extra-filters">
+            <div className="store-filter-group">
+              <span>Faixa de preço</span>
+              <div>
+                {[
+                  ['all', 'Todos'],
+                  ['under50', 'Até R$ 50'],
+                  ['50to100', 'R$ 50–100'],
+                  ['100to200', 'R$ 100–200'],
+                  ['over200', 'Acima de R$ 200']
+                ].map(([value, label]) => (
+                  <button
+                    key={value}
+                    type="button"
+                    className={priceFilter === value ? 'active' : ''}
+                    onClick={() => setPriceFilter(value)}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <label className="store-offer-toggle">
+              <input
+                type="checkbox"
+                checked={onlyOffers}
+                onChange={(event) => setOnlyOffers(event.target.checked)}
+              />
+              <span aria-hidden="true" />
+              <b>Somente produtos em oferta</b>
+            </label>
+
+            {activeExtraFilterCount > 0 && (
+              <button
+                type="button"
+                className="store-clear-extra-filters"
+                onClick={() => {
+                  setPriceFilter('all');
+                  setOnlyOffers(false);
+                }}
+              >
+                Limpar filtros extras
+              </button>
+            )}
+          </div>
+        )}
 
         {featured.length > 0 ? (
           <div className="store-product-grid">
@@ -777,7 +880,15 @@ export default function StorefrontHome({ products = [] }) {
         ) : (
           <div className="store-empty-search">
             <strong>Nenhum achadinho encontrado.</strong>
-            <button type="button" onClick={() => { setQuery(''); setSelectedCategory('Todos'); }}>
+            <button
+              type="button"
+              onClick={() => {
+                setQuery('');
+                setSelectedCategory('Todos');
+                setPriceFilter('all');
+                setOnlyOffers(false);
+              }}
+            >
               Limpar filtros
             </button>
           </div>
