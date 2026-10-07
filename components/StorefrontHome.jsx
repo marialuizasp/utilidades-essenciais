@@ -537,7 +537,7 @@ export default function StorefrontHome({ products = [] }) {
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Busque por produto ou código (ex.: UE0001)"
+              placeholder="Busque por produto, categoria ou código"
               aria-label="Buscar achadinhos"
             />
             {query && (
