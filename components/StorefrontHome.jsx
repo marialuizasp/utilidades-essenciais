@@ -335,6 +335,11 @@ export default function StorefrontHome({ products = [] }) {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [priceFilter, setPriceFilter] = useState('all');
   const [onlyOffers, setOnlyOffers] = useState(false);
+  const [visibleFeaturedCount, setVisibleFeaturedCount] = useState(4);
+
+  useEffect(() => {
+    setVisibleFeaturedCount(4);
+  }, [query, selectedCategory, priceFilter, onlyOffers]);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -584,8 +589,9 @@ export default function StorefrontHome({ products = [] }) {
 
   const usedProductIds = new Set();
 
-  const featured = uniqueProductsByVideo(dailyOrder, 4);
-  featured.forEach((product) => usedProductIds.add(product.id));
+  const featuredPool = uniqueProductsByVideo(dailyOrder);
+  const featuredBase = featuredPool.slice(0, 4);
+  featuredBase.forEach((product) => usedProductIds.add(product.id));
 
   const discovery = uniqueProductsByVideo(
     dailyOrder.filter((product) => !usedProductIds.has(product.id)),
@@ -621,6 +627,14 @@ export default function StorefrontHome({ products = [] }) {
       };
     })
     .filter((row) => row.products.length > 0);
+
+  const featuredDisplayPool = [
+    ...featuredBase,
+    ...featuredPool.filter((product) => !usedProductIds.has(product.id))
+  ];
+
+  const featured = featuredDisplayPool.slice(0, visibleFeaturedCount);
+  const canShowMoreFeatured = featured.length < featuredDisplayPool.length;
 
   const heroProducts = uniqueProductsByVideo(products, 3);
 
@@ -863,20 +877,38 @@ export default function StorefrontHome({ products = [] }) {
           </div>
         )}
 
-        {featured.length > 0 ? (
-          <div className="store-product-grid">
-            {featured.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                isFavorite={favoriteIdSet.has(String(product.id))}
-                onToggleFavorite={toggleFavorite}
-                onCopyCode={handleCopyCode}
-                onOpenProduct={recordRecentlyViewed}
-                onShareProduct={handleShareProduct}
-              />
-            ))}
-          </div>
+          <>
+            <div className="store-product-grid">
+              {featured.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  isFavorite={favoriteIdSet.has(String(product.id))}
+                  onToggleFavorite={toggleFavorite}
+                  onCopyCode={handleCopyCode}
+                  onOpenProduct={recordRecentlyViewed}
+                  onShareProduct={handleShareProduct}
+                />
+              ))}
+            </div>
+
+            {canShowMoreFeatured && (
+              <div className="store-show-more-wrap">
+                <button
+                  type="button"
+                  className="store-show-more"
+                  onClick={() =>
+                    setVisibleFeaturedCount((current) =>
+                      Math.min(current + 4, featuredDisplayPool.length)
+                    )
+                  }
+                >
+                  Mostrar mais achadinhos
+                  <span aria-hidden="true">↓</span>
+                </button>
+              </div>
+            )}
+          </>
         ) : (
           <div className="store-empty-search">
             <strong>Nenhum achadinho encontrado.</strong>
