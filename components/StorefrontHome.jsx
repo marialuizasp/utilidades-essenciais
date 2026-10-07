@@ -848,9 +848,18 @@ export default function StorefrontHome({ products = [] }) {
               key={item.label}
               type="button"
               className={selectedCategory === item.label ? 'active' : ''}
-              onClick={() => {
+              onClick={(event) => {
                 setSelectedCategory(item.label);
                 setOnlyOffers(false);
+
+                const button = event.currentTarget;
+                const strip = button.parentElement;
+                if (strip) {
+                  const targetLeft =
+                    button.offsetLeft - (strip.clientWidth - button.offsetWidth) / 2;
+                  strip.scrollTo({ left: Math.max(0, targetLeft), behavior: 'smooth' });
+                }
+
                 document.getElementById('achadinhos')?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
@@ -860,9 +869,18 @@ export default function StorefrontHome({ products = [] }) {
           <button
             type="button"
             className={onlyOffers ? 'active accent' : 'accent'}
-            onClick={() => {
+            onClick={(event) => {
               setSelectedCategory('Todos');
               setOnlyOffers(true);
+
+              const button = event.currentTarget;
+              const strip = button.parentElement;
+              if (strip) {
+                const targetLeft =
+                  button.offsetLeft - (strip.clientWidth - button.offsetWidth) / 2;
+                strip.scrollTo({ left: Math.max(0, targetLeft), behavior: 'smooth' });
+              }
+
               document.getElementById('achadinhos')?.scrollIntoView({ behavior: 'smooth' });
             }}
           >
