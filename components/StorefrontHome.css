@@ -2368,3 +2368,52 @@
   }
 }
 
+/* Carregamento progressivo de achadinhos */
+.store-show-more-wrap {
+  display: flex;
+  justify-content: center;
+  padding-top: 22px;
+}
+
+.store-show-more {
+  min-height: 42px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid rgba(7,63,49,.14);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--store-green);
+  box-shadow: 0 8px 20px rgba(63,44,29,.05);
+  font: 900 11px 'Nunito Sans', sans-serif;
+  cursor: pointer;
+  transition: background .16s ease, transform .16s ease;
+}
+
+.store-show-more:hover {
+  background: var(--store-cream);
+  transform: translateY(-1px);
+}
+
+.store-show-more:active {
+  transform: translateY(0);
+}
+
+.store-show-more:focus-visible {
+  outline: 2px solid rgba(255,89,54,.45);
+  outline-offset: 3px;
+}
+
+@media (max-width: 430px) {
+  .store-show-more-wrap {
+    padding-top: 18px;
+  }
+
+  .store-show-more {
+    width: 100%;
+    min-height: 44px;
+  }
+}
+
