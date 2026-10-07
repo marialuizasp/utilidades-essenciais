@@ -97,11 +97,47 @@ function canonicalVideoKey(videoUrl) {
     .replace(/\d+$/g, '');
 }
 
-function canonicalTitleKey(title) {
+function productTitleTokens(title) {
+  const stopWords = new Set([
+    'kit','conjunto','produto','original','oficial','novo','nova','para','com','sem',
+    'de','da','do','das','dos','e','em','um','uma','por','mais','feminino','feminina',
+    'masculino','masculina','adulto','adulta'
+  ]);
+
   return normalize(title)
-    .replace(/\b(kit|conjunto|produto|original|oficial|novo|nova)\b/g, '')
-    .replace(/[^a-z0-9]+/g, '')
-    .slice(0, 80);
+    .replace(/[^a-z0-9]+/g, ' ')
+    .split(/\s+/)
+    .filter((token) => token.length >= 4 && !stopWords.has(token));
+}
+
+function canonicalTitleKey(title) {
+  return productTitleTokens(title).join('|').slice(0, 120);
+}
+
+function titlesAreTooSimilar(a, b) {
+  const aTokens = productTitleTokens(a);
+  const bTokens = productTitleTokens(b);
+
+  if (!aTokens.length || !bTokens.length) return false;
+
+  const aSet = new Set(aTokens);
+  const bSet = new Set(bTokens);
+  let common = 0;
+
+  for (const token of aSet) {
+    if (bSet.has(token)) common++;
+  }
+
+  const smaller = Math.min(aSet.size, bSet.size);
+  const larger = Math.max(aSet.size, bSet.size);
+  const containment = common / smaller;
+  const jaccard = common / (aSet.size + bSet.size - common);
+
+  return (
+    (common >= 2 && containment >= 0.72) ||
+    (common >= 3 && jaccard >= 0.55) ||
+    (smaller <= 2 && common === smaller && larger <= 4)
+  );
 }
 
 function uniqueProductsByVideo(items, limit = Infinity) {
@@ -116,10 +152,15 @@ function uniqueProductsByVideo(items, limit = Infinity) {
     const fileKey = canonicalVideoKey(rawVideoUrl);
     const titleKey = canonicalTitleKey(product?.title);
 
+    const sameOrNearSameProduct = selected.some((chosen) =>
+      titlesAreTooSimilar(chosen?.title, product?.title)
+    );
+
     const isDuplicate =
       (urlKey && seenVideoUrls.has(urlKey)) ||
       (fileKey && seenVideoFiles.has(fileKey)) ||
-      (titleKey && seenTitles.has(titleKey));
+      (titleKey && seenTitles.has(titleKey)) ||
+      sameOrNearSameProduct;
 
     if (isDuplicate) continue;
 
