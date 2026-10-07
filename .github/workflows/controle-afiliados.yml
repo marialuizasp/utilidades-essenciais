@@ -31,17 +31,23 @@ jobs:
           else
             python scripts/verificar_links.py
           fi
-      - name: Salvar Excel antigo quando necessário
+      - name: Salvar estado do monitoramento
         if: always()
         env:
           GOOGLE_SHEET_CSV_URL: ${{ secrets.GOOGLE_SHEET_CSV_URL }}
         run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          if [ -f data/link-health-state.json ]; then
+            git add data/link-health-state.json
+          fi
+
           if [ -z "$GOOGLE_SHEET_CSV_URL" ] && [ -f controle/controle_links_afiliados_utilidades_essenciais.xlsx ]; then
-            git config user.name 'github-actions[bot]'
-            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
             git add controle/controle_links_afiliados_utilidades_essenciais.xlsx
-            if ! git diff --cached --quiet; then
-              git commit -m 'chore: atualizar controle de afiliados'
-              git push
-            fi
+          fi
+
+          if ! git diff --cached --quiet; then
+            git commit -m 'chore: atualizar estado do monitoramento de afiliados'
+            git push
           fi
