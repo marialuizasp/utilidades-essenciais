@@ -154,7 +154,7 @@ function FavoriteButton({ product, isFavorite, onToggle, className = '' }) {
   );
 }
 
-function ProductCard({ product, isFavorite, onToggleFavorite, onCopyCode }) {
+function ProductCard({ product, isFavorite, onToggleFavorite, onCopyCode, onOpenProduct }) {
   return (
     <article className="store-product-card">
       <ProductVisual product={product} />
@@ -175,6 +175,7 @@ function ProductCard({ product, isFavorite, onToggleFavorite, onCopyCode }) {
           target="_blank"
           rel="noopener noreferrer sponsored"
           className="store-card-cta"
+          onClick={() => onOpenProduct(product.id)}
         >
           Ver achadinho <span aria-hidden="true">→</span>
         </a>
@@ -183,7 +184,7 @@ function ProductCard({ product, isFavorite, onToggleFavorite, onCopyCode }) {
   );
 }
 
-function SmallCard({ product, isFavorite, onToggleFavorite, onCopyCode }) {
+function SmallCard({ product, isFavorite, onToggleFavorite, onCopyCode, onOpenProduct }) {
   return (
     <article className="store-small-card">
       <a
@@ -191,6 +192,7 @@ function SmallCard({ product, isFavorite, onToggleFavorite, onCopyCode }) {
         target="_blank"
         rel="noopener noreferrer sponsored"
         className="store-small-card-link"
+        onClick={() => onOpenProduct(product.id)}
       >
         <ProductVisual product={product} compact />
         <div>
@@ -225,6 +227,7 @@ export default function StorefrontHome({ products = [] }) {
   const [favoritesOpen, setFavoritesOpen] = useState(false);
   const [favoritesReady, setFavoritesReady] = useState(false);
   const [copyNotice, setCopyNotice] = useState('');
+  const [recentIds, setRecentIds] = useState([]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -277,6 +280,27 @@ export default function StorefrontHome({ products = [] }) {
     return () => window.clearTimeout(timer);
   }, [copyNotice]);
 
+  useEffect(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem('ue-recent-v1') || '[]');
+      if (Array.isArray(stored)) {
+        setRecentIds(stored.map(String).slice(0, 6));
+      }
+    } catch {}
+  }, []);
+
+  const recordRecentlyViewed = (productId) => {
+    const id = String(productId);
+
+    setRecentIds((current) => {
+      const next = [id, ...current.filter((recentId) => recentId !== id)].slice(0, 6);
+      try {
+        localStorage.setItem('ue-recent-v1', JSON.stringify(next));
+      } catch {}
+      return next;
+    });
+  };
+
   const handleCopyCode = async (code) => {
     try {
       await copyTextToClipboard(code);
@@ -303,6 +327,21 @@ export default function StorefrontHome({ products = [] }) {
         .filter(Boolean),
     [favoriteIds, products]
   );
+
+  const recentProducts = useMemo(
+    () =>
+      recentIds
+        .map((id) => products.find((product) => String(product.id) === id))
+        .filter(Boolean),
+    [recentIds, products]
+  );
+
+  const clearRecentlyViewed = () => {
+    setRecentIds([]);
+    try {
+      localStorage.removeItem('ue-recent-v1');
+    } catch {}
+  };
 
   const activeFilter =
     CATEGORY_FILTERS.find((item) => item.label === selectedCategory) ||
@@ -514,6 +553,7 @@ export default function StorefrontHome({ products = [] }) {
                 isFavorite={favoriteIdSet.has(String(product.id))}
                 onToggleFavorite={toggleFavorite}
                 onCopyCode={handleCopyCode}
+                onOpenProduct={recordRecentlyViewed}
               />
             ))}
           </div>
@@ -566,7 +606,12 @@ export default function StorefrontHome({ products = [] }) {
               <div className="store-discovery-copy">
                 <h3>{product.title}</h3>
                 <p>Veja o produto em ação e confira os detalhes na loja.</p>
-                <a href={`/go/${encodeURIComponent(product.id)}`} target="_blank" rel="noopener noreferrer sponsored">
+                <a
+                  href={`/go/${encodeURIComponent(product.id)}`}
+                  target="_blank"
+                  rel="noopener noreferrer sponsored"
+                  onClick={() => recordRecentlyViewed(product.id)}
+                >
                   Ver oferta →
                 </a>
               </div>
@@ -602,12 +647,43 @@ export default function StorefrontHome({ products = [] }) {
                   isFavorite={favoriteIdSet.has(String(product.id))}
                   onToggleFavorite={toggleFavorite}
                   onCopyCode={handleCopyCode}
+                  onOpenProduct={recordRecentlyViewed}
                 />
               ))}
             </div>
           </div>
         ))}
       </section>
+
+      {recentProducts.length > 0 && (
+        <section className="store-recently-viewed" aria-labelledby="recently-viewed-title">
+          <div className="store-row-heading store-recent-heading">
+            <div>
+              <span className="store-section-icon">↻</span>
+              <div>
+                <h2 id="recently-viewed-title">Vistos recentemente</h2>
+                <p>Continue de onde você parou.</p>
+              </div>
+            </div>
+            <button type="button" onClick={clearRecentlyViewed}>
+              Limpar
+            </button>
+          </div>
+
+          <div className="store-small-grid">
+            {recentProducts.map((product) => (
+              <SmallCard
+                key={product.id}
+                product={product}
+                isFavorite={favoriteIdSet.has(String(product.id))}
+                onToggleFavorite={toggleFavorite}
+                onCopyCode={handleCopyCode}
+                onOpenProduct={recordRecentlyViewed}
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
       {copyNotice && (
         <div className="store-copy-toast" role="status" aria-live="polite">
@@ -666,6 +742,7 @@ export default function StorefrontHome({ products = [] }) {
                         href={`/go/${encodeURIComponent(product.id)}`}
                         target="_blank"
                         rel="noopener noreferrer sponsored"
+                        onClick={() => recordRecentlyViewed(product.id)}
                       >
                         Ver produto
                       </a>
