@@ -1863,3 +1863,85 @@
   }
 }
 
+/* Compartilhar produto */
+.store-share-button {
+  position: absolute;
+  z-index: 5;
+  top: 12px;
+  left: 52px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(7,63,49,.12);
+  border-radius: 50%;
+  background: rgba(255,255,255,.94);
+  color: var(--store-green);
+  box-shadow: 0 7px 18px rgba(40,32,25,.13);
+  font: 900 17px/1 'Nunito Sans', sans-serif;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .18s ease, background .18s ease, color .18s ease;
+}
+
+.store-share-button:hover {
+  transform: translateY(-1px);
+  background: #fff8ef;
+}
+
+.store-share-button:active {
+  transform: scale(.94);
+}
+
+.store-share-button:focus-visible {
+  outline: 2px solid rgba(255,89,54,.48);
+  outline-offset: 2px;
+}
+
+.store-share-button.compact {
+  top: 9px;
+  left: 45px;
+  width: 30px;
+  height: 30px;
+  font-size: 15px;
+}
+
+.store-share-button.discovery-share {
+  left: auto;
+  right: 52px;
+}
+
+.store-favorite-item-actions .store-favorite-share {
+  border-color: rgba(7,63,49,.14);
+  background: var(--store-cream);
+  color: var(--store-green);
+}
+
+@media (max-width: 700px) {
+  .store-share-button {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+
+  .store-share-button.product {
+    left: 50px;
+  }
+
+  .store-share-button.discovery-share {
+    right: 50px;
+  }
+}
+
+@media (max-width: 430px) {
+  .store-favorite-item-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .store-favorite-item-actions a {
+    grid-column: 1 / -1;
+  }
+}
+
