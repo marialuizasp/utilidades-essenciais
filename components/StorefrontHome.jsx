@@ -136,6 +136,24 @@ function CopyCode({ code, onCopy, className = '', inline = false }) {
   );
 }
 
+function ShareButton({ product, onShare, className = '' }) {
+  return (
+    <button
+      type="button"
+      className={'store-share-button ' + className}
+      onClick={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        onShare(product);
+      }}
+      aria-label={`Compartilhar ${product.title}`}
+      title="Compartilhar produto"
+    >
+      <span aria-hidden="true">↗</span>
+    </button>
+  );
+}
+
 function FavoriteButton({ product, isFavorite, onToggle, className = '' }) {
   return (
     <button
@@ -154,11 +172,12 @@ function FavoriteButton({ product, isFavorite, onToggle, className = '' }) {
   );
 }
 
-function ProductCard({ product, isFavorite, onToggleFavorite, onCopyCode, onOpenProduct }) {
+function ProductCard({ product, isFavorite, onToggleFavorite, onCopyCode, onOpenProduct, onShareProduct }) {
   return (
     <article className="store-product-card">
       <ProductVisual product={product} />
       <FavoriteButton product={product} isFavorite={isFavorite} onToggle={onToggleFavorite} />
+      <ShareButton product={product} onShare={onShareProduct} className="product" />
       <div className="store-product-copy">
         <div className="store-product-meta">
           <p className="store-product-kicker">Achadinho selecionado</p>
@@ -184,7 +203,7 @@ function ProductCard({ product, isFavorite, onToggleFavorite, onCopyCode, onOpen
   );
 }
 
-function SmallCard({ product, isFavorite, onToggleFavorite, onCopyCode, onOpenProduct }) {
+function SmallCard({ product, isFavorite, onToggleFavorite, onCopyCode, onOpenProduct, onShareProduct }) {
   return (
     <article className="store-small-card">
       <a
@@ -215,6 +234,7 @@ function SmallCard({ product, isFavorite, onToggleFavorite, onCopyCode, onOpenPr
         onToggle={onToggleFavorite}
         className="compact"
       />
+      <ShareButton product={product} onShare={onShareProduct} className="compact" />
     </article>
   );
 }
@@ -228,6 +248,23 @@ export default function StorefrontHome({ products = [] }) {
   const [favoritesReady, setFavoritesReady] = useState(false);
   const [copyNotice, setCopyNotice] = useState('');
   const [recentIds, setRecentIds] = useState([]);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const sharedCode = searchParams.get('buscar')?.trim();
+
+    if (!sharedCode) return;
+
+    setSelectedCategory('Todos');
+    setQuery(sharedCode);
+
+    window.setTimeout(() => {
+      document.getElementById('achadinhos')?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }, 180);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -299,6 +336,39 @@ export default function StorefrontHome({ products = [] }) {
       } catch {}
       return next;
     });
+  };
+
+  const handleShareProduct = async (product) => {
+    const code = publicCodeFor(product);
+    const url = new URL(window.location.origin + window.location.pathname);
+    if (code) url.searchParams.set('buscar', code);
+
+    const shareData = {
+      title: product.title,
+      text: code
+        ? `Olha esse achadinho: ${product.title} (${code})`
+        : `Olha esse achadinho: ${product.title}`,
+      url: url.toString()
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+        return;
+      }
+
+      await copyTextToClipboard(shareData.url);
+      setCopyNotice('Link do produto copiado ✓');
+    } catch (error) {
+      if (error?.name === 'AbortError') return;
+
+      try {
+        await copyTextToClipboard(shareData.url);
+        setCopyNotice('Link do produto copiado ✓');
+      } catch {
+        setCopyNotice('Não foi possível compartilhar o produto');
+      }
+    }
   };
 
   const handleCopyCode = async (code) => {
@@ -554,6 +624,7 @@ export default function StorefrontHome({ products = [] }) {
                 onToggleFavorite={toggleFavorite}
                 onCopyCode={handleCopyCode}
                 onOpenProduct={recordRecentlyViewed}
+                onShareProduct={handleShareProduct}
               />
             ))}
           </div>
@@ -590,6 +661,11 @@ export default function StorefrontHome({ products = [] }) {
                 isFavorite={favoriteIdSet.has(String(product.id))}
                 onToggle={toggleFavorite}
                 className="discovery"
+              />
+              <ShareButton
+                product={product}
+                onShare={handleShareProduct}
+                className="discovery-share"
               />
               <div className="store-discovery-video">
                 <video src={product.videoUrl} muted autoPlay loop playsInline preload="metadata" />
@@ -648,6 +724,7 @@ export default function StorefrontHome({ products = [] }) {
                   onToggleFavorite={toggleFavorite}
                   onCopyCode={handleCopyCode}
                   onOpenProduct={recordRecentlyViewed}
+                  onShareProduct={handleShareProduct}
                 />
               ))}
             </div>
@@ -679,6 +756,7 @@ export default function StorefrontHome({ products = [] }) {
                 onToggleFavorite={toggleFavorite}
                 onCopyCode={handleCopyCode}
                 onOpenProduct={recordRecentlyViewed}
+                onShareProduct={handleShareProduct}
               />
             ))}
           </div>
@@ -746,6 +824,14 @@ export default function StorefrontHome({ products = [] }) {
                       >
                         Ver produto
                       </a>
+                      <button
+                        type="button"
+                        className="store-favorite-share"
+                        onClick={() => handleShareProduct(product)}
+                        aria-label={`Compartilhar ${product.title}`}
+                      >
+                        Compartilhar
+                      </button>
                       <button
                         type="button"
                         onClick={() => toggleFavorite(product.id)}
