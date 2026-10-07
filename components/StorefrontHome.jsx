@@ -443,21 +443,41 @@ export default function StorefrontHome({ products = [] }) {
 
   const filteredProducts = useMemo(() => {
     const normalizedQuery = normalize(query.trim());
+    const compactQuery = normalizedQuery
+      .replaceAll(' ', '')
+      .replaceAll('_', '')
+      .replaceAll('-', '');
+
+    let numericPart = compactQuery;
+    if (numericPart.startsWith('ue')) numericPart = numericPart.slice(2);
+    if (numericPart.startsWith('prod')) numericPart = numericPart.slice(4);
+
+    const looksLikeCode =
+      numericPart.length > 0 &&
+      [...numericPart].every((character) => character >= '0' && character <= '9');
+
+    const normalizedCodeQuery = looksLikeCode
+      ? 'ue' + String(Number(numericPart)).padStart(4, '0')
+      : '';
+
+    const terms = normalizedQuery.split(' ').filter(Boolean);
 
     return products.filter((product) => {
       if (!matchesCategory(product, activeFilter)) return false;
       if (!normalizedQuery) return true;
 
-      const haystack = normalize(
-        [
-          product.title,
-          product.category,
-          publicCodeFor(product),
-          ...(product.tags || [])
-        ].join(' ')
-      );
+      const haystack = normalize([
+        product.title,
+        product.category,
+        publicCodeFor(product),
+        product.id,
+        ...(product.tags || [])
+      ].join(' '));
 
-      return haystack.includes(normalizedQuery);
+      if (normalizedCodeQuery && haystack.includes(normalizedCodeQuery)) return true;
+      if (haystack.includes(normalizedQuery)) return true;
+
+      return terms.every((term) => haystack.includes(term));
     });
   }, [products, query, activeFilter]);
 
