@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import './StorefrontHome.css';
 
 const BRAND_ICON = 'https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/UE/Utilidades_Essenciais_Logo_Transparente(5).png';
@@ -377,13 +377,19 @@ export default function StorefrontHome({ products = [] }) {
   const [priceFilter, setPriceFilter] = useState('all');
   const [onlyOffers, setOnlyOffers] = useState(false);
   const [visibleFeaturedCount, setVisibleFeaturedCount] = useState(4);
+  const [sessionStateReady, setSessionStateReady] = useState(false);
+  const restoringSessionState = useRef(false);
 
   useEffect(() => {
+    if (restoringSessionState.current) {
+      restoringSessionState.current = false;
+      return;
+    }
+
     setVisibleFeaturedCount(4);
   }, [query, selectedCategory, priceFilter, onlyOffers]);
 
   useEffect(() => {
-    const storageKey = 'ue-home-scroll-v1';
     const searchParams = new URLSearchParams(window.location.search);
     const navigationEntry = performance.getEntriesByType?.('navigation')?.[0];
     const isBackForward =
@@ -392,18 +398,88 @@ export default function StorefrontHome({ products = [] }) {
 
     if (!searchParams.get('buscar') && isBackForward) {
       try {
-        const savedY = Number(sessionStorage.getItem(storageKey) || '0');
+        const savedState = JSON.parse(
+          sessionStorage.getItem('ue-home-state-v1') || 'null'
+        );
+
+        if (savedState && typeof savedState === 'object') {
+          restoringSessionState.current = true;
+
+          if (typeof savedState.query === 'string') {
+            setQuery(savedState.query);
+          }
+
+          if (
+            typeof savedState.selectedCategory === 'string' &&
+            CATEGORY_FILTERS.some(
+              (item) => item.label === savedState.selectedCategory
+            )
+          ) {
+            setSelectedCategory(savedState.selectedCategory);
+          }
+
+          if (
+            ['all', 'under50', '50to100', '100to200', 'over200'].includes(
+              savedState.priceFilter
+            )
+          ) {
+            setPriceFilter(savedState.priceFilter);
+          }
+
+          if (typeof savedState.onlyOffers === 'boolean') {
+            setOnlyOffers(savedState.onlyOffers);
+          }
+
+          if (Number.isFinite(savedState.visibleFeaturedCount)) {
+            setVisibleFeaturedCount(
+              Math.max(4, Math.floor(savedState.visibleFeaturedCount))
+            );
+          }
+        }
+
+        const savedY = Number(
+          sessionStorage.getItem('ue-home-scroll-v1') || '0'
+        );
 
         if (savedY > 0) {
           window.requestAnimationFrame(() => {
             window.setTimeout(() => {
               window.scrollTo({ top: savedY, behavior: 'auto' });
-            }, 80);
+            }, 180);
           });
         }
       } catch {}
     }
 
+    setSessionStateReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!sessionStateReady) return;
+
+    try {
+      sessionStorage.setItem(
+        'ue-home-state-v1',
+        JSON.stringify({
+          query,
+          selectedCategory,
+          priceFilter,
+          onlyOffers,
+          visibleFeaturedCount
+        })
+      );
+    } catch {}
+  }, [
+    sessionStateReady,
+    query,
+    selectedCategory,
+    priceFilter,
+    onlyOffers,
+    visibleFeaturedCount
+  ]);
+
+  useEffect(() => {
+    const storageKey = 'ue-home-scroll-v1';
     let frameRequested = false;
 
     const saveScrollPosition = () => {
@@ -413,7 +489,10 @@ export default function StorefrontHome({ products = [] }) {
       window.requestAnimationFrame(() => {
         frameRequested = false;
         try {
-          sessionStorage.setItem(storageKey, String(Math.max(0, Math.round(window.scrollY))));
+          sessionStorage.setItem(
+            storageKey,
+            String(Math.max(0, Math.round(window.scrollY)))
+          );
         } catch {}
       });
     };
