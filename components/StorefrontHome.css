@@ -1169,18 +1169,18 @@
 }
 
 .store-product-copy {
-  flex: 0 0 190px;
-  min-height: 190px;
+  flex: 1 1 auto;
+  min-height: 210px;
 }
 
 .store-discovery-copy {
-  flex: 0 0 176px;
-  min-height: 176px;
+  flex: 1 1 auto;
+  min-height: 182px;
 }
 
 .store-small-card > div:last-child {
-  flex: 0 0 122px;
-  min-height: 122px;
+  flex: 1 1 auto;
+  min-height: 126px;
 }
 
 .store-product-copy h3,
@@ -1221,18 +1221,15 @@
   }
 
   .store-product-copy {
-    flex-basis: 178px;
-    min-height: 178px;
+    min-height: 210px;
   }
 
   .store-discovery-copy {
-    flex-basis: 170px;
-    min-height: 170px;
+    min-height: 182px;
   }
 
   .store-small-card > div:last-child {
-    flex-basis: 118px;
-    min-height: 118px;
+    min-height: 126px;
   }
 }
 
@@ -1242,23 +1239,35 @@
   }
 
   .store-product-copy {
-    flex: 0 0 176px;
-    min-height: 176px;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 210px;
+    padding: 14px 14px 16px;
   }
 
   .store-product-copy h3 {
-    min-height: 39px;
-    max-height: 39px;
+    min-height: 44px;
+    max-height: 44px;
+    font-size: 15px;
+  }
+
+  .store-product-price {
+    margin: 10px 0 16px;
+  }
+
+  .store-card-cta {
+    min-height: 48px;
+    margin-top: auto;
   }
 
   .store-discovery-copy {
-    flex: 0 0 170px;
-    min-height: 170px;
+    flex: 1 1 auto;
+    min-height: 182px;
   }
 
   .store-small-card > div:last-child {
-    flex: 0 0 118px;
-    min-height: 118px;
+    flex: 1 1 auto;
+    min-height: 126px;
   }
 }
 
