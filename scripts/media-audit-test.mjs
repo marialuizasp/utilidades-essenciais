@@ -1,5 +1,6 @@
 import {
   expectedMediaPrefix,
+  hasOpenMediaIncident,
   prepareMediaAudit,
   safeMediaUrl,
 } from '../lib/mediaAudit.js';
@@ -55,3 +56,30 @@ assert(
 );
 
 console.log('Media health audit regression OK.');
+
+
+const incidentRows = [
+  ['Data/Hora','Evento','Severidade','Origem','ID','Linha','Status Antes','Status Depois','Tentativa','Resultado','Detalhes'],
+  ['07/10/2026','MEDIA_HEALTH_AUDIT_FAILED','AVISO','MEDIA/R2','','','FALHA','SEM BLOQUEIO AUTOMATICO',1,'media-health-audit','media_audit_key=2026-10-07:s3:abc123 | failed=1'],
+  ['07/10/2026','MEDIA_HEALTH_AUDIT_FAILED','AVISO','MEDIA/R2','','','FALHA','RESOLVIDO',1,'media-health-audit','media_issue_key=s2:resolved123 | failed=1'],
+];
+
+assert(
+  hasOpenMediaIncident(incidentRows, 3, 'abc123') === true,
+  'incidente legado ainda aberto deve ser reutilizado',
+);
+assert(
+  hasOpenMediaIncident(incidentRows, 2, 'resolved123') === false,
+  'incidente resolvido deve permitir um novo alerta se a falha voltar',
+);
+
+incidentRows.push([
+  '08/10/2026','MEDIA_HEALTH_AUDIT_FAILED','AVISO','MEDIA/R2','','','FALHA',
+  'SEM BLOQUEIO AUTOMATICO',1,'media-health-audit',
+  'media_issue_key=s1:stable456 | failed=1',
+]);
+
+assert(
+  hasOpenMediaIncident(incidentRows, 1, 'stable456') === true,
+  'chave estável deve deduplicar sem depender da data',
+);
