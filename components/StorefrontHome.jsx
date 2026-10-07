@@ -661,16 +661,23 @@ export default function StorefrontHome({ products = [] }) {
           <nav className="store-header-actions" aria-label="Atalhos">
             <button
               type="button"
-              className="store-favorites-trigger"
+              className="store-header-icon-button store-favorites-trigger"
               onClick={() => setFavoritesOpen(true)}
               aria-label={favoriteIds.length ? `Abrir favoritos: ${favoriteIds.length} salvos` : 'Abrir favoritos'}
               aria-expanded={favoritesOpen}
             >
-              <span className="store-favorites-icon" aria-hidden="true">♡</span>
+              <svg className="store-header-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 20.6 3.8 12.9C1.1 10.4 1 6.2 3.5 3.8a5.4 5.4 0 0 1 7.6 0L12 4.7l.9-.9a5.4 5.4 0 0 1 7.6 0c2.5 2.4 2.4 6.6-.3 9.1L12 20.6Z" />
+              </svg>
               <span>Favoritos</span>
               {favoriteIds.length > 0 && <b>{favoriteIds.length}</b>}
             </button>
-            <Link href="/descobrir">▶ <span>Descobrir</span></Link>
+            <Link href="/descobrir" className="store-header-icon-button store-discover-trigger" aria-label="Abrir Descobrir">
+              <svg className="store-header-icon store-header-play-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8.5 6.6v10.8L17.8 12 8.5 6.6Z" />
+              </svg>
+              <span>Descobrir</span>
+            </Link>
           </nav>
         </div>
 
