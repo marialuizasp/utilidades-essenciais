@@ -105,22 +105,72 @@
 .store-header-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 16px;
+  align-items: center;
+  gap: 12px;
 }
 
-.store-header-actions a {
+.store-header-icon-button {
+  width: 46px;
+  min-width: 46px;
+  height: 46px;
+  padding: 0;
   display: grid;
-  justify-items: center;
-  gap: 2px;
+  place-items: center;
+  position: relative;
+  border: 1px solid rgba(7, 63, 49, .14);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .86);
   color: var(--store-green);
-  font-size: 16px;
-  font-weight: 800;
   text-decoration: none;
+  box-shadow: 0 5px 14px rgba(39, 49, 43, .06);
+  transition: transform .18s ease, background .18s ease, border-color .18s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.store-header-actions span {
-  font-size: 10px;
-  font-weight: 700;
+.store-header-icon-button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(7, 63, 49, .24);
+  background: #fff;
+}
+
+.store-header-icon-button:active {
+  transform: scale(.96);
+}
+
+.store-header-icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.store-header-play-icon {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+  stroke: none;
+}
+
+.store-discover-trigger {
+  background: var(--store-green);
+  color: #fff !important;
+  border-color: var(--store-green);
+}
+
+.store-header-actions .store-header-icon-button > span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .store-category-strip {
@@ -844,7 +894,33 @@
     margin-bottom: 10px;
   }
 
-  .store-header-actions { gap: 10px; }
+  .store-header-actions {
+    gap: 8px;
+  }
+
+  .store-header-icon-button {
+    width: 42px;
+    min-width: 42px;
+    height: 42px;
+    border-radius: 13px;
+    box-shadow: none;
+  }
+
+  .store-header-icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .store-header-play-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .store-discover-trigger {
+    background: #fff;
+    color: var(--store-green) !important;
+    border-color: rgba(7, 63, 49, .16);
+  }
 
   .store-category-strip {
     width: 100%;
@@ -1423,29 +1499,8 @@
 }
 
 .store-header-actions .store-favorites-trigger {
-  position: relative;
-  min-width: 42px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  display: grid;
-  justify-items: center;
-  gap: 2px;
-  color: var(--store-green);
   font-family: 'Nunito Sans', sans-serif;
-  font-size: 16px;
-  font-weight: 800;
   cursor: pointer;
-}
-
-.store-header-actions .store-favorites-trigger > span:last-of-type {
-  font-size: 10px;
-  font-weight: 700;
-}
-
-.store-favorites-icon {
-  font-size: 18px !important;
-  line-height: 1;
 }
 
 .store-favorites-trigger b {
