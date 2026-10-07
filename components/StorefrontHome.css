@@ -1082,7 +1082,7 @@
 
 .store-product-code,
 .store-discovery-code,
-.store-small-meta b {
+.store-small-code {
   flex: 0 0 auto;
   border: 1px solid rgba(7,63,49,.14);
   border-radius: 999px;
@@ -1106,14 +1106,14 @@
   gap: 6px;
 }
 
-.store-small-meta > span {
+.store-small-meta > span:first-child {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.store-small-meta b {
+.store-small-code {
   padding: 4px 6px;
 }
 
@@ -1142,7 +1142,7 @@
 
 @media (max-width: 700px) {
   .store-product-code { font-size: 8px; padding: 5px 7px; }
-  .store-small-meta b { font-size: 8px; }
+  .store-small-code { font-size: 8px; }
 }
 
 
@@ -1732,6 +1732,81 @@
 
   .store-favorite-item-actions {
     grid-template-columns: 1fr auto;
+  }
+}
+
+/* Copiar código do produto */
+.store-code-copy {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  outline: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+  text-decoration: none;
+  transition: background .16s ease, border-color .16s ease, color .16s ease;
+}
+
+.store-code-copy:hover {
+  border-color: rgba(7,63,49,.30);
+  background: #fff8ef;
+}
+
+.store-code-copy:active {
+  background: #f5e6d8;
+}
+
+.store-code-copy:focus-visible {
+  outline: 2px solid rgba(255,89,54,.48);
+  outline-offset: 2px;
+}
+
+.store-small-code {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.store-discovery-code {
+  pointer-events: auto;
+}
+
+.store-favorite-drawer-code {
+  width: fit-content;
+  padding: 4px 7px;
+  border: 1px solid rgba(7,63,49,.12);
+  border-radius: 999px;
+  background: var(--store-cream);
+  color: var(--store-coral);
+  font: 900 9px/1 'Nunito Sans', sans-serif;
+  letter-spacing: .03em;
+}
+
+.store-copy-toast {
+  position: fixed;
+  z-index: 120;
+  left: 50%;
+  bottom: max(22px, calc(env(safe-area-inset-bottom) + 16px));
+  max-width: calc(100vw - 32px);
+  transform: translateX(-50%);
+  padding: 10px 14px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 999px;
+  background: rgba(7,63,49,.96);
+  color: #fff;
+  box-shadow: 0 10px 28px rgba(7,63,49,.24);
+  font: 800 11px/1.2 'Nunito Sans', sans-serif;
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+  backdrop-filter: blur(10px);
+}
+
+@media (max-width: 430px) {
+  .store-copy-toast {
+    bottom: max(18px, calc(env(safe-area-inset-bottom) + 12px));
+    font-size: 10px;
   }
 }
 
