@@ -387,7 +387,7 @@ export default function StorefrontHome({ products = [] }) {
     }
 
     setVisibleFeaturedCount(4);
-  }, [query, selectedCategory, priceFilter, onlyOffers]);
+  }, [query, selectedCategory, priceFilter, onlyOffers, sessionStateReady]);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
