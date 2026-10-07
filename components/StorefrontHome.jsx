@@ -374,6 +374,9 @@ export default function StorefrontHome({ products = [] }) {
   const [recentIds, setRecentIds] = useState([]);
   const [searchFocused, setSearchFocused] = useState(false);
   const [searchSuggestionIndex, setSearchSuggestionIndex] = useState(-1);
+  const [searchGuideVisible, setSearchGuideVisible] = useState(false);
+  const [searchGuideAcknowledged, setSearchGuideAcknowledged] = useState(false);
+  const [searchGuideReady, setSearchGuideReady] = useState(false);
   const searchSuggestionRefs = useRef([]);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [priceFilter, setPriceFilter] = useState('all');
@@ -381,6 +384,31 @@ export default function StorefrontHome({ products = [] }) {
   const [visibleFeaturedCount, setVisibleFeaturedCount] = useState(4);
   const [sessionStateReady, setSessionStateReady] = useState(false);
   const restoringSessionState = useRef(false);
+
+  useEffect(() => {
+    try {
+      const seen = localStorage.getItem('ue-search-guide-seen-v1') === '1';
+      setSearchGuideAcknowledged(seen);
+    } catch {}
+    setSearchGuideReady(true);
+  }, []);
+
+  const acknowledgeSearchGuide = () => {
+    setSearchGuideAcknowledged(true);
+    setSearchGuideVisible(false);
+
+    try {
+      localStorage.setItem('ue-search-guide-seen-v1', '1');
+    } catch {}
+
+    try {
+      if (Array.isArray(window.dataLayer)) {
+        window.dataLayer.push({
+          event: 'ue_search_guide_acknowledged'
+        });
+      }
+    } catch {}
+  };
 
   useEffect(() => {
     if (restoringSessionState.current) {
@@ -849,7 +877,12 @@ export default function StorefrontHome({ products = [] }) {
                   setQuery(event.target.value);
                   setSearchFocused(true);
                 }}
-                onFocus={() => setSearchFocused(true)}
+                onFocus={() => {
+                  setSearchFocused(true);
+                  if (searchGuideReady && !searchGuideAcknowledged) {
+                    setSearchGuideVisible(true);
+                  }
+                }}
                 onBlur={() =>
                   window.setTimeout(() => {
                     setSearchFocused(false);
@@ -918,7 +951,35 @@ export default function StorefrontHome({ products = [] }) {
               )}
             </label>
 
-            {searchFocused && searchSuggestions.length > 0 && (
+            {searchGuideVisible && (
+              <aside
+                className="store-search-guide"
+                aria-label="Como usar a busca"
+              >
+                <div className="store-search-guide-icon" aria-hidden="true">⌕</div>
+                <div className="store-search-guide-copy">
+                  <strong>Encontre seu achadinho mais rápido</strong>
+                  <p className="store-search-guide-desktop">
+                    Digite o nome, a categoria ou o código do produto. Use <kbd>↑</kbd> <kbd>↓</kbd>
+                    para navegar, <kbd>Enter</kbd> para abrir e <kbd>Esc</kbd> para fechar.
+                  </p>
+                  <p className="store-search-guide-mobile">
+                    Digite o nome, a categoria ou o código do produto. Depois, toque em uma sugestão para abrir.
+                  </p>
+                  <small>Este guia aparece só uma vez neste dispositivo.</small>
+                </div>
+                <button
+                  type="button"
+                  className="store-search-guide-ack"
+                  onMouseDown={(event) => event.preventDefault()}
+                  onClick={acknowledgeSearchGuide}
+                >
+                  Entendi
+                </button>
+              </aside>
+            )}
+
+            {!searchGuideVisible && searchFocused && searchSuggestions.length > 0 && (
               <div
                 className="store-search-suggestions"
                 id="store-search-suggestions"
