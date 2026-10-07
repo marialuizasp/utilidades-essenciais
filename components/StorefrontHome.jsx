@@ -52,19 +52,55 @@ function dailyFeatureScore(product, dayKey) {
   return hash >>> 0;
 }
 
+function canonicalVideoKey(videoUrl) {
+  const raw = String(videoUrl || '').trim();
+  if (!raw) return '';
+
+  let path = raw.split(/[?#]/, 1)[0];
+
+  try {
+    path = decodeURIComponent(path);
+  } catch {}
+
+  const fileName = path.split('/').pop() || path;
+
+  return normalize(fileName)
+    .replace(/\.(mp4|mov|webm|m4v)+$/gi, '')
+    .replace(/\b(copy|copia|final|novo|new|video|reel)\b/g, '')
+    .replace(/[\s_.()-]+/g, '')
+    .replace(/\d+$/g, '');
+}
+
+function canonicalTitleKey(title) {
+  return normalize(title)
+    .replace(/\b(kit|conjunto|produto|original|oficial|novo|nova)\b/g, '')
+    .replace(/[^a-z0-9]+/g, '')
+    .slice(0, 80);
+}
+
 function uniqueProductsByVideo(items, limit = Infinity) {
-  const seenVideos = new Set();
+  const seenVideoUrls = new Set();
+  const seenVideoFiles = new Set();
+  const seenTitles = new Set();
   const selected = [];
 
   for (const product of items) {
     const rawVideoUrl = String(product?.videoUrl || '').trim();
-    const videoKey = rawVideoUrl
-      ? rawVideoUrl.split(/[?#]/, 1)[0]
-      : 'product:' + String(product?.id || product?.title || selected.length);
+    const urlKey = rawVideoUrl ? rawVideoUrl.split(/[?#]/, 1)[0].toLowerCase() : '';
+    const fileKey = canonicalVideoKey(rawVideoUrl);
+    const titleKey = canonicalTitleKey(product?.title);
 
-    if (seenVideos.has(videoKey)) continue;
+    const isDuplicate =
+      (urlKey && seenVideoUrls.has(urlKey)) ||
+      (fileKey && seenVideoFiles.has(fileKey)) ||
+      (titleKey && seenTitles.has(titleKey));
 
-    seenVideos.add(videoKey);
+    if (isDuplicate) continue;
+
+    if (urlKey) seenVideoUrls.add(urlKey);
+    if (fileKey) seenVideoFiles.add(fileKey);
+    if (titleKey) seenTitles.add(titleKey);
+
     selected.push(product);
 
     if (selected.length >= limit) break;
