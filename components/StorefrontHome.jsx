@@ -76,10 +76,29 @@ function ProductVisual({ product, compact = false }) {
   );
 }
 
-function ProductCard({ product }) {
+function FavoriteButton({ product, isFavorite, onToggle, className = '' }) {
+  return (
+    <button
+      type="button"
+      className={'store-favorite-button ' + (isFavorite ? 'active ' : '') + className}
+      onClick={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        onToggle(product.id);
+      }}
+      aria-label={isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+      title={isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+    >
+      <span aria-hidden="true">{isFavorite ? '♥' : '♡'}</span>
+    </button>
+  );
+}
+
+function ProductCard({ product, isFavorite, onToggleFavorite }) {
   return (
     <article className="store-product-card">
       <ProductVisual product={product} />
+      <FavoriteButton product={product} isFavorite={isFavorite} onToggle={onToggleFavorite} />
       <div className="store-product-copy">
         <div className="store-product-meta">
           <p className="store-product-kicker">Achadinho selecionado</p>
@@ -102,24 +121,32 @@ function ProductCard({ product }) {
   );
 }
 
-function SmallCard({ product }) {
+function SmallCard({ product, isFavorite, onToggleFavorite }) {
   return (
-    <a
-      href={`/go/${encodeURIComponent(product.id)}`}
-      target="_blank"
-      rel="noopener noreferrer sponsored"
-      className="store-small-card"
-    >
-      <ProductVisual product={product} compact />
-      <div>
-        <div className="store-small-meta">
-          <span>{product.category || 'Achadinho'}</span>
-          {publicCodeFor(product) && <b>{publicCodeFor(product)}</b>}
+    <article className="store-small-card">
+      <a
+        href={`/go/${encodeURIComponent(product.id)}`}
+        target="_blank"
+        rel="noopener noreferrer sponsored"
+        className="store-small-card-link"
+      >
+        <ProductVisual product={product} compact />
+        <div>
+          <div className="store-small-meta">
+            <span>{product.category || 'Achadinho'}</span>
+            {publicCodeFor(product) && <b>{publicCodeFor(product)}</b>}
+          </div>
+          <strong>{product.title}</strong>
+          {product.price && <small>{product.price}</small>}
         </div>
-        <strong>{product.title}</strong>
-        {product.price && <small>{product.price}</small>}
-      </div>
-    </a>
+      </a>
+      <FavoriteButton
+        product={product}
+        isFavorite={isFavorite}
+        onToggle={onToggleFavorite}
+        className="compact"
+      />
+    </article>
   );
 }
 
@@ -127,6 +154,9 @@ export default function StorefrontHome({ products = [] }) {
   const [query, setQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [favoriteIds, setFavoriteIds] = useState([]);
+  const [favoritesOpen, setFavoritesOpen] = useState(false);
+  const [favoritesReady, setFavoritesReady] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -138,6 +168,57 @@ export default function StorefrontHome({ products = [] }) {
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+
+  useEffect(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem('ue-favorites-v1') || '[]');
+      if (Array.isArray(stored)) {
+        setFavoriteIds(stored.map(String));
+      }
+    } catch {}
+    setFavoritesReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!favoritesReady) return;
+    localStorage.setItem('ue-favorites-v1', JSON.stringify(favoriteIds));
+  }, [favoriteIds, favoritesReady]);
+
+  useEffect(() => {
+    if (!favoritesOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') setFavoritesOpen(false);
+    };
+
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', closeOnEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [favoritesOpen]);
+
+  const toggleFavorite = (productId) => {
+    const id = String(productId);
+    setFavoriteIds((current) =>
+      current.includes(id)
+        ? current.filter((favoriteId) => favoriteId !== id)
+        : [id, ...current]
+    );
+  };
+
+  const favoriteIdSet = useMemo(() => new Set(favoriteIds), [favoriteIds]);
+  const favoriteProducts = useMemo(
+    () =>
+      favoriteIds
+        .map((id) => products.find((product) => String(product.id) === id))
+        .filter(Boolean),
+    [favoriteIds, products]
+  );
 
   const activeFilter =
     CATEGORY_FILTERS.find((item) => item.label === selectedCategory) ||
@@ -246,7 +327,17 @@ export default function StorefrontHome({ products = [] }) {
           </label>
 
           <nav className="store-header-actions" aria-label="Atalhos">
-            <a href="#achadinhos">♡ <span>Favoritos</span></a>
+            <button
+              type="button"
+              className="store-favorites-trigger"
+              onClick={() => setFavoritesOpen(true)}
+              aria-label={favoriteIds.length ? `Abrir favoritos: ${favoriteIds.length} salvos` : 'Abrir favoritos'}
+              aria-expanded={favoritesOpen}
+            >
+              <span className="store-favorites-icon" aria-hidden="true">♡</span>
+              <span>Favoritos</span>
+              {favoriteIds.length > 0 && <b>{favoriteIds.length}</b>}
+            </button>
             <Link href="/descobrir">▶ <span>Descobrir</span></Link>
           </nav>
         </div>
@@ -332,7 +423,14 @@ export default function StorefrontHome({ products = [] }) {
 
         {featured.length > 0 ? (
           <div className="store-product-grid">
-            {featured.map((product) => <ProductCard key={product.id} product={product} />)}
+            {featured.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                isFavorite={favoriteIdSet.has(String(product.id))}
+                onToggleFavorite={toggleFavorite}
+              />
+            ))}
           </div>
         ) : (
           <div className="store-empty-search">
@@ -362,6 +460,12 @@ export default function StorefrontHome({ products = [] }) {
         <div className="store-discovery-grid">
           {discovery.map((product) => (
             <article className="store-discovery-card" key={product.id}>
+              <FavoriteButton
+                product={product}
+                isFavorite={favoriteIdSet.has(String(product.id))}
+                onToggle={toggleFavorite}
+                className="discovery"
+              />
               <div className="store-discovery-video">
                 <video src={product.videoUrl} muted autoPlay loop playsInline preload="metadata" />
                 <span className="store-discovery-play">▶</span>
@@ -404,11 +508,89 @@ export default function StorefrontHome({ products = [] }) {
               </button>
             </div>
             <div className="store-small-grid">
-              {row.products.map((product) => <SmallCard key={product.id} product={product} />)}
+              {row.products.map((product) => (
+                <SmallCard
+                  key={product.id}
+                  product={product}
+                  isFavorite={favoriteIdSet.has(String(product.id))}
+                  onToggleFavorite={toggleFavorite}
+                />
+              ))}
             </div>
           </div>
         ))}
       </section>
+
+      {favoritesOpen && (
+        <>
+          <button
+            type="button"
+            className="store-favorites-backdrop"
+            onClick={() => setFavoritesOpen(false)}
+            aria-label="Fechar favoritos"
+          />
+          <aside
+            className="store-favorites-drawer"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Seus favoritos"
+          >
+            <div className="store-favorites-header">
+              <div>
+                <span>SEUS ACHADINHOS</span>
+                <h2>Favoritos</h2>
+              </div>
+              <button
+                type="button"
+                className="store-favorites-close"
+                onClick={() => setFavoritesOpen(false)}
+                aria-label="Fechar favoritos"
+              >
+                ×
+              </button>
+            </div>
+
+            {favoriteProducts.length > 0 ? (
+              <div className="store-favorites-list">
+                {favoriteProducts.map((product) => (
+                  <article className="store-favorite-item" key={product.id}>
+                    <div className="store-favorite-item-copy">
+                      <small>{publicCodeFor(product) || product.category || 'Achadinho'}</small>
+                      <strong>{product.title}</strong>
+                      {product.price && <b>{product.price}</b>}
+                    </div>
+                    <div className="store-favorite-item-actions">
+                      <a
+                        href={`/go/${encodeURIComponent(product.id)}`}
+                        target="_blank"
+                        rel="noopener noreferrer sponsored"
+                      >
+                        Ver produto
+                      </a>
+                      <button
+                        type="button"
+                        onClick={() => toggleFavorite(product.id)}
+                        aria-label={`Remover ${product.title} dos favoritos`}
+                      >
+                        Remover
+                      </button>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <div className="store-favorites-empty">
+                <span aria-hidden="true">♡</span>
+                <strong>Você ainda não salvou nenhum achadinho.</strong>
+                <p>Toque no coração de um produto para encontrá-lo aqui depois.</p>
+                <button type="button" onClick={() => setFavoritesOpen(false)}>
+                  Continuar explorando
+                </button>
+              </div>
+            )}
+          </aside>
+        </>
+      )}
 
       {showBackToTop && (
         <button
