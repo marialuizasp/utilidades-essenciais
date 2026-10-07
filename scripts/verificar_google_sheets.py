@@ -1,7 +1,6 @@
 """Relatório diário de disponibilidade usando a exportação pública do Google Sheets."""
 import csv
 import io
-import json
 import os
 import ssl
 import smtplib
@@ -9,33 +8,11 @@ import time
 from collections import Counter
 from datetime import datetime
 from email.message import EmailMessage
-from pathlib import Path
 from urllib.request import urlopen
 from zoneinfo import ZoneInfo
 
 from enviar_dashboard import enviar_dashboard
 from verificar_links import verificar
-
-STATE_FILE = Path("data/link-health-state.json")
-
-
-def carregar_estado():
-    if not STATE_FILE.exists():
-        return {}
-    try:
-        data = json.loads(STATE_FILE.read_text(encoding="utf-8"))
-        return data if isinstance(data, dict) else {}
-    except (json.JSONDecodeError, OSError):
-        return {}
-
-
-def salvar_estado(state):
-    STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
-    STATE_FILE.write_text(
-        json.dumps(state, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
-
 
 def consolidar_status(product_id, raw_status, raw_detail, state, now):
     """Exige duas detecções consecutivas de indisponibilidade antes do vermelho."""
@@ -65,7 +42,7 @@ def main():
         content = response.read().decode("utf-8-sig")
 
     rows = list(csv.DictReader(io.StringIO(content)))
-    required = {"id", "title", "affiliateLink", "active"}
+    required = {"id", "title", "affiliateLink", "active", "linkStatus", "failedChecks"}
     header = set((content.splitlines()[0].split(",")) if content.splitlines() else [])
     if not rows and not required.issubset(header):
         raise ValueError("Planilha sem cabeçalhos esperados")
@@ -75,12 +52,20 @@ def main():
     products = [
         row
         for row in rows
-        if row.get("active", "").strip().lower() in ("sim", "true", "1", "yes")
+        if row.get("id", "").strip()
+        and row.get("active", "").strip().lower() in ("sim", "true", "1", "yes")
         and row.get("title", "").strip()
     ]
 
     now = datetime.now(ZoneInfo("America/Sao_Paulo"))
-    state = carregar_estado()
+    state = {
+        row.get("id", "").strip(): {
+            "failed_checks": int(float(row.get("failedChecks", "0") or 0)),
+            "status": row.get("linkStatus", "").strip(),
+        }
+        for row in products
+        if row.get("id", "").strip()
+    }
     summary = []
     dashboard_rows = []
     status_counts = Counter()
@@ -106,8 +91,6 @@ def main():
             }
         )
         time.sleep(1)
-
-    salvar_estado(state)
 
     report = (
         f"Relatório diário — Utilidades Essenciais — {now:%d/%m/%Y %H:%M}\n"
