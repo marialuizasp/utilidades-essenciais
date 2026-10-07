@@ -52,6 +52,27 @@ function dailyFeatureScore(product, dayKey) {
   return hash >>> 0;
 }
 
+function uniqueProductsByVideo(items, limit = Infinity) {
+  const seenVideos = new Set();
+  const selected = [];
+
+  for (const product of items) {
+    const rawVideoUrl = String(product?.videoUrl || '').trim();
+    const videoKey = rawVideoUrl
+      ? rawVideoUrl.split(/[?#]/, 1)[0]
+      : 'product:' + String(product?.id || product?.title || selected.length);
+
+    if (seenVideos.has(videoKey)) continue;
+
+    seenVideos.add(videoKey);
+    selected.push(product);
+
+    if (selected.length >= limit) break;
+  }
+
+  return selected;
+}
+
 function ProductVisual({ product, compact = false }) {
   return (
     <div className={compact ? 'store-product-media compact' : 'store-product-media'}>
@@ -400,9 +421,12 @@ export default function StorefrontHome({ products = [] }) {
 
   const recentProducts = useMemo(
     () =>
-      recentIds
-        .map((id) => products.find((product) => String(product.id) === id))
-        .filter(Boolean),
+      uniqueProductsByVideo(
+        recentIds
+          .map((id) => products.find((product) => String(product.id) === id))
+          .filter(Boolean),
+        6
+      ),
     [recentIds, products]
   );
 
@@ -459,12 +483,13 @@ export default function StorefrontHome({ products = [] }) {
 
   const usedProductIds = new Set();
 
-  const featured = dailyOrder.slice(0, 4);
+  const featured = uniqueProductsByVideo(dailyOrder, 4);
   featured.forEach((product) => usedProductIds.add(product.id));
 
-  const discovery = dailyOrder
-    .filter((product) => !usedProductIds.has(product.id))
-    .slice(0, 4);
+  const discovery = uniqueProductsByVideo(
+    dailyOrder.filter((product) => !usedProductIds.has(product.id)),
+    4
+  );
   discovery.forEach((product) => usedProductIds.add(product.id));
 
   const categoryRows = [
@@ -482,9 +507,10 @@ export default function StorefrontHome({ products = [] }) {
             dailyFeatureScore(b, dayKey + '|row-' + rowIndex)
         );
 
-      const selected = candidates
-        .filter((product) => !usedProductIds.has(product.id))
-        .slice(0, 6);
+      const selected = uniqueProductsByVideo(
+        candidates.filter((product) => !usedProductIds.has(product.id)),
+        6
+      );
 
       selected.forEach((product) => usedProductIds.add(product.id));
 
@@ -494,6 +520,8 @@ export default function StorefrontHome({ products = [] }) {
       };
     })
     .filter((row) => row.products.length > 0);
+
+  const heroProducts = uniqueProductsByVideo(products, 3);
 
   return (
     <main className="store-page">
@@ -577,7 +605,7 @@ export default function StorefrontHome({ products = [] }) {
           </div>
 
           <div className="store-hero-collage" aria-label="Prévia de achadinhos">
-            {products.slice(0, 3).map((product, index) => (
+            {heroProducts.map((product, index) => (
               <div key={product.id || index} className={'store-hero-tile tile-' + (index + 1)}>
                 <video src={product.videoUrl} muted autoPlay loop playsInline preload="metadata" />
               </div>
