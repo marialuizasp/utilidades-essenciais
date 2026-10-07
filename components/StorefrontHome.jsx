@@ -76,6 +76,66 @@ function ProductVisual({ product, compact = false }) {
   );
 }
 
+async function copyTextToClipboard(text) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.setAttribute('readonly', '');
+  textarea.style.position = 'fixed';
+  textarea.style.opacity = '0';
+  document.body.appendChild(textarea);
+  textarea.select();
+
+  const copied = document.execCommand('copy');
+  document.body.removeChild(textarea);
+
+  if (!copied) throw new Error('Copy failed');
+}
+
+function CopyCode({ code, onCopy, className = '', inline = false }) {
+  if (!code) return null;
+
+  const activate = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    onCopy(code);
+  };
+
+  if (inline) {
+    return (
+      <span
+        className={'store-code-copy ' + className}
+        role="button"
+        tabIndex={0}
+        onClick={activate}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' || event.key === ' ') activate(event);
+        }}
+        aria-label={`Copiar código ${code}`}
+        title="Copiar código"
+      >
+        {code}
+      </span>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      className={'store-code-copy ' + className}
+      onClick={activate}
+      aria-label={`Copiar código ${code}`}
+      title="Copiar código"
+    >
+      {code}
+    </button>
+  );
+}
+
 function FavoriteButton({ product, isFavorite, onToggle, className = '' }) {
   return (
     <button
@@ -94,7 +154,7 @@ function FavoriteButton({ product, isFavorite, onToggle, className = '' }) {
   );
 }
 
-function ProductCard({ product, isFavorite, onToggleFavorite }) {
+function ProductCard({ product, isFavorite, onToggleFavorite, onCopyCode }) {
   return (
     <article className="store-product-card">
       <ProductVisual product={product} />
@@ -102,9 +162,11 @@ function ProductCard({ product, isFavorite, onToggleFavorite }) {
       <div className="store-product-copy">
         <div className="store-product-meta">
           <p className="store-product-kicker">Achadinho selecionado</p>
-          {publicCodeFor(product) && (
-            <span className="store-product-code">{publicCodeFor(product)}</span>
-          )}
+          <CopyCode
+            code={publicCodeFor(product)}
+            onCopy={onCopyCode}
+            className="store-product-code"
+          />
         </div>
         <h3>{product.title}</h3>
         {product.price && <strong className="store-product-price">{product.price}</strong>}
@@ -121,7 +183,7 @@ function ProductCard({ product, isFavorite, onToggleFavorite }) {
   );
 }
 
-function SmallCard({ product, isFavorite, onToggleFavorite }) {
+function SmallCard({ product, isFavorite, onToggleFavorite, onCopyCode }) {
   return (
     <article className="store-small-card">
       <a
@@ -134,7 +196,12 @@ function SmallCard({ product, isFavorite, onToggleFavorite }) {
         <div>
           <div className="store-small-meta">
             <span>{product.category || 'Achadinho'}</span>
-            {publicCodeFor(product) && <b>{publicCodeFor(product)}</b>}
+            <CopyCode
+              code={publicCodeFor(product)}
+              onCopy={onCopyCode}
+              className="store-small-code"
+              inline
+            />
           </div>
           <strong>{product.title}</strong>
           {product.price && <small>{product.price}</small>}
@@ -157,6 +224,7 @@ export default function StorefrontHome({ products = [] }) {
   const [favoriteIds, setFavoriteIds] = useState([]);
   const [favoritesOpen, setFavoritesOpen] = useState(false);
   const [favoritesReady, setFavoritesReady] = useState(false);
+  const [copyNotice, setCopyNotice] = useState('');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -201,6 +269,22 @@ export default function StorefrontHome({ products = [] }) {
       window.removeEventListener('keydown', closeOnEscape);
     };
   }, [favoritesOpen]);
+
+  useEffect(() => {
+    if (!copyNotice) return;
+
+    const timer = window.setTimeout(() => setCopyNotice(''), 1600);
+    return () => window.clearTimeout(timer);
+  }, [copyNotice]);
+
+  const handleCopyCode = async (code) => {
+    try {
+      await copyTextToClipboard(code);
+      setCopyNotice(`Código ${code} copiado ✓`);
+    } catch {
+      setCopyNotice('Não foi possível copiar o código');
+    }
+  };
 
   const toggleFavorite = (productId) => {
     const id = String(productId);
@@ -429,6 +513,7 @@ export default function StorefrontHome({ products = [] }) {
                 product={product}
                 isFavorite={favoriteIdSet.has(String(product.id))}
                 onToggleFavorite={toggleFavorite}
+                onCopyCode={handleCopyCode}
               />
             ))}
           </div>
@@ -471,9 +556,11 @@ export default function StorefrontHome({ products = [] }) {
                 <span className="store-discovery-play">▶</span>
                 <div className="store-discovery-tags">
                   <span className="store-discovery-category">{product.category || 'Achadinho'}</span>
-                  {publicCodeFor(product) && (
-                    <span className="store-discovery-code">{publicCodeFor(product)}</span>
-                  )}
+                  <CopyCode
+                    code={publicCodeFor(product)}
+                    onCopy={handleCopyCode}
+                    className="store-discovery-code"
+                  />
                 </div>
               </div>
               <div className="store-discovery-copy">
@@ -514,12 +601,19 @@ export default function StorefrontHome({ products = [] }) {
                   product={product}
                   isFavorite={favoriteIdSet.has(String(product.id))}
                   onToggleFavorite={toggleFavorite}
+                  onCopyCode={handleCopyCode}
                 />
               ))}
             </div>
           </div>
         ))}
       </section>
+
+      {copyNotice && (
+        <div className="store-copy-toast" role="status" aria-live="polite">
+          {copyNotice}
+        </div>
+      )}
 
       {favoritesOpen && (
         <>
@@ -555,7 +649,15 @@ export default function StorefrontHome({ products = [] }) {
                 {favoriteProducts.map((product) => (
                   <article className="store-favorite-item" key={product.id}>
                     <div className="store-favorite-item-copy">
-                      <small>{publicCodeFor(product) || product.category || 'Achadinho'}</small>
+                      {publicCodeFor(product) ? (
+                        <CopyCode
+                          code={publicCodeFor(product)}
+                          onCopy={handleCopyCode}
+                          className="store-favorite-drawer-code"
+                        />
+                      ) : (
+                        <small>{product.category || 'Achadinho'}</small>
+                      )}
                       <strong>{product.title}</strong>
                       {product.price && <b>{product.price}</b>}
                     </div>
