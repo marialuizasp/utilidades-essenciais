@@ -742,6 +742,7 @@ export default function StorefrontHome({ products = [] }) {
 
   const featured = featuredDisplayPool.slice(0, visibleFeaturedCount);
   const canShowMoreFeatured = featured.length < featuredDisplayPool.length;
+  const canShowLessFeatured = visibleFeaturedCount > 4 && featuredDisplayPool.length > 4;
 
   const heroProducts = uniqueProductsByVideo(products, 3);
 
@@ -1010,20 +1011,33 @@ export default function StorefrontHome({ products = [] }) {
               ))}
             </div>
 
-            {canShowMoreFeatured && (
+            {(canShowMoreFeatured || canShowLessFeatured) && (
               <div className="store-show-more-wrap">
-                <button
-                  type="button"
-                  className="store-show-more"
-                  onClick={() =>
-                    setVisibleFeaturedCount((current) =>
-                      Math.min(current + 4, featuredDisplayPool.length)
-                    )
-                  }
-                >
-                  Mostrar mais achadinhos
-                  <span aria-hidden="true">↓</span>
-                </button>
+                {canShowMoreFeatured && (
+                  <button
+                    type="button"
+                    className="store-show-more"
+                    onClick={() =>
+                      setVisibleFeaturedCount((current) =>
+                        Math.min(current + 4, featuredDisplayPool.length)
+                      )
+                    }
+                  >
+                    Mostrar mais achadinhos
+                    <span aria-hidden="true">↓</span>
+                  </button>
+                )}
+
+                {canShowLessFeatured && (
+                  <button
+                    type="button"
+                    className="store-show-more"
+                    onClick={() => setVisibleFeaturedCount(4)}
+                  >
+                    Mostrar menos
+                    <span aria-hidden="true">↑</span>
+                  </button>
+                )}
               </div>
             )}
           </>
