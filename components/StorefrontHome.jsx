@@ -305,6 +305,7 @@ export default function StorefrontHome({ products = [] }) {
   const [favoritesReady, setFavoritesReady] = useState(false);
   const [copyNotice, setCopyNotice] = useState('');
   const [recentIds, setRecentIds] = useState([]);
+  const [searchFocused, setSearchFocused] = useState(false);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -517,6 +518,11 @@ export default function StorefrontHome({ products = [] }) {
     });
   }, [products, query, activeFilter]);
 
+  const searchSuggestions = useMemo(() => {
+    if (query.trim().length < 2) return [];
+    return filteredProducts.slice(0, 4);
+  }, [filteredProducts, query]);
+
   const visibleProducts =
     filteredProducts.length > 0 ? filteredProducts : products;
 
@@ -588,20 +594,69 @@ export default function StorefrontHome({ products = [] }) {
             <span>Utilidades<br />Essenciais</span>
           </a>
 
-          <label className="store-search">
-            <span aria-hidden="true">⌕</span>
-            <input
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Busque por produto, categoria ou código"
-              aria-label="Buscar achadinhos"
-            />
-            {query && (
-              <button type="button" onClick={() => setQuery('')} aria-label="Limpar busca">
-                ×
-              </button>
+          <div className="store-search-shell">
+            <label className="store-search">
+              <span aria-hidden="true">⌕</span>
+              <input
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                onFocus={() => setSearchFocused(true)}
+                onBlur={() => window.setTimeout(() => setSearchFocused(false), 160)}
+                placeholder="Busque por produto, categoria ou código"
+                aria-label="Buscar achadinhos"
+                autoComplete="off"
+                aria-expanded={searchFocused && searchSuggestions.length > 0}
+                aria-controls="store-search-suggestions"
+              />
+              {query && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setQuery('');
+                    setSearchFocused(false);
+                  }}
+                  aria-label="Limpar busca"
+                >
+                  ×
+                </button>
+              )}
+            </label>
+
+            {searchFocused && searchSuggestions.length > 0 && (
+              <div
+                className="store-search-suggestions"
+                id="store-search-suggestions"
+                role="listbox"
+                aria-label="Sugestões de produtos"
+              >
+                {searchSuggestions.map((product) => (
+                  <a
+                    key={product.id}
+                    href={`/go/${encodeURIComponent(product.id)}`}
+                    target="_blank"
+                    rel="noopener noreferrer sponsored"
+                    className="store-search-suggestion"
+                    role="option"
+                    onClick={() => {
+                      recordRecentlyViewed(product.id);
+                      setSearchFocused(false);
+                    }}
+                  >
+                    <span className="store-search-suggestion-code">
+                      {publicCodeFor(product) || 'ACHADINHO'}
+                    </span>
+                    <span className="store-search-suggestion-copy">
+                      <strong>{product.title}</strong>
+                      <small>{product.category || 'Achadinho'}</small>
+                    </span>
+                    {product.price && (
+                      <b className="store-search-suggestion-price">{product.price}</b>
+                    )}
+                  </a>
+                ))}
+              </div>
             )}
-          </label>
+          </div>
 
           <nav className="store-header-actions" aria-label="Atalhos">
             <button
