@@ -1015,7 +1015,18 @@ export default function StorefrontHome({ products = [] }) {
                 className="discovery-share"
               />
               <div className="store-discovery-video">
-                <video src={product.videoUrl} muted autoPlay loop playsInline preload="metadata" />
+                <video
+                  src={product.videoUrl}
+                  muted
+                  autoPlay
+                  loop
+                  playsInline
+                  preload="metadata"
+                  onLoadedData={(event) => {
+                    event.currentTarget.parentElement?.setAttribute('data-video-ready', 'true');
+                    event.currentTarget.play().catch(() => {});
+                  }}
+                />
                 <span className="store-discovery-play">▶</span>
                 <div className="store-discovery-tags">
                   <span className="store-discovery-category">{product.category || 'Achadinho'}</span>
