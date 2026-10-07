@@ -1154,13 +1154,18 @@
   .store-row-heading button { padding: 0 10px; }
 }
 
-/* Uniformização de cards em todos os breakpoints */
+/* Uniformização definitiva dos cards */
 .store-product-grid,
 .store-discovery-grid,
 .store-small-grid {
   align-items: stretch;
 }
 
+/*
+ * Cada variante mantém uma altura de conteúdo própria e previsível.
+ * A mídia continua proporcional à largura do card; como todos os cards
+ * de uma mesma grade têm a mesma largura, o conjunto fica uniforme.
+ */
 .store-product-card,
 .store-discovery-card,
 .store-small-card {
@@ -1168,46 +1173,127 @@
   height: auto;
 }
 
+/* Card principal: conteúdo com altura fixa, sem apertar o CTA. */
 .store-product-copy {
-  flex: 1 1 auto;
-  min-height: 210px;
+  flex: 0 0 auto;
+  height: 204px;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto auto auto 1fr auto;
+  align-content: stretch;
 }
 
-.store-discovery-copy {
-  flex: 1 1 auto;
-  min-height: 182px;
+.store-product-meta {
+  grid-row: 1;
+  min-width: 0;
 }
 
-.store-small-card > div:last-child {
-  flex: 1 1 auto;
-  min-height: 126px;
-}
-
-.store-product-copy h3,
-.store-discovery-copy h3,
-.store-small-card strong {
+.store-product-copy h3 {
+  grid-row: 2;
+  min-height: 0;
+  max-height: 39px;
   display: -webkit-box;
   -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   overflow: hidden;
   white-space: normal;
   overflow-wrap: anywhere;
 }
 
-.store-product-copy h3,
+.store-product-price {
+  grid-row: 3;
+}
+
+.store-card-cta {
+  grid-row: 5;
+  min-height: 44px;
+  margin-top: 0;
+  flex-shrink: 0;
+}
+
+/*
+ * Quando o título tem só uma linha, preço e texto continuam juntos.
+ * O espaço variável fica antes do botão, onde funciona como respiro
+ * visual, em vez de aparecer como um "buraco" abaixo do título.
+ */
+
+/* Descoberta: mesma lógica, com CTA sempre preso à base. */
+.store-discovery-copy {
+  flex: 0 0 auto;
+  height: 176px;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  align-content: stretch;
+}
+
 .store-discovery-copy h3 {
-  min-height: 39px;
+  grid-row: 1;
+  min-height: 0;
   max-height: 39px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   line-clamp: 2;
+  overflow: hidden;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.store-discovery-copy p {
+  grid-row: 2;
+  min-height: 0;
+  max-height: 34px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+.store-discovery-copy a {
+  grid-row: 4;
+  margin-top: 0;
+  flex-shrink: 0;
+}
+
+/* Cards horizontais de categoria: títulos curtos não criam vazio abaixo deles. */
+.store-small-card > div:last-child {
+  flex: 0 0 auto;
+  height: 122px;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  row-gap: 6px;
+  align-content: stretch;
+}
+
+.store-small-meta {
+  grid-row: 1;
+  min-width: 0;
 }
 
 .store-small-card strong {
-  min-height: 31px;
+  grid-row: 2;
+  min-height: 0;
   max-height: 31px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   line-clamp: 2;
+  overflow: hidden;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
+.store-small-card small {
+  grid-row: 4;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* Tablets e celulares */
 @media (max-width: 700px) {
   .store-discovery-grid,
   .store-small-grid {
@@ -1221,53 +1307,57 @@
   }
 
   .store-product-copy {
-    min-height: 210px;
+    height: 210px;
   }
 
   .store-discovery-copy {
-    min-height: 182px;
+    height: 176px;
   }
 
   .store-small-card > div:last-child {
-    min-height: 126px;
+    height: 122px;
   }
 }
 
+/* Celulares estreitos */
 @media (max-width: 430px) {
   .store-product-card {
     height: auto;
   }
 
   .store-product-copy {
-    flex: 1 1 auto;
+    flex: 0 0 auto;
+    height: 210px;
     min-width: 0;
-    min-height: 210px;
+    min-height: 0;
     padding: 14px 14px 16px;
   }
 
   .store-product-copy h3 {
-    min-height: 44px;
-    max-height: 44px;
+    min-height: 0;
+    max-height: 39px;
     font-size: 15px;
   }
 
   .store-product-price {
-    margin: 10px 0 16px;
+    margin: 10px 0 14px;
   }
 
   .store-card-cta {
     min-height: 48px;
-    margin-top: auto;
+    margin-top: 0;
   }
 
   .store-discovery-copy {
-    flex: 1 1 auto;
-    min-height: 182px;
+    flex: 0 0 auto;
+    height: 176px;
+    min-height: 0;
   }
 
   .store-small-card > div:last-child {
-    flex: 1 1 auto;
-    min-height: 126px;
+    flex: 0 0 auto;
+    height: 122px;
+    min-height: 0;
   }
 }
 
