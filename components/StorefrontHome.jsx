@@ -598,24 +598,6 @@ export default function StorefrontHome({ products = [] }) {
     CATEGORY_FILTERS.find((item) => item.label === selectedCategory) ||
     CATEGORY_FILTERS[0];
 
-  const categoryCounts = useMemo(() => {
-    const counts = {};
-
-    CATEGORY_FILTERS.forEach((item) => {
-      counts[item.label] =
-        item.label === 'Todos'
-          ? products.length
-          : products.filter((product) => matchesCategory(product, item)).length;
-    });
-
-    return counts;
-  }, [products]);
-
-  const offerCount = useMemo(
-    () => products.filter((product) => productHasOffer(product)).length,
-    [products]
-  );
-
   const filteredProducts = useMemo(() => {
     const normalizedQuery = normalize(query.trim());
     const compactQuery = normalizedQuery
@@ -871,8 +853,7 @@ export default function StorefrontHome({ products = [] }) {
                 document.getElementById('achadinhos')?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
-              <span>{item.label}</span>
-              <b className="store-category-count">{categoryCounts[item.label] || 0}</b>
+              {item.label}
             </button>
           ))}
           <button
@@ -884,8 +865,7 @@ export default function StorefrontHome({ products = [] }) {
               document.getElementById('achadinhos')?.scrollIntoView({ behavior: 'smooth' });
             }}
           >
-            <span>Ofertas</span>
-            <b className="store-category-count">{offerCount}</b>
+            Ofertas
           </button>
         </div>
       </header>
