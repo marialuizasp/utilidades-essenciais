@@ -2417,57 +2417,6 @@
   }
 }
 
-/* Carregamento discreto dos vídeos */
-.store-product-media::before,
-.store-discovery-video::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background:
-    linear-gradient(
-      100deg,
-      rgba(234,223,212,.78) 18%,
-      rgba(255,243,231,.96) 38%,
-      rgba(234,223,212,.78) 58%
-    );
-  background-size: 220% 100%;
-  animation: store-video-loading 1.15s linear infinite;
-  opacity: 1;
-  pointer-events: none;
-  transition: opacity .22s ease;
-}
-
-.store-product-media[data-video-ready="true"]::before,
-.store-discovery-video[data-video-ready="true"]::before {
-  opacity: 0;
-  animation: none;
-}
-
-.store-product-media video,
-.store-discovery-video video {
-  position: relative;
-  z-index: 0;
-}
-
-.store-media-badge,
-.store-play-badge {
-  z-index: 2;
-}
-
-@keyframes store-video-loading {
-  from { background-position: 100% 0; }
-  to { background-position: -120% 0; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .store-product-media::before,
-  .store-discovery-video::before {
-    animation: none;
-    background: #eadfd4;
-  }
-}
-
 /* Limpar busca e filtros contextual */
 .store-clear-all {
   min-height: 34px;
