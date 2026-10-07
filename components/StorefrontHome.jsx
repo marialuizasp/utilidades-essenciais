@@ -373,6 +373,8 @@ export default function StorefrontHome({ products = [] }) {
   const [copyNotice, setCopyNotice] = useState('');
   const [recentIds, setRecentIds] = useState([]);
   const [searchFocused, setSearchFocused] = useState(false);
+  const [searchSuggestionIndex, setSearchSuggestionIndex] = useState(-1);
+  const searchSuggestionRefs = useRef([]);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [priceFilter, setPriceFilter] = useState('all');
   const [onlyOffers, setOnlyOffers] = useState(false);
@@ -754,6 +756,10 @@ export default function StorefrontHome({ products = [] }) {
     return filteredProducts.slice(0, 4);
   }, [filteredProducts, query]);
 
+  useEffect(() => {
+    setSearchSuggestionIndex(-1);
+  }, [query, searchSuggestions.length]);
+
   const visibleProducts = filteredProducts;
 
   const dayKey = new Intl.DateTimeFormat('pt-BR', {
@@ -839,14 +845,63 @@ export default function StorefrontHome({ products = [] }) {
               <span aria-hidden="true">⌕</span>
               <input
                 value={query}
-                onChange={(event) => setQuery(event.target.value)}
+                onChange={(event) => {
+                  setQuery(event.target.value);
+                  setSearchFocused(true);
+                }}
                 onFocus={() => setSearchFocused(true)}
-                onBlur={() => window.setTimeout(() => setSearchFocused(false), 160)}
+                onBlur={() =>
+                  window.setTimeout(() => {
+                    setSearchFocused(false);
+                    setSearchSuggestionIndex(-1);
+                  }, 160)
+                }
+                onKeyDown={(event) => {
+                  if (!searchSuggestions.length) {
+                    if (event.key === 'Escape') {
+                      setSearchFocused(false);
+                      setSearchSuggestionIndex(-1);
+                    }
+                    return;
+                  }
+
+                  if (event.key === 'ArrowDown') {
+                    event.preventDefault();
+                    setSearchFocused(true);
+                    setSearchSuggestionIndex((current) =>
+                      current >= searchSuggestions.length - 1 ? 0 : current + 1
+                    );
+                  }
+
+                  if (event.key === 'ArrowUp') {
+                    event.preventDefault();
+                    setSearchFocused(true);
+                    setSearchSuggestionIndex((current) =>
+                      current <= 0 ? searchSuggestions.length - 1 : current - 1
+                    );
+                  }
+
+                  if (event.key === 'Enter' && searchSuggestionIndex >= 0) {
+                    event.preventDefault();
+                    searchSuggestionRefs.current[searchSuggestionIndex]?.click();
+                  }
+
+                  if (event.key === 'Escape') {
+                    event.preventDefault();
+                    setSearchFocused(false);
+                    setSearchSuggestionIndex(-1);
+                  }
+                }}
                 placeholder="Busque por produto, categoria ou código"
                 aria-label="Buscar achadinhos"
                 autoComplete="off"
                 aria-expanded={searchFocused && searchSuggestions.length > 0}
                 aria-controls="store-search-suggestions"
+                aria-activedescendant={
+                  searchSuggestionIndex >= 0
+                    ? `store-search-suggestion-${searchSuggestionIndex}`
+                    : undefined
+                }
               />
               {query && (
                 <button
@@ -854,6 +909,7 @@ export default function StorefrontHome({ products = [] }) {
                   onClick={() => {
                     setQuery('');
                     setSearchFocused(false);
+                    setSearchSuggestionIndex(-1);
                   }}
                   aria-label="Limpar busca"
                 >
@@ -869,17 +925,24 @@ export default function StorefrontHome({ products = [] }) {
                 role="listbox"
                 aria-label="Sugestões de produtos"
               >
-                {searchSuggestions.map((product) => (
+                {searchSuggestions.map((product, index) => (
                   <a
                     key={product.id}
+                    id={`store-search-suggestion-${index}`}
+                    ref={(node) => {
+                      searchSuggestionRefs.current[index] = node;
+                    }}
                     href={`/go/${encodeURIComponent(product.id)}`}
                     target="_blank"
                     rel="noopener noreferrer sponsored"
                     className="store-search-suggestion"
                     role="option"
+                    aria-selected={searchSuggestionIndex === index}
+                    onMouseEnter={() => setSearchSuggestionIndex(index)}
                     onClick={() => {
                       recordRecentlyViewed(product.id);
                       setSearchFocused(false);
+                      setSearchSuggestionIndex(-1);
                     }}
                   >
                     <span className="store-search-suggestion-code">
