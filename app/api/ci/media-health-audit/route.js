@@ -4,7 +4,7 @@ import {
   createSign,
   verify as verifySignature,
 } from 'node:crypto';
-import { prepareMediaAudit, safeMediaUrl } from '../../../../lib/mediaAudit.js';
+import { hasOpenMediaIncident, prepareMediaAudit, safeMediaUrl } from '../../../../lib/mediaAudit.js';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -162,7 +162,7 @@ async function sheetValues(token) {
   return Array.isArray(data.values) ? data.values : [];
 }
 
-async function incidentAlreadyRecorded(token, dedupeKey) {
+async function openIncidentAlreadyRecorded(token, shard, issueSignature) {
   const range = encodeURIComponent('Incidentes!A:K');
   const response = await fetch(
     SHEETS + SHEET_ID + '/values/' + range + '?majorDimension=ROWS',
@@ -171,10 +171,7 @@ async function incidentAlreadyRecorded(token, dedupeKey) {
   if (!response.ok) return false;
   const data = await response.json();
   const values = Array.isArray(data.values) ? data.values : [];
-  return values.slice(1).some(row =>
-    row[1] === 'MEDIA_HEALTH_AUDIT_FAILED'
-    && String(row[10] || '').includes(dedupeKey)
-  );
+  return hasOpenMediaIncident(values, shard, issueSignature);
 }
 
 async function appendIncident(token, row) {
@@ -366,9 +363,9 @@ export async function POST(request) {
       }, { headers: noStore });
     }
 
-    const dedupeKey =
-      'media_audit_key=' + brasiliaDayKey() + ':s' + shard + ':' + signature(issues);
-    const recorded = await incidentAlreadyRecorded(token, dedupeKey);
+    const issueSignature = signature(issues);
+    const dedupeKey = 'media_issue_key=s' + shard + ':' + issueSignature;
+    const recorded = await openIncidentAlreadyRecorded(token, shard, issueSignature);
 
     if (!recorded) {
       const sample = issues.slice(0, 8).map(issue => [
