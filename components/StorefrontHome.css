@@ -2468,3 +2468,38 @@
   }
 }
 
+/* Limpar busca e filtros contextual */
+.store-clear-all {
+  min-height: 34px;
+  padding: 0 4px;
+  border: 0;
+  background: transparent;
+  color: var(--store-muted);
+  font: 800 10px 'Nunito Sans', sans-serif;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.store-clear-all:hover {
+  color: var(--store-coral);
+}
+
+.store-clear-all:focus-visible {
+  outline: 2px solid rgba(255,89,54,.42);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (max-width: 430px) {
+  .store-section-controls {
+    gap: 8px;
+  }
+
+  .store-clear-all {
+    min-height: 32px;
+    font-size: 9px;
+  }
+}
+
