@@ -342,6 +342,51 @@ export default function StorefrontHome({ products = [] }) {
   }, [query, selectedCategory, priceFilter, onlyOffers]);
 
   useEffect(() => {
+    const storageKey = 'ue-home-scroll-v1';
+    const searchParams = new URLSearchParams(window.location.search);
+    const navigationEntry = performance.getEntriesByType?.('navigation')?.[0];
+    const isBackForward =
+      navigationEntry?.type === 'back_forward' ||
+      performance.navigation?.type === 2;
+
+    if (!searchParams.get('buscar') && isBackForward) {
+      try {
+        const savedY = Number(sessionStorage.getItem(storageKey) || '0');
+
+        if (savedY > 0) {
+          window.requestAnimationFrame(() => {
+            window.setTimeout(() => {
+              window.scrollTo({ top: savedY, behavior: 'auto' });
+            }, 80);
+          });
+        }
+      } catch {}
+    }
+
+    let frameRequested = false;
+
+    const saveScrollPosition = () => {
+      if (frameRequested) return;
+      frameRequested = true;
+
+      window.requestAnimationFrame(() => {
+        frameRequested = false;
+        try {
+          sessionStorage.setItem(storageKey, String(Math.max(0, Math.round(window.scrollY))));
+        } catch {}
+      });
+    };
+
+    window.addEventListener('scroll', saveScrollPosition, { passive: true });
+    window.addEventListener('pagehide', saveScrollPosition);
+
+    return () => {
+      window.removeEventListener('scroll', saveScrollPosition);
+      window.removeEventListener('pagehide', saveScrollPosition);
+    };
+  }, []);
+
+  useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
     const sharedCode = searchParams.get('buscar')?.trim();
 
