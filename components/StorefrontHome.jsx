@@ -147,6 +147,7 @@ function ProductVisual({ product, compact = false }) {
         preload="auto"
         onLoadedData={(event) => {
           const video = event.currentTarget;
+          video.parentElement?.setAttribute('data-video-ready', 'true');
           if (video.currentTime === 0) {
             try { video.currentTime = 0.08; } catch {}
           }
@@ -825,7 +826,18 @@ export default function StorefrontHome({ products = [] }) {
           <div className="store-hero-collage" aria-label="Prévia de achadinhos">
             {heroProducts.map((product, index) => (
               <div key={product.id || index} className={'store-hero-tile tile-' + (index + 1)}>
-                <video src={product.videoUrl} muted autoPlay loop playsInline preload="metadata" />
+                <video
+                  src={product.videoUrl}
+                  muted
+                  autoPlay
+                  loop
+                  playsInline
+                  preload="metadata"
+                  onLoadedData={(event) => {
+                    event.currentTarget.parentElement?.setAttribute('data-video-ready', 'true');
+                    event.currentTarget.play().catch(() => {});
+                  }}
+                />
               </div>
             ))}
             <div className="store-hero-note">
