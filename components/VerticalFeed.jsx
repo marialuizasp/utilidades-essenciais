@@ -117,6 +117,7 @@ export default function VerticalFeed({ products = [] }) {
   const [position, setPosition] = useState(0);
   const [soundOn, setSoundOn] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
+  const [feedReady, setFeedReady] = useState(false);
 
   useEffect(() => {
     try {
@@ -157,6 +158,27 @@ export default function VerticalFeed({ products = [] }) {
   const [remaining, setRemaining] = useState(() =>
     shuffle(products.map((_, index) => index).slice(1))
   );
+
+  // A cada carregamento, escolhe outro vídeo inicial entre os disponíveis.
+  // Usa sessionStorage apenas para evitar repetir imediatamente o anterior.
+  // A escolha acontece após a hidratação para manter HTML e React consistentes.
+  useEffect(() => {
+    if (!products.length) { setFeedReady(true); return; }
+    let lastId = '';
+    try { lastId = window.sessionStorage.getItem('ue-last-opening-video') || ''; } catch {}
+    const candidates = products.map((_, index) => index)
+      .filter((index) => products.length === 1 || String(products[index].id) !== lastId);
+    const firstIndex = candidates[Math.floor(Math.random() * candidates.length)] ?? 0;
+    setHistory([firstIndex]);
+    setPosition(0);
+    setRemaining(shuffle(products.map((_, index) => index).filter((index) => index !== firstIndex)));
+    try { window.sessionStorage.setItem('ue-last-opening-video', String(products[firstIndex].id)); } catch {}
+    setFeedReady(true);
+  }, [products]);
+
+  if (!feedReady && products.length > 0) {
+    return <main className="empty-page" aria-label="Preparando os achadinhos" />;
+  }
 
   if (products.length === 0) {
     return (
