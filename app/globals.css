@@ -22,3 +22,6 @@ body {
 * {
   box-sizing: border-box;
 }
+
+/* Feed: ocultar assinaturas visuais externas. */
+.vitra-signature, .vyra-credit { display: none !important; }
