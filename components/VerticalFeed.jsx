@@ -92,6 +92,24 @@ function shuffle(items) {
   return result;
 }
 
+
+// Resumo visual do título; o nome integral permanece nos dados do produto.
+function shortProductTitle(title) {
+  const original = String(title || '').replace(/\s+/g, ' ').trim();
+  if (!original) return '';
+  const pieces = original.match(/^(?:conjunto|kit) de (três|3) peças de verão\s*[—–-]\s*(pijama feminino)$/i);
+  if (pieces) return 'Pijama feminino • 3 peças';
+  const clean = original
+    .replace(/\b(?:original|oficial|super promoção|promoção imperdível)\b/gi, '')
+    .replace(/\s+/g, ' ').trim();
+  if (clean.length <= 58) return clean;
+  const split = clean.split(/\s+[—–|]\s+/);
+  if (split.length > 1 && split[0].length >= 12 && split[0].length <= 58) return split[0];
+  const prefix = clean.slice(0, 59);
+  const wordBoundary = prefix.lastIndexOf(' ');
+  return (wordBoundary >= 30 ? prefix.slice(0, wordBoundary) : prefix).trim() + '…';
+}
+
 export default function VerticalFeed({ products = [] }) {
   // Histórico dos vídeos, na ordem em que foram visitados.
   const [history, setHistory] = useState([0]);
@@ -298,8 +316,8 @@ export default function VerticalFeed({ products = [] }) {
             </div>
           </div>
 
-          <h1 className="product-title">
-            {currentProduct.title}
+          <h1 className="product-title" title={currentProduct.title}>
+            {shortProductTitle(currentProduct.title)}
           </h1>
 
           <p className="description">
