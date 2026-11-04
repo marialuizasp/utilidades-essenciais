@@ -15,16 +15,11 @@ jobs:
           python-version: '3.12'
       - name: Instalar dependências
         run: python -m pip install 'openpyxl>=3.1,<4'
-      - name: Verificar links e enviar relatório
+      - name: Verificar links e atualizar dashboard
         env:
           GOOGLE_SHEET_CSV_URL: ${{ secrets.GOOGLE_SHEET_CSV_URL }}
           DASHBOARD_WEBHOOK_URL: ${{ secrets.DASHBOARD_WEBHOOK_URL }}
           DASHBOARD_INGEST_TOKEN: ${{ secrets.DASHBOARD_INGEST_TOKEN }}
-          SMTP_HOST: ${{ secrets.SMTP_HOST }}
-          SMTP_PORT: ${{ secrets.SMTP_PORT }}
-          SMTP_USER: ${{ secrets.SMTP_USER }}
-          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
-          REPORT_TO: ${{ secrets.REPORT_TO }}
         run: |
           if [ -n "$GOOGLE_SHEET_CSV_URL" ]; then
             python scripts/verificar_google_sheets.py
