@@ -3,6 +3,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import './VerticalFeed.css';
+import { attractiveProductTitle } from '@/lib/productTitles';
 
 // Converte preços brasileiros para centavos, sem arredondamentos de ponto flutuante.
 function priceInCents(value) {
@@ -317,7 +318,7 @@ export default function VerticalFeed({ products = [] }) {
           </div>
 
           <h1 className="product-title" title={currentProduct.title}>
-            {shortProductTitle(currentProduct.title)}
+            {attractiveProductTitle(currentProduct.title)}
           </h1>
 
           <p className="description">
