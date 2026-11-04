@@ -833,3 +833,9 @@ body {
   }
   .feed-island { max-width: calc(100% - 112px); }
 }
+
+/* Títulos compactos: leitura rápida sem cobrir o vídeo. */
+.product-title { font-size: clamp(20px, 3vw, 25px); line-height: 1.16; max-width: 36ch; text-wrap: balance; }
+@media (max-width: 600px) {
+  .product-title { font-size: clamp(18px, 4.8vw, 22px); line-height: 1.18; max-width: 29ch; }
+}
