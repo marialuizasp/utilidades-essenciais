@@ -272,7 +272,7 @@ export default function VerticalFeed({ products = [] }) {
         <header className="feed-island" aria-label="Vitrine e áudio">
           <div className="island-brand">
             <span className="island-avatar">
-              <img src="/logo.png.png" alt="" className="island-logo" />
+              <img src="https://pub-603881db00f042c08f8b4dc6d9731239.r2.dev/UE/Logo%20principal%20(1).png" alt="Utilidades Essenciais" className="island-logo" />
             </span>
             <span className="island-brand-text">
               <span className="island-brand-name">Utilidades Essenciais</span>
